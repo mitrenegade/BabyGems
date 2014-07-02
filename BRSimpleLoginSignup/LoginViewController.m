@@ -1,9 +1,9 @@
 //
 //  LoginViewController.m
-//  SEVEN
+//  BRSimpleLoginSignup
 //
 //  Created by Bobby Ren on 7/2/14.
-//  Copyright (c) 2014 SEVEN. All rights reserved.
+//  Copyright (c) 2014 BRSimpleLoginSignup. All rights reserved.
 //
 
 #import "LoginViewController.h"
@@ -71,7 +71,7 @@
 
     [PFUser logInWithUsernameInBackground:self.inputUsername.text password:self.inputPassword.text block:^(PFUser *user, NSError *error) {
         if (user) {
-            [UIAlertView alertViewWithTitle:@"Welcome to SEVEN" message:[NSString stringWithFormat:@"Good to see you, %@", user.username]];
+            [UIAlertView alertViewWithTitle:@"Welcome to BRSimpleLoginSignup" message:[NSString stringWithFormat:@"Good to see you, %@", user.username]];
 
             [self performSegueWithIdentifier:@"GoToMainView" sender:self];
         }

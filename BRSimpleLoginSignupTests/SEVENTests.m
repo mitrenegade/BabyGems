@@ -3,7 +3,7 @@
 //  SEVENTests
 //
 //  Created by Bobby Ren on 7/2/14.
-//  Copyright (c) 2014 SEVEN. All rights reserved.
+//  Copyright (c) 2014 BRSimpleLoginSignup. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

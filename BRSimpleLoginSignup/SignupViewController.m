@@ -1,9 +1,9 @@
 //
 //  SignupViewController.m
-//  SEVEN
+//  BRSimpleLoginSignup
 //
 //  Created by Bobby Ren on 7/2/14.
-//  Copyright (c) 2014 SEVEN. All rights reserved.
+//  Copyright (c) 2014 BRSimpleLoginSignup. All rights reserved.
 //
 
 #import "SignupViewController.h"
@@ -69,7 +69,7 @@
 
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [UIAlertView alertViewWithTitle:@"Welcome to SEVEN" message:[NSString stringWithFormat:@"Your login is %@", user.username]];
+            [UIAlertView alertViewWithTitle:@"Welcome to BRSimpleLoginSignup" message:[NSString stringWithFormat:@"Your login is %@", user.username]];
             [self performSegueWithIdentifier:@"GoToMainView" sender:self];
         }
         else {
