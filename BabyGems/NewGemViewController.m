@@ -47,7 +47,7 @@
     self.inputQuote.text = PLACEHOLDER_TEXT;
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    [self.imageViewCamera addGestureRecognizer:tap];
+    [self.imageView addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -137,9 +137,6 @@
     image = [info objectForKey:UIImagePickerControllerOriginalImage];
     self.imageView.image = image;
 
-    [self.imageViewCamera setHidden:YES];
-    [self.labelTitle setHidden:YES];
-    
     /*
     NSData *data = UIImageJPEGRepresentation(image, .8);
     PFFile *imageFile = [PFFile fileWithData:data];
