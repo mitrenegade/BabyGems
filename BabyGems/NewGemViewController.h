@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewGemViewController : UIViewController
-
+@interface NewGemViewController : UIViewController <UITextViewDelegate>
+{
+    NSString *quote;
+}
+@property (weak, nonatomic) IBOutlet UITextView *inputQuote;
 @end

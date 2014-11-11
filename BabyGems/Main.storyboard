@@ -54,28 +54,115 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                             </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type your gem here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7sp-rl-nrO">
-                                <rect key="frame" x="26" y="222" width="549" height="30"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
-                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Au0-qk-BUN">
+                                <rect key="frame" x="0.0" y="227" width="600" height="141"/>
+                                <subviews>
+                                    <view alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QB2-bw-PYk" userLabel="View - bg">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="141"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter your gem here" translatesAutoresizingMaskIntoConstraints="NO" id="fpL-h4-Q64">
+                                        <rect key="frame" x="8" y="8" width="584" height="125"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        <connections>
+                                            <outlet property="delegate" destination="YLL-mI-Kxj" id="qwy-lP-c75"/>
+                                        </connections>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="fpL-h4-Q64" secondAttribute="trailing" constant="8" id="0xE-Z4-zqu"/>
+                                    <constraint firstAttribute="bottom" secondItem="fpL-h4-Q64" secondAttribute="bottom" constant="8" id="Tlz-DI-c7G"/>
+                                    <constraint firstItem="QB2-bw-PYk" firstAttribute="leading" secondItem="Au0-qk-BUN" secondAttribute="leading" id="UWM-dR-shn"/>
+                                    <constraint firstAttribute="trailing" secondItem="QB2-bw-PYk" secondAttribute="trailing" id="W1G-wQ-D7i"/>
+                                    <constraint firstItem="fpL-h4-Q64" firstAttribute="leading" secondItem="Au0-qk-BUN" secondAttribute="leading" constant="8" id="XHG-Ln-cQW"/>
+                                    <constraint firstItem="QB2-bw-PYk" firstAttribute="top" secondItem="Au0-qk-BUN" secondAttribute="top" id="Yvf-lT-AVJ"/>
+                                    <constraint firstAttribute="height" constant="141" id="dyd-LA-JTi"/>
+                                    <constraint firstAttribute="bottom" secondItem="QB2-bw-PYk" secondAttribute="bottom" id="ghA-7p-OAY"/>
+                                    <constraint firstItem="fpL-h4-Q64" firstAttribute="top" secondItem="Au0-qk-BUN" secondAttribute="top" constant="8" id="psD-LX-hsV"/>
+                                    <constraint firstAttribute="width" constant="600" id="rB7-wJ-nXB"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="Au0-qk-BUN" secondAttribute="trailing" constant="-16" id="3Yv-b2-VaY"/>
+                            <constraint firstItem="Au0-qk-BUN" firstAttribute="leading" secondItem="95c-yv-taG" secondAttribute="leadingMargin" constant="-16" id="9Yh-ZZ-2l7"/>
                             <constraint firstAttribute="centerX" secondItem="FYS-qm-DgW" secondAttribute="centerX" id="FkL-cc-gee"/>
-                            <constraint firstItem="7sp-rl-nrO" firstAttribute="leading" secondItem="95c-yv-taG" secondAttribute="leadingMargin" constant="10" id="GKj-lH-zTZ"/>
                             <constraint firstAttribute="centerX" secondItem="vvg-cQ-z6T" secondAttribute="centerX" id="Sl2-Tb-I00"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="7sp-rl-nrO" secondAttribute="trailing" constant="9" id="cSL-kV-WeH"/>
-                            <constraint firstItem="7sp-rl-nrO" firstAttribute="top" secondItem="vvg-cQ-z6T" secondAttribute="bottom" constant="8" id="rTn-Y5-Lt9"/>
-                            <constraint firstAttribute="centerX" secondItem="7sp-rl-nrO" secondAttribute="centerX" id="v3D-4t-3Vl"/>
                             <constraint firstItem="vvg-cQ-z6T" firstAttribute="top" secondItem="FYS-qm-DgW" secondAttribute="bottom" constant="8" id="wNw-jf-Bdi"/>
+                            <constraint firstItem="Au0-qk-BUN" firstAttribute="top" secondItem="vvg-cQ-z6T" secondAttribute="bottom" constant="13" id="wW2-Kr-3H9"/>
                             <constraint firstItem="FYS-qm-DgW" firstAttribute="top" secondItem="UpW-QB-jUR" secondAttribute="bottom" constant="26" id="zae-xI-08K"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="WXn-NI-7tS"/>
+                    <connections>
+                        <outlet property="inputQuote" destination="fpL-h4-Q64" id="U8p-sQ-tIO"/>
+                        <segue destination="ecM-mu-VjS" kind="show" identifier="ShowGemPreviewController" id="Sfq-t3-UL4"/>
+                    </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="1158" y="-90"/>
+            <point key="canvasLocation" x="1264" y="-83"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="JOZ-8o-NPq">
+            <objects>
+                <viewController id="ecM-mu-VjS" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="yyA-rs-Z1O"/>
+                        <viewControllerLayoutGuide type="bottom" id="IME-pO-TWh"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kCN-1h-Hmj">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="A0N-al-VjJ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SDW-Ua-egF">
+                                <rect key="frame" x="0.0" y="411" width="600" height="141"/>
+                                <subviews>
+                                    <view alpha="0.25" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LE3-yP-1YC" userLabel="View - bg">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="141"/>
+                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter your gem here" translatesAutoresizingMaskIntoConstraints="NO" id="nvQ-1v-ebK">
+                                        <rect key="frame" x="8" y="8" width="584" height="125"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="600" id="5HQ-bP-tUE"/>
+                                    <constraint firstItem="LE3-yP-1YC" firstAttribute="leading" secondItem="SDW-Ua-egF" secondAttribute="leading" id="9OZ-Hg-Hp1"/>
+                                    <constraint firstAttribute="bottom" secondItem="LE3-yP-1YC" secondAttribute="bottom" id="I8d-Ot-Fud"/>
+                                    <constraint firstAttribute="bottom" secondItem="nvQ-1v-ebK" secondAttribute="bottom" constant="8" id="Qdf-cd-G7N"/>
+                                    <constraint firstAttribute="height" constant="141" id="Syv-qU-bKh"/>
+                                    <constraint firstItem="nvQ-1v-ebK" firstAttribute="leading" secondItem="SDW-Ua-egF" secondAttribute="leading" constant="8" id="TsL-X0-aU5"/>
+                                    <constraint firstAttribute="trailing" secondItem="LE3-yP-1YC" secondAttribute="trailing" id="VP2-Xw-DLX"/>
+                                    <constraint firstItem="nvQ-1v-ebK" firstAttribute="top" secondItem="SDW-Ua-egF" secondAttribute="top" constant="8" id="VrT-4z-PWu"/>
+                                    <constraint firstItem="LE3-yP-1YC" firstAttribute="top" secondItem="SDW-Ua-egF" secondAttribute="top" id="hpd-yW-VM7"/>
+                                    <constraint firstAttribute="trailing" secondItem="nvQ-1v-ebK" secondAttribute="trailing" constant="8" id="xuS-Lk-eGo"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="IME-pO-TWh" firstAttribute="top" secondItem="SDW-Ua-egF" secondAttribute="bottom" constant="48" id="Luy-KL-4n8"/>
+                            <constraint firstItem="SDW-Ua-egF" firstAttribute="leading" secondItem="kCN-1h-Hmj" secondAttribute="leadingMargin" constant="-16" id="o7L-SN-pZ4"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="SDW-Ua-egF" secondAttribute="trailing" constant="-16" id="yvK-wg-VjT"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a4f-qZ-qWb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2031" y="-19"/>
         </scene>
     </scenes>
 </document>
