@@ -8,9 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewGemViewController : UIViewController <UITextViewDelegate>
+@interface NewGemViewController : UIViewController <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     NSString *quote;
+    UIImage *image;
+    UIImagePickerController *picker;
 }
+@property (weak, nonatomic) IBOutlet UILabel *labelTitle;
+@property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView *inputQuote;
 @end

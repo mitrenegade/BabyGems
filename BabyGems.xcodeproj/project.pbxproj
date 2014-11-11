@@ -49,7 +49,6 @@
 		9ED638FB1A1261CF00D1F62C /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E11BB7C1A1260CB0001090B /* LoginSignup.storyboard */; };
 		9EDF42551A12673600ABC447 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF42541A12673600ABC447 /* Main.storyboard */; };
 		9EDF42581A12686300ABC447 /* NewGemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF42571A12686300ABC447 /* NewGemViewController.m */; };
-		9EDF425C1A126D3500ABC447 /* GemPreviewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF425B1A126D3500ABC447 /* GemPreviewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,8 +125,6 @@
 		9EDF42541A12673600ABC447 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9EDF42561A12686300ABC447 /* NewGemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGemViewController.h; sourceTree = "<group>"; };
 		9EDF42571A12686300ABC447 /* NewGemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGemViewController.m; sourceTree = "<group>"; };
-		9EDF425A1A126D3500ABC447 /* GemPreviewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemPreviewController.h; sourceTree = "<group>"; };
-		9EDF425B1A126D3500ABC447 /* GemPreviewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GemPreviewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -303,8 +300,6 @@
 			children = (
 				9EDF42561A12686300ABC447 /* NewGemViewController.h */,
 				9EDF42571A12686300ABC447 /* NewGemViewController.m */,
-				9EDF425A1A126D3500ABC447 /* GemPreviewController.h */,
-				9EDF425B1A126D3500ABC447 /* GemPreviewController.m */,
 			);
 			name = "Gem Creation";
 			sourceTree = "<group>";
@@ -407,7 +402,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9EDF425C1A126D3500ABC447 /* GemPreviewController.m in Sources */,
 				9E11BBBB1A1260CB0001090B /* NSObject+MKBlockAdditions.m in Sources */,
 				9E11BBB61A1260CB0001090B /* ParseBase+Parse.m in Sources */,
 				9E11BBC21A1260CB0001090B /* UIImage+Alpha.m in Sources */,

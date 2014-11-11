@@ -7,6 +7,7 @@
 //
 
 #import "NewGemViewController.h"
+#import "UIImage+Resize.h"
 
 @interface NewGemViewController ()
 
@@ -44,6 +45,9 @@
     }
     self.inputQuote.inputAccessoryView = keyboardDoneButtonView;
     self.inputQuote.text = PLACEHOLDER_TEXT;
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [self.imageViewCamera addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,22 +55,22 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"ShowGemPreviewController"]) {
+    }
 }
-*/
 
 -(void)enableButtons:(BOOL)enabled {
     [self.navigationItem.rightBarButtonItem setEnabled:enabled];
 }
 
 -(void)didClickSave:(id)sender {
-
+    [self performSegueWithIdentifier:@"ShowGemPreviewController" sender:self];
 }
 
 #pragma mark Textview delegate
@@ -108,5 +112,80 @@
         [self enableButtons:NO];
     }
 }
+
+#pragma mark Camera
+-(void)handleGesture:(UIGestureRecognizer *)gesture {
+    NSLog(@"Take a photo!");
+    picker = [[UIImagePickerController alloc] init];
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        picker.showsCameraControls = NO;
+    }
+    else
+        picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    picker.toolbarHidden = YES; // hide toolbar of app, if there is one.
+    picker.allowsEditing = YES;
+    picker.delegate = self;
+
+    [self presentViewController:picker animated:YES completion:nil];
+}
+
+#pragma mark ImagePickerController delegate
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    self.imageView.image = image;
+
+    [self.imageViewCamera setHidden:YES];
+    [self.labelTitle setHidden:YES];
+    
+    /*
+    NSData *data = UIImageJPEGRepresentation(image, .8);
+    PFFile *imageFile = [PFFile fileWithData:data];
+
+    progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    progress.mode = MBProgressHUDModeDeterminateHorizontalBar;
+    progress.labelText = @"Saving new logo";
+    // Save PFFile
+    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (!error) {
+            // Hide old HUD, show completed HUD (see example for code)
+            [progress hide:YES];
+
+            // Create a PFObject around a PFFile and associate it with the current user
+            PFObject *organization = [Organization currentOrganization].pfObject;
+            [organization setObject:imageFile forKey:@"logoData"];
+            [organization saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (!error) {
+
+                }
+                else{
+                    // Log details of the failure
+                    NSLog(@"Error: %@ %@", error, [error userInfo]);
+                }
+            }];
+        }
+        else{
+            progress.labelText = @"Upload failed";
+            progress.mode = MBProgressHUDModeText;
+            // Log details of the failure
+            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
+    } progressBlock:^(int percentDone) {
+        // Update your progress spinner here. percentDone will be between 0 and 100.
+        progress.progress = percentDone/100.0;
+    }];
+     */
+
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+//Tells the delegate that the user cancelled the pick operation.
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
 
 @end
