@@ -71,9 +71,7 @@
 
     [PFUser logInWithUsernameInBackground:self.inputUsername.text password:self.inputPassword.text block:^(PFUser *user, NSError *error) {
         if (user) {
-            [UIAlertView alertViewWithTitle:@"Welcome to BRSimpleLoginSignup" message:[NSString stringWithFormat:@"Good to see you, %@", user.username]];
-
-            [self performSegueWithIdentifier:@"GoToMainView" sender:self];
+            [_appDelegate goToMainView];
         }
         else {
             NSString *message = nil;
