@@ -12,8 +12,6 @@
 		9E11BBB21A1260CB0001090B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E11BB831A1260CB0001090B /* Images.xcassets */; };
 		9E11BBB31A1260CB0001090B /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB851A1260CB0001090B /* LoginViewController.m */; };
 		9E11BBB41A1260CB0001090B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB861A1260CB0001090B /* main.m */; };
-		9E11BBB61A1260CB0001090B /* ParseBase+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB891A1260CB0001090B /* ParseBase+Parse.m */; };
-		9E11BBB71A1260CB0001090B /* ParseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB8B1A1260CB0001090B /* ParseBase.m */; };
 		9E11BBB91A1260CB0001090B /* SignupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB8F1A1260CB0001090B /* SignupViewController.m */; };
 		9E11BBBA1A1260CB0001090B /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB921A1260CB0001090B /* ALAssetsLibrary+CustomPhotoAlbum.m */; };
 		9E11BBBB1A1260CB0001090B /* NSObject+MKBlockAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB961A1260CB0001090B /* NSObject+MKBlockAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -70,11 +68,6 @@
 		9E11BB841A1260CB0001090B /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		9E11BB851A1260CB0001090B /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		9E11BB861A1260CB0001090B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		9E11BB881A1260CB0001090B /* ParseBase+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ParseBase+Parse.h"; sourceTree = "<group>"; };
-		9E11BB891A1260CB0001090B /* ParseBase+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ParseBase+Parse.m"; sourceTree = "<group>"; };
-		9E11BB8A1A1260CB0001090B /* ParseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParseBase.h; sourceTree = "<group>"; };
-		9E11BB8B1A1260CB0001090B /* ParseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseBase.m; sourceTree = "<group>"; };
-		9E11BB8D1A1260CB0001090B /* PFObjectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PFObjectFactory.h; sourceTree = "<group>"; };
 		9E11BB8E1A1260CB0001090B /* SignupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignupViewController.h; sourceTree = "<group>"; };
 		9E11BB8F1A1260CB0001090B /* SignupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignupViewController.m; sourceTree = "<group>"; };
 		9E11BB911A1260CB0001090B /* ALAssetsLibrary+CustomPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALAssetsLibrary+CustomPhotoAlbum.h"; sourceTree = "<group>"; };
@@ -166,7 +159,6 @@
 		9E11BB791A1260CB0001090B /* BabyGems */ = {
 			isa = PBXGroup;
 			children = (
-				9EDF42531A12652500ABC447 /* Parse */,
 				9E11BB7A1A1260CB0001090B /* AppDelegate.h */,
 				9E11BB7B1A1260CB0001090B /* AppDelegate.m */,
 				9E11BB7C1A1260CB0001090B /* LoginSignup.storyboard */,
@@ -283,18 +275,6 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		9EDF42531A12652500ABC447 /* Parse */ = {
-			isa = PBXGroup;
-			children = (
-				9E11BB881A1260CB0001090B /* ParseBase+Parse.h */,
-				9E11BB891A1260CB0001090B /* ParseBase+Parse.m */,
-				9E11BB8A1A1260CB0001090B /* ParseBase.h */,
-				9E11BB8B1A1260CB0001090B /* ParseBase.m */,
-				9E11BB8D1A1260CB0001090B /* PFObjectFactory.h */,
-			);
-			name = Parse;
-			sourceTree = "<group>";
-		};
 		9EDF42591A126D1200ABC447 /* Gem Creation */ = {
 			isa = PBXGroup;
 			children = (
@@ -403,11 +383,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E11BBBB1A1260CB0001090B /* NSObject+MKBlockAdditions.m in Sources */,
-				9E11BBB61A1260CB0001090B /* ParseBase+Parse.m in Sources */,
 				9E11BBC21A1260CB0001090B /* UIImage+Alpha.m in Sources */,
 				9E11BBBF1A1260CB0001090B /* NSManagedObject+Query.m in Sources */,
 				9E11BBC11A1260CB0001090B /* Query.m in Sources */,
-				9E11BBB71A1260CB0001090B /* ParseBase.m in Sources */,
 				9E11BBBE1A1260CB0001090B /* NSManagedObject+Entity.m in Sources */,
 				9E11BBC01A1260CB0001090B /* NSObject+Notify.m in Sources */,
 				9E11BBAD1A1260CB0001090B /* AppDelegate.m in Sources */,

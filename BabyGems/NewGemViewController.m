@@ -48,6 +48,8 @@
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.imageView addGestureRecognizer:tap];
+
+    imageFileReady = YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,8 +63,6 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
-    if ([segue.identifier isEqualToString:@"ShowGemPreviewController"]) {
-    }
 }
 
 -(void)enableButtons:(BOOL)enabled {
@@ -70,7 +70,7 @@
 }
 
 -(void)didClickSave:(id)sender {
-    [self performSegueWithIdentifier:@"ShowGemPreviewController" sender:self];
+    [self saveGem];
 }
 
 #pragma mark Textview delegate
@@ -136,44 +136,15 @@
 {
     image = [info objectForKey:UIImagePickerControllerOriginalImage];
     self.imageView.image = image;
+    imageFileReady = NO;
+    [self enableButtons:NO];
 
-    /*
     NSData *data = UIImageJPEGRepresentation(image, .8);
-    PFFile *imageFile = [PFFile fileWithData:data];
-
-    progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    progress.mode = MBProgressHUDModeDeterminateHorizontalBar;
-    progress.labelText = @"Saving new logo";
-    // Save PFFile
+    imageFile = [PFFile fileWithData:data];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        if (!error) {
-            // Hide old HUD, show completed HUD (see example for code)
-            [progress hide:YES];
-
-            // Create a PFObject around a PFFile and associate it with the current user
-            PFObject *organization = [Organization currentOrganization].pfObject;
-            [organization setObject:imageFile forKey:@"logoData"];
-            [organization saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (!error) {
-
-                }
-                else{
-                    // Log details of the failure
-                    NSLog(@"Error: %@ %@", error, [error userInfo]);
-                }
-            }];
-        }
-        else{
-            progress.labelText = @"Upload failed";
-            progress.mode = MBProgressHUDModeText;
-            // Log details of the failure
-            NSLog(@"Error: %@ %@", error, [error userInfo]);
-        }
-    } progressBlock:^(int percentDone) {
-        // Update your progress spinner here. percentDone will be between 0 and 100.
-        progress.progress = percentDone/100.0;
+        imageFileReady = YES;
+        [self enableButtons:YES];
     }];
-     */
 
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -184,5 +155,25 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+#pragma mark Parse
+-(void)saveGem {
+    if (!imageFileReady)
+        return;
 
+    [self enableButtons:NO];
+
+    if (!gemObject)
+         gemObject = [PFObject objectWithClassName:@"Gem"];
+
+    if (quote)
+        [gemObject setObject:quote forKey:@"quote"];
+    if (imageFile) {
+        [gemObject setObject:imageFile forKey:@"image"];
+    }
+    [gemObject setObject:_currentUser forKey:@"user"];
+    [gemObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        NSLog(@"Success %d error %@", succeeded, error);
+        [self enableButtons:YES]; // todo: move to feed
+    }];
+}
 @end

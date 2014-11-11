@@ -13,6 +13,10 @@
     NSString *quote;
     UIImage *image;
     UIImagePickerController *picker;
+
+    PFObject *gemObject;
+    BOOL imageFileReady;
+    PFFile *imageFile;
 }
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
