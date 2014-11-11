@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:BRSimpleLoginSignup.xcodeproj">
+      location = "self:BabyGems.xcodeproj">
    </FileRef>
 </Workspace>
