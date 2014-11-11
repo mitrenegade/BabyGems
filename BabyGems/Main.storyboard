@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QUI-Dp-X63">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="Sze-on-C5k">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="QUI-Dp-X63" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hLN-PV-nM6">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="YLL-mI-Kxj" kind="relationship" relationship="rootViewController" id="qOR-Gv-rmG"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Jh-Jg-qXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="632" y="-90"/>
+        </scene>
+        <!--New Gem View Controller-->
+        <scene sceneID="TUa-kB-Z6t">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController id="YLL-mI-Kxj" customClass="NewGemViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="UpW-QB-jUR"/>
+                        <viewControllerLayoutGuide type="bottom" id="o40-dx-Qo6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="95c-yv-taG">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="BabyGems" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FYS-qm-DgW">
+                                <rect key="frame" x="194" y="90" width="212" height="36"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="212" id="XLD-bY-ufO"/>
+                                    <constraint firstAttribute="height" constant="36" id="dJV-5x-TG5"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="23"/>
+                                <color key="textColor" red="0.23137254900000001" green="0.73333333329999995" blue="0.87450980389999999" alpha="1" colorSpace="deviceRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vvg-cQ-z6T">
+                                <rect key="frame" x="260" y="134" width="80" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="7Mz-Ng-VsN"/>
+                                    <constraint firstAttribute="width" constant="80" id="mvs-zq-brD"/>
+                                </constraints>
+                                <state key="normal" title="Add Photo">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Type your gem here" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="7sp-rl-nrO">
+                                <rect key="frame" x="26" y="222" width="549" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="FYS-qm-DgW" secondAttribute="centerX" id="FkL-cc-gee"/>
+                            <constraint firstItem="7sp-rl-nrO" firstAttribute="leading" secondItem="95c-yv-taG" secondAttribute="leadingMargin" constant="10" id="GKj-lH-zTZ"/>
+                            <constraint firstAttribute="centerX" secondItem="vvg-cQ-z6T" secondAttribute="centerX" id="Sl2-Tb-I00"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="7sp-rl-nrO" secondAttribute="trailing" constant="9" id="cSL-kV-WeH"/>
+                            <constraint firstItem="7sp-rl-nrO" firstAttribute="top" secondItem="vvg-cQ-z6T" secondAttribute="bottom" constant="8" id="rTn-Y5-Lt9"/>
+                            <constraint firstAttribute="centerX" secondItem="7sp-rl-nrO" secondAttribute="centerX" id="v3D-4t-3Vl"/>
+                            <constraint firstItem="vvg-cQ-z6T" firstAttribute="top" secondItem="FYS-qm-DgW" secondAttribute="bottom" constant="8" id="wNw-jf-Bdi"/>
+                            <constraint firstItem="FYS-qm-DgW" firstAttribute="top" secondItem="UpW-QB-jUR" secondAttribute="bottom" constant="26" id="zae-xI-08K"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="WXn-NI-7tS"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="1158" y="-90"/>
+        </scene>
+    </scenes>
+</document>

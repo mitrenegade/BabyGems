@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="p5e-4Z-69F">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
         <scene sceneID="Yhp-7G-xZc">
             <objects>
-                <navigationController definesPresentationContext="YES" id="p5e-4Z-69F" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="LoginSignupNavigationController" definesPresentationContext="YES" id="p5e-4Z-69F" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="dRY-ay-AJk">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -22,7 +23,7 @@
         <!--View Controller-->
         <scene sceneID="MKC-EA-uFE">
             <objects>
-                <viewController id="9rm-tc-kxy" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="9rm-tc-kxy" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="cDI-S2-wZb"/>
                         <viewControllerLayoutGuide type="bottom" id="fYc-2R-9HH"/>
@@ -132,54 +133,11 @@
                         <outlet property="buttonFacebook" destination="h5s-A4-v4E" id="vpt-R6-THo"/>
                         <outlet property="inputPassword" destination="zoB-6x-duw" id="b3v-DA-jtH"/>
                         <outlet property="inputUsername" destination="1lY-X4-WEt" id="Ix3-Kd-fGz"/>
-                        <segue destination="bJ9-Ae-H54" kind="modal" identifier="GoToMainView" id="Ig2-hx-r93"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="epb-Uo-a1u" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="519" y="44"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="Mz4-7U-Mpc">
-            <objects>
-                <navigationController definesPresentationContext="YES" id="bJ9-Ae-H54" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ySt-gX-gbU">
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="zzY-eA-4pq" kind="relationship" relationship="rootViewController" id="Zbl-pV-k61"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="qsK-uV-Kz7" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1038" y="516"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="bbX-55-MoI">
-            <objects>
-                <viewController id="zzY-eA-4pq" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="fEL-Ek-Idr"/>
-                        <viewControllerLayoutGuide type="bottom" id="403-KS-mz9"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="YnE-Lo-qS0">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="BabyGems" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b0L-PY-U7g">
-                                <rect key="frame" x="53" y="107" width="212" height="36"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="23"/>
-                                <color key="textColor" red="0.23137254900000001" green="0.73333333329999995" blue="0.87450980389999999" alpha="1" colorSpace="deviceRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="0zX-pH-eMf"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="AfQ-71-Jki" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1383" y="53"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="agB-wc-Mgp">
@@ -256,7 +214,6 @@
                         <outlet property="inputConfirmation" destination="hMJ-GD-Qab" id="YtY-Un-kci"/>
                         <outlet property="inputPassword" destination="ATl-qb-mxP" id="ng1-FZ-4yf"/>
                         <outlet property="inputUsername" destination="XF4-YV-Pj8" id="wS0-ic-B2C"/>
-                        <segue destination="bJ9-Ae-H54" kind="modal" identifier="GoToMainView" id="CFZ-bv-5rK"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eaT-yD-jAF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -269,7 +226,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="Ig2-hx-r93"/>
-    </inferredMetricsTieBreakers>
 </document>

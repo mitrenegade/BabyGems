@@ -21,14 +21,6 @@
                   clientKey:@"re1mhkjLyyv31TdzwqlvbPiSIIKMUBjXdll5e1Nw"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 
-    PFUser *user = [PFUser currentUser];
-    if (user) {
-        NSLog(@"Logged in");
-    }
-    else {
-        NSLog(@"Not logged in");
-    }
-
     return YES;
 }
 							
@@ -106,5 +98,16 @@
     return [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
 }
 
+#pragma mark navigation
+-(void)goToLoginSignup {
+    UINavigationController *nav = [_storyboard(@"LoginSignup") instantiateInitialViewController];
+    [_appDelegate.window.rootViewController presentViewController:nav animated:NO completion:nil];
+}
 
+-(void)goToMainView {
+    UINavigationController *nav = _appDelegate.window.rootViewController;
+    if (nav.presentedViewController) {
+        [nav dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 @end

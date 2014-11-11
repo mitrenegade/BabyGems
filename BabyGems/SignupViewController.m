@@ -69,8 +69,7 @@
 
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
-            [UIAlertView alertViewWithTitle:@"Welcome to BRSimpleLoginSignup" message:[NSString stringWithFormat:@"Your login is %@", user.username]];
-            [self performSegueWithIdentifier:@"GoToMainView" sender:self];
+            [_appDelegate goToMainView];
         }
         else {
             NSString *message = nil;
