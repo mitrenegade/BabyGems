@@ -146,7 +146,7 @@
     picker = [[UIImagePickerController alloc] init];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        picker.showsCameraControls = NO;
+        picker.showsCameraControls = YES;
     }
     else
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
