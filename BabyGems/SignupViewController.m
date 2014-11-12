@@ -8,6 +8,7 @@
 
 #import "SignupViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "FacebookHelper.h"
 #import <ParseFacebookUtils/PFFacebookUtils.h>
 
 @interface SignupViewController ()
@@ -59,7 +60,20 @@
         [self signup];
     }
     else if ((UIButton *)sender == self.buttonFacebook) {
-        [self loginButtonTouchHandler:self.buttonFacebook];
+        [FacebookHelper loginWithFacebookWithCompletion:^(PFUser *user) {
+            if (user.isNew) {
+                NSLog(@"User with facebook signed up and logged in!");
+                [_appDelegate goToMainView];
+            } else {
+                NSLog(@"User with facebook logged in!");
+                [UIAlertView alertViewWithTitle:@"User already exists" message:@"Click ok to log in with your Facebook account" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
+                    [_appDelegate goToMainView];
+                } onCancel:^{
+                    [[PFFacebookUtils session] close];
+                    [_appDelegate goToLoginSignup];
+                }];
+            }
+        }];
     }
 }
 
@@ -100,43 +114,5 @@
 }
 */
 
-#pragma mark PFFacebookUtils
-- (IBAction)loginButtonTouchHandler:(id)sender  {
-    // Set permissions required from the facebook user account
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
 
-    // Login PFUser using Facebook
-    [PFFacebookUtils logInWithPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
-
-        if (!user) {
-            NSString *errorMessage = nil;
-            if (!error) {
-                NSLog(@"Uh oh. The user cancelled the Facebook login.");
-                errorMessage = @"Uh oh. The user cancelled the Facebook login.";
-            } else {
-                NSLog(@"Uh oh. An error occurred: %@", error);
-                errorMessage = [error localizedDescription];
-            }
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Log In Error"
-                                                            message:errorMessage
-                                                           delegate:nil
-                                                  cancelButtonTitle:nil
-                                                  otherButtonTitles:@"Dismiss", nil];
-            [alert show];
-        } else {
-            if (user.isNew) {
-                NSLog(@"User with facebook signed up and logged in!");
-                [_appDelegate goToMainView];
-            } else {
-                NSLog(@"User with facebook logged in!");
-                [UIAlertView alertViewWithTitle:@"User already exists" message:@"Click ok to log in with your Facebook account" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
-                    [_appDelegate goToMainView];
-                } onCancel:^{
-                    [[PFFacebookUtils session] close];
-                    [_appDelegate goToLoginSignup];
-                }];
-            }
-        }
-    }];
-}
 @end
