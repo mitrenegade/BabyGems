@@ -50,11 +50,31 @@
     [self.imageView addGestureRecognizer:tap];
 
     imageFileReady = YES;
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:self.view.window];
+    // register for keyboard notifications
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:self.view.window];
+
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillShowNotification
+                                                  object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UIKeyboardWillHideNotification
+                                                  object:nil];
 }
 
 #pragma mark - Navigation
@@ -125,7 +145,6 @@
         picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 
     picker.toolbarHidden = YES; // hide toolbar of app, if there is one.
-    picker.allowsEditing = YES;
     picker.delegate = self;
 
     [self presentViewController:picker animated:YES completion:nil];
@@ -176,4 +195,26 @@
         [self enableButtons:YES]; // todo: move to feed
     }];
 }
+
+- (void)keyboardWillShow:(NSNotification *)n
+{
+    CGSize keyboardSize = [[n.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
+    self.constraintDistanceFromBottom.constant = keyboardSize.height;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:.3 animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+    }];
+}
+
+- (void)keyboardWillHide:(NSNotification *)n {
+    self.constraintDistanceFromBottom.constant = 40;
+    [self.view setNeedsUpdateConstraints];
+    [UIView animateWithDuration:.3 animations:^{
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+    }];
+}
+
+
 @end

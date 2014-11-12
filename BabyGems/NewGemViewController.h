@@ -22,4 +22,5 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView *inputQuote;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDistanceFromBottom;
 @end

@@ -24,7 +24,6 @@
         <!--New Gem View Controller-->
         <scene sceneID="TUa-kB-Z6t">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="YLL-mI-Kxj" customClass="NewGemViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UpW-QB-jUR"/>
@@ -105,6 +104,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="WXn-NI-7tS"/>
                     <connections>
+                        <outlet property="constraintDistanceFromBottom" destination="BzE-BR-Xps" id="qpE-Ki-nQZ"/>
                         <outlet property="imageView" destination="djf-Gw-Mb1" id="Qz1-Lr-KRp"/>
                         <outlet property="imageViewCamera" destination="apr-E8-J6P" id="NcQ-Le-GVN"/>
                         <outlet property="inputQuote" destination="fpL-h4-Q64" id="U8p-sQ-tIO"/>
@@ -112,6 +112,7 @@
                         <segue destination="ecM-mu-VjS" kind="show" identifier="ShowGemPreviewController" id="Sfq-t3-UL4"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1264" y="-83"/>
         </scene>
