@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 @implementation AppDelegate
 
@@ -20,6 +22,8 @@
     [Parse setApplicationId:@"7ed10Q7iOMBLppi3FXzApRhmaQxsJdXlS8sbBbaN"
                   clientKey:@"re1mhkjLyyv31TdzwqlvbPiSIIKMUBjXdll5e1Nw"];
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
+
+    [PFFacebookUtils initializeFacebook];
 
     return YES;
 }
@@ -44,11 +48,23 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+
+    [FBAppCall handleDidBecomeActiveWithSession:[PFFacebookUtils session]];
+    [FBAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    [[PFFacebookUtils session] close];
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation {
+    // attempt to extract a token from the url
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication withSession:[PFFacebookUtils session]];
 }
 
 #pragma mark CoreData
@@ -105,7 +121,7 @@
 }
 
 -(void)goToMainView {
-    UINavigationController *nav = _appDelegate.window.rootViewController;
+    UINavigationController *nav = (UINavigationController *)_appDelegate.window.rootViewController;
     if (nav.presentedViewController) {
         [nav dismissViewControllerAnimated:YES completion:nil];
     }
