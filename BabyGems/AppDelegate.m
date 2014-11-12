@@ -123,7 +123,9 @@
 -(void)goToMainView {
     UINavigationController *nav = (UINavigationController *)_appDelegate.window.rootViewController;
     if (nav.presentedViewController) {
-        [nav dismissViewControllerAnimated:YES completion:nil];
+        [nav dismissViewControllerAnimated:YES completion:^{
+            [self notify:@"mainView:show"];
+        }];
     }
 }
 @end

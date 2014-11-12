@@ -21,11 +21,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    self.viewBG.alpha = 0;
     if ([PFUser currentUser]) {
+        self.viewBG.alpha = 1;
     }
     else {
         [_appDelegate goToLoginSignup];
     }
+    [self listenFor:@"mainView:show" action:@selector(showMainView)];
 
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave:)];
     self.navigationItem.rightBarButtonItem = right;
@@ -75,8 +78,12 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil];
+    [self stopListeningFor:@"mainView:show"];
 }
 
+-(void)showMainView {
+    self.viewBG.alpha = 1;
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

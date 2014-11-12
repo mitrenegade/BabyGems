@@ -18,6 +18,7 @@
     BOOL imageFileReady;
     PFFile *imageFile;
 }
+@property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
