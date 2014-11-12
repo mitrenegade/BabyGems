@@ -7,6 +7,8 @@
 //
 
 #import "LoginViewController.h"
+#import <ParseFacebookUtils/PFFacebookUtils.h>
+#import "FacebookHelper.h"
 
 @interface LoginViewController ()
 
@@ -62,7 +64,21 @@
         }
     }
     else if ((UIButton *)sender == self.buttonFacebook) {
-
+        [FacebookHelper loginWithFacebookWithCompletion:^(PFUser *user) {
+            if (user.isNew) {
+                NSLog(@"User with facebook signed up and logged in!");
+                [UIAlertView alertViewWithTitle:@"User not found" message:@"Click ok to sign up with your Facebook account" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
+                    [_appDelegate goToMainView];
+                } onCancel:^{
+                    [user deleteInBackground];
+                    [[PFFacebookUtils session] close];
+                    [_appDelegate goToLoginSignup];
+                }];
+            } else {
+                NSLog(@"User with facebook logged in!");
+                [_appDelegate goToMainView];
+            }
+        }];
     }
 }
 
@@ -87,4 +103,5 @@
     [self.inputUsername resignFirstResponder];
     [self.inputPassword resignFirstResponder];
 }
+
 @end

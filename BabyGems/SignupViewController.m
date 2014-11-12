@@ -7,6 +7,9 @@
 //
 
 #import "SignupViewController.h"
+#import <FacebookSDK/FacebookSDK.h>
+#import "FacebookHelper.h"
+#import <ParseFacebookUtils/PFFacebookUtils.h>
 
 @interface SignupViewController ()
 
@@ -57,7 +60,20 @@
         [self signup];
     }
     else if ((UIButton *)sender == self.buttonFacebook) {
-
+        [FacebookHelper loginWithFacebookWithCompletion:^(PFUser *user) {
+            if (user.isNew) {
+                NSLog(@"User with facebook signed up and logged in!");
+                [_appDelegate goToMainView];
+            } else {
+                NSLog(@"User with facebook logged in!");
+                [UIAlertView alertViewWithTitle:@"User already exists" message:@"Click ok to log in with your Facebook account" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
+                    [_appDelegate goToMainView];
+                } onCancel:^{
+                    [[PFFacebookUtils session] close];
+                    [_appDelegate goToLoginSignup];
+                }];
+            }
+        }];
     }
 }
 
@@ -97,5 +113,6 @@
     // Pass the selected object to the new view controller.
 }
 */
+
 
 @end

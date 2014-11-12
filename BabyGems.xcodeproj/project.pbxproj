@@ -25,6 +25,8 @@
 		9E11BBC31A1260CB0001090B /* UIImage+Resize.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BBA61A1260CB0001090B /* UIImage+Resize.m */; };
 		9E11BBC41A1260CB0001090B /* UIImage+RoundedCorner.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BBA81A1260CB0001090B /* UIImage+RoundedCorner.m */; };
 		9E11BBC51A1260CB0001090B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BBAA1A1260CB0001090B /* Util.m */; };
+		9E1833841A139FAD00732A3D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E1833831A139FAD00732A3D /* LaunchScreen.xib */; };
+		9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1833861A13A3A600732A3D /* FacebookHelper.m */; };
 		9E79B7F2196435AA00559838 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B7F1196435AA00559838 /* Foundation.framework */; };
 		9E79B7F4196435AA00559838 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B7F3196435AA00559838 /* CoreGraphics.framework */; };
 		9E79B7F6196435AA00559838 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B7F5196435AA00559838 /* UIKit.framework */; };
@@ -40,13 +42,14 @@
 		9E79B86E19643B1600559838 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B86D19643B1600559838 /* Security.framework */; };
 		9E79B87019643B1900559838 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B86F19643B1900559838 /* StoreKit.framework */; };
 		9E79B87219643B2100559838 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B87119643B2100559838 /* SystemConfiguration.framework */; };
-		9ED638F51A12610800D1F62C /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED638F21A12610800D1F62C /* Bolts.framework */; };
 		9ED638F61A12610800D1F62C /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED638F31A12610800D1F62C /* Parse.framework */; };
 		9ED638F71A12610800D1F62C /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9ED638F41A12610800D1F62C /* ParseFacebookUtils.framework */; };
 		9ED638FA1A12613500D1F62C /* BabyGems-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ED638F81A12613500D1F62C /* BabyGems-Info.plist */; };
 		9ED638FB1A1261CF00D1F62C /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E11BB7C1A1260CB0001090B /* LoginSignup.storyboard */; };
 		9EDF42551A12673600ABC447 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF42541A12673600ABC447 /* Main.storyboard */; };
 		9EDF42581A12686300ABC447 /* NewGemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF42571A12686300ABC447 /* NewGemViewController.m */; };
+		9EE7FD811A139810001479F1 /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE7FD801A139810001479F1 /* Bolts.framework */; };
+		9EE7FF581A139897001479F1 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9EE7FF571A139897001479F1 /* FacebookSDK.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +98,9 @@
 		9E11BBA81A1260CB0001090B /* UIImage+RoundedCorner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RoundedCorner.m"; sourceTree = "<group>"; };
 		9E11BBA91A1260CB0001090B /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		9E11BBAA1A1260CB0001090B /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		9E1833831A139FAD00732A3D /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
+		9E1833851A13A3A600732A3D /* FacebookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookHelper.h; sourceTree = "<group>"; };
+		9E1833861A13A3A600732A3D /* FacebookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookHelper.m; sourceTree = "<group>"; };
 		9E79B7EE196435AA00559838 /* BabyGems.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BabyGems.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E79B7F1196435AA00559838 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		9E79B7F3196435AA00559838 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -110,7 +116,6 @@
 		9E79B86D19643B1600559838 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		9E79B86F19643B1900559838 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		9E79B87119643B2100559838 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		9ED638F21A12610800D1F62C /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = BabyGems/Bolts.framework; sourceTree = "<group>"; };
 		9ED638F31A12610800D1F62C /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Parse.framework; path = BabyGems/Parse.framework; sourceTree = "<group>"; };
 		9ED638F41A12610800D1F62C /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = BabyGems/ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		9ED638F81A12613500D1F62C /* BabyGems-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "BabyGems-Info.plist"; sourceTree = "<group>"; };
@@ -118,6 +123,8 @@
 		9EDF42541A12673600ABC447 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9EDF42561A12686300ABC447 /* NewGemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGemViewController.h; sourceTree = "<group>"; };
 		9EDF42571A12686300ABC447 /* NewGemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGemViewController.m; sourceTree = "<group>"; };
+		9EE7FD801A139810001479F1 /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Bolts.framework; path = BabyGems/Bolts.framework; sourceTree = "<group>"; };
+		9EE7FF571A139897001479F1 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,8 +145,9 @@
 				9E79B86219643AF200559838 /* AudioToolbox.framework in Frameworks */,
 				9E79B7F4196435AA00559838 /* CoreGraphics.framework in Frameworks */,
 				9E79B7F6196435AA00559838 /* UIKit.framework in Frameworks */,
+				9EE7FF581A139897001479F1 /* FacebookSDK.framework in Frameworks */,
 				9E79B7F2196435AA00559838 /* Foundation.framework in Frameworks */,
-				9ED638F51A12610800D1F62C /* Bolts.framework in Frameworks */,
+				9EE7FD811A139810001479F1 /* Bolts.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,7 +169,6 @@
 			children = (
 				9E11BB7A1A1260CB0001090B /* AppDelegate.h */,
 				9E11BB7B1A1260CB0001090B /* AppDelegate.m */,
-				9E11BB7C1A1260CB0001090B /* LoginSignup.storyboard */,
 				9EDF42541A12673600ABC447 /* Main.storyboard */,
 				9EDF42511A1264F900ABC447 /* Login and Signup */,
 				9E11BB901A1260CB0001090B /* Utils */,
@@ -232,7 +239,8 @@
 		9E79B7F0196435AA00559838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9ED638F21A12610800D1F62C /* Bolts.framework */,
+				9EE7FF571A139897001479F1 /* FacebookSDK.framework */,
+				9EE7FD801A139810001479F1 /* Bolts.framework */,
 				9ED638F31A12610800D1F62C /* Parse.framework */,
 				9ED638F41A12610800D1F62C /* ParseFacebookUtils.framework */,
 				9E79B87119643B2100559838 /* SystemConfiguration.framework */,
@@ -255,10 +263,13 @@
 		9EDF42511A1264F900ABC447 /* Login and Signup */ = {
 			isa = PBXGroup;
 			children = (
+				9E11BB7C1A1260CB0001090B /* LoginSignup.storyboard */,
 				9E11BB8E1A1260CB0001090B /* SignupViewController.h */,
 				9E11BB8F1A1260CB0001090B /* SignupViewController.m */,
 				9E11BB841A1260CB0001090B /* LoginViewController.h */,
 				9E11BB851A1260CB0001090B /* LoginViewController.m */,
+				9E1833851A13A3A600732A3D /* FacebookHelper.h */,
+				9E1833861A13A3A600732A3D /* FacebookHelper.m */,
 			);
 			name = "Login and Signup";
 			sourceTree = "<group>";
@@ -271,6 +282,7 @@
 				9ED638F91A12613500D1F62C /* BabyGems-Prefix.pch */,
 				9E11BB831A1260CB0001090B /* Images.xcassets */,
 				9E11BB861A1260CB0001090B /* main.m */,
+				9E1833831A139FAD00732A3D /* LaunchScreen.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -329,8 +341,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
-				ORGANIZATIONNAME = SEVEN;
+				ORGANIZATIONNAME = BobbyRenTech;
 				TargetAttributes = {
+					9E79B7ED196435AA00559838 = {
+						DevelopmentTeam = H799H8B8DD;
+					};
 					9E79B80E196435AA00559838 = {
 						TestTargetID = 9E79B7ED196435AA00559838;
 					};
@@ -343,6 +358,7 @@
 			knownRegions = (
 				en,
 				Base,
+				he,
 			);
 			mainGroup = 9E79B7E5196435AA00559838;
 			productRefGroup = 9E79B7EF196435AA00559838 /* Products */;
@@ -364,6 +380,7 @@
 				9EDF42551A12673600ABC447 /* Main.storyboard in Resources */,
 				9E11BBB11A1260CB0001090B /* InfoPlist.strings in Resources */,
 				9E11BBB21A1260CB0001090B /* Images.xcassets in Resources */,
+				9E1833841A139FAD00732A3D /* LaunchScreen.xib in Resources */,
 				9ED638FA1A12613500D1F62C /* BabyGems-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +408,7 @@
 				9E11BBAD1A1260CB0001090B /* AppDelegate.m in Sources */,
 				9EDF42581A12686300ABC447 /* NewGemViewController.m in Sources */,
 				9E11BBBD1A1260CB0001090B /* UIAlertView+MKBlockAdditions.m in Sources */,
+				9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */,
 				9E11BBBA1A1260CB0001090B /* ALAssetsLibrary+CustomPhotoAlbum.m in Sources */,
 				9E11BBB31A1260CB0001090B /* LoginViewController.m in Sources */,
 				9E11BBC51A1260CB0001090B /* Util.m in Sources */,
@@ -514,16 +532,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Bobby Ren (UQA7D88UV9)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/$(PRODUCT_NAME)",
 					"$(PROJECT_DIR)/BRSimpleLoginSignup",
 					"$(PROJECT_DIR)/BabyGems",
+					"$(PROJECT_DIR)/FacebookSDK",
+					"$(PROJECT_DIR)/FacebookSDK/FBAudienceNetwork",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PRODUCT_NAME)/$(PRODUCT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/BabyGems/BabyGems-Info.plist";
 				PRODUCT_NAME = BabyGems;
+				PROVISIONING_PROFILE = "6d6a2d91-2d11-4ebe-887a-6ba51ea5bf71";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -533,16 +555,20 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Bobby Ren (H799H8B8DD)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/$(PRODUCT_NAME)",
 					"$(PROJECT_DIR)/BRSimpleLoginSignup",
 					"$(PROJECT_DIR)/BabyGems",
+					"$(PROJECT_DIR)/FacebookSDK",
+					"$(PROJECT_DIR)/FacebookSDK/FBAudienceNetwork",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(PRODUCT_NAME)/$(PRODUCT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/BabyGems/BabyGems-Info.plist";
 				PRODUCT_NAME = BabyGems;
+				PROVISIONING_PROFILE = "e59772fd-2696-4213-9780-6f695a5cc96c";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
