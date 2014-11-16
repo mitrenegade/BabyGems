@@ -226,6 +226,8 @@
     // goto gembox
     NSArray *allGems = [[Gem where:@{}] all];
     NSLog(@"Gems: %d", [allGems count]);
+
+    [self performSegueWithIdentifier:@"GoToGemBox" sender:self];
 }
 
 - (void)keyboardWillShow:(NSNotification *)n
