@@ -311,6 +311,11 @@
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
         [self enableButtons:YES];
+
+        if (imageFile) {
+            [gem.pfObject setObject:imageFile forKey:@"imageFile"];
+            [gem saveOrUpdateToParseWithCompletion:nil];
+        }
     }];
 
     // offline storage

@@ -9,6 +9,6 @@
 #ifndef BabyGems_Constants_h
 #define BabyGems_Constants_h
 
-#define AIRPLANE_MODE 1
+#define AIRPLANE_MODE 0
 
 #endif

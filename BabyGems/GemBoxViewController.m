@@ -26,6 +26,7 @@ static NSString * const reuseIdentifier = @"GemCell";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Do any additional setup after loading the view.
+    [self listenFor:@"gems:updated" action:@selector(reloadData)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -67,6 +68,14 @@ static NSString * const reuseIdentifier = @"GemCell";
         [cell setupForGem:gem];
     }
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Adjust cell size for orientation
+    return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -129,4 +138,8 @@ static NSString * const reuseIdentifier = @"GemCell";
     return __gemFetcher;
 }
 
+-(void)reloadData {
+    [[self gemFetcher] performFetch:nil];
+    [self.collectionView reloadData];
+}
 @end

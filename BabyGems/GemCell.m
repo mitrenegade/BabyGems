@@ -8,6 +8,7 @@
 
 #import "GemCell.h"
 #import "Gem+Parse.h"
+#import "AsyncImageView.h"
 
 @implementation GemCell
 
@@ -19,6 +20,9 @@
         imageView.image = image;
     }
     // todo: populate from url
+    else if (gem.imageURL) {
+        imageView.imageURL = [NSURL URLWithString:gem.imageURL];
+    }
 
     if (gem.quote) {
         labelQuote.text = gem.quote;
