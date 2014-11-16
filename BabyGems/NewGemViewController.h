@@ -19,11 +19,18 @@
 {
     NSString *quote;
     UIImage *image;
-    UIImagePickerController *picker;
+
+    UIImagePickerController *_picker;
+    UIView *overlay;
 
     Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
+
+    UIButton *buttonCamera;
+    UIButton *buttonCancel;
+    UIButton *buttonRotate;
+    UIButton *buttonLibrary;
 }
 @property (weak, nonatomic) id delegate;
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
