@@ -103,11 +103,11 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="141"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter your gem here" translatesAutoresizingMaskIntoConstraints="NO" id="fpL-h4-Q64">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Enter your gem here" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fpL-h4-Q64">
                                                 <rect key="frame" x="8" y="8" width="584" height="125"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="YLL-mI-Kxj" id="qwy-lP-c75"/>
@@ -162,7 +162,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="constraintDistanceFromBottom" destination="5g1-PE-JDv" id="dHn-A2-bko"/>
+                        <outlet property="constraintQuoteDistanceFromBottom" destination="5g1-PE-JDv" id="ztH-og-Kc1"/>
+                        <outlet property="constraintQuoteHeight" destination="dyd-LA-JTi" id="TxL-eX-mNH"/>
                         <outlet property="imageView" destination="djf-Gw-Mb1" id="Qz1-Lr-KRp"/>
                         <outlet property="imageViewCamera" destination="apr-E8-J6P" id="NcQ-Le-GVN"/>
                         <outlet property="inputQuote" destination="fpL-h4-Q64" id="U8p-sQ-tIO"/>

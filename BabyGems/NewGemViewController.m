@@ -55,6 +55,8 @@
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.imageView addGestureRecognizer:tap];
+
+    [self updateTextSize];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,6 +105,7 @@
 
 -(void)textViewDidBeginEditing:(UITextView *)textView {
     [self.inputQuote setText:quote];
+    [self updateTextSize];
 }
 
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView {
@@ -125,6 +128,15 @@
     else {
         [self enableButtons:NO];
     }
+}
+
+-(void)textViewDidChange:(UITextView *)textView {
+    [self updateTextSize];
+}
+
+-(void)updateTextSize {
+    CGRect rect = [self.inputQuote.text boundingRectWithSize:CGSizeMake(self.inputQuote.frame.size.width, 250) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.inputQuote.font} context:nil];
+    self.constraintQuoteHeight.constant = rect.size.height + 40;
 }
 
 #pragma mark Camera
@@ -312,7 +324,7 @@
 - (void)keyboardWillShow:(NSNotification *)n
 {
     CGSize keyboardSize = [[n.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    self.constraintDistanceFromBottom.constant = keyboardSize.height;
+    self.constraintQuoteDistanceFromBottom.constant = keyboardSize.height;
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:.3 animations:^{
         [self.view layoutIfNeeded];
@@ -321,7 +333,7 @@
 }
 
 - (void)keyboardWillHide:(NSNotification *)n {
-    self.constraintDistanceFromBottom.constant = 40;
+    self.constraintQuoteDistanceFromBottom.constant = 40;
     [self.view setNeedsUpdateConstraints];
     [UIView animateWithDuration:.3 animations:^{
         [self.view layoutIfNeeded];

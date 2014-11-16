@@ -38,7 +38,8 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView *inputQuote;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDistanceFromBottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
 
 -(IBAction)didClickGemBox:(id)sender;
 @end
