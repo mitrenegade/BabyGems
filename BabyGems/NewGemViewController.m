@@ -8,6 +8,7 @@
 
 #import "NewGemViewController.h"
 #import "UIImage+Resize.h"
+#import "Gem+Parse.h"
 
 @interface NewGemViewController ()
 
@@ -22,6 +23,10 @@
     // Do any additional setup after loading the view.
 
     self.viewBG.alpha = 0;
+#if AIRPLANE_MODE
+    self.viewBG.alpha = 1;
+    [self listenFor:@"mainView:show" action:@selector(showMainView)];
+#else
     if ([PFUser currentUser]) {
         self.viewBG.alpha = 1;
     }
@@ -29,6 +34,7 @@
         [_appDelegate goToLoginSignup];
     }
     [self listenFor:@"mainView:show" action:@selector(showMainView)];
+#endif
 
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave:)];
     self.navigationItem.rightBarButtonItem = right;
@@ -165,7 +171,15 @@
     imageFileReady = NO;
     [self enableButtons:NO];
 
+    if (!gem) {
+        gem = (Gem *)[Gem createEntityInContext:_appDelegate.managedObjectContext];
+    }
+
+    // allow offline image storage
     NSData *data = UIImageJPEGRepresentation(image, .8);
+    gem.offlineImage = data;
+
+    // online image storage
     imageFile = [PFFile fileWithData:data];
     [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         imageFileReady = YES;
@@ -183,24 +197,35 @@
 
 #pragma mark Parse
 -(void)saveGem {
-    if (!imageFileReady)
-        return;
-
     [self enableButtons:NO];
 
-    if (!gemObject)
-         gemObject = [PFObject objectWithClassName:@"Gem"];
-
-    if (quote)
-        [gemObject setObject:quote forKey:@"quote"];
-    if (imageFile) {
-        [gemObject setObject:imageFile forKey:@"image"];
+    if (!gem) {
+        gem = (Gem *)[Gem createEntityInContext:_appDelegate.managedObjectContext];
     }
-    [gemObject setObject:_currentUser forKey:@"user"];
-    [gemObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        NSLog(@"Success %d error %@", succeeded, error);
-        [self enableButtons:YES]; // todo: move to feed
+
+    gem.quote = quote;
+    if (imageFileReady) {
+        gem.imageURL = [imageFile url];
+
+        // also add a pointer to the PFFile if possible
+        if (gem.pfObject)
+            [gem.pfObject setObject:imageFile forKey:@"imageFile"];
+    }
+    else {
+        // todo: set a flag to do image upload later when internet is ready
+    }
+
+    [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Success %d", success);
+        [self enableButtons:YES];
     }];
+
+    // offline storage
+    [_appDelegate.managedObjectContext save:nil];
+
+    // goto gembox
+    NSArray *allGems = [[Gem where:@{}] all];
+    NSLog(@"Gems: %d", [allGems count]);
 }
 
 - (void)keyboardWillShow:(NSNotification *)n

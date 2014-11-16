@@ -21,6 +21,7 @@
 #import "NSManagedObject+Entity.h"
 #import "NSManagedObject+Query.h"
 #import "NSObject+Notify.h"
+#import "Constants.h"
 
 #define _currentUser [PFUser currentUser]
 #define _appDelegate ((AppDelegate *)[UIApplication sharedApplication].delegate)
