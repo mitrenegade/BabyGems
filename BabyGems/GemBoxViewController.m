@@ -70,6 +70,14 @@ static NSString * const reuseIdentifier = @"GemCell";
     return cell;
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Adjust cell size for orientation
+    return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
+}
+
 #pragma mark <UICollectionViewDelegate>
 
 /*
