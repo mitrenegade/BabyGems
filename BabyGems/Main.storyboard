@@ -103,11 +103,11 @@
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="141"/>
                                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                             </view>
-                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Enter your gem here" translatesAutoresizingMaskIntoConstraints="NO" id="fpL-h4-Q64">
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" text="Enter your gem here" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="fpL-h4-Q64">
                                                 <rect key="frame" x="8" y="8" width="584" height="125"/>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="18"/>
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 <connections>
                                                     <outlet property="delegate" destination="YLL-mI-Kxj" id="qwy-lP-c75"/>
@@ -162,7 +162,8 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="constraintDistanceFromBottom" destination="5g1-PE-JDv" id="dHn-A2-bko"/>
+                        <outlet property="constraintQuoteDistanceFromBottom" destination="5g1-PE-JDv" id="ztH-og-Kc1"/>
+                        <outlet property="constraintQuoteHeight" destination="dyd-LA-JTi" id="TxL-eX-mNH"/>
                         <outlet property="imageView" destination="djf-Gw-Mb1" id="Qz1-Lr-KRp"/>
                         <outlet property="imageViewCamera" destination="apr-E8-J6P" id="NcQ-Le-GVN"/>
                         <outlet property="inputQuote" destination="fpL-h4-Q64" id="U8p-sQ-tIO"/>
@@ -216,10 +217,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <color key="backgroundColor" red="0.2156421077" green="1" blue="0.3477988139" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
-                                            <rect key="frame" x="8" y="8" width="144" height="144"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
+                                            <rect key="frame" x="8" y="108" width="144" height="44"/>
+                                            <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="12"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -231,7 +232,7 @@
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" id="JQM-g5-hgS"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="uwJ-0m-Apn" secondAttribute="bottom" constant="-8" id="LFt-sL-eoU"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="trailing" secondItem="DPL-Ft-96i" secondAttribute="trailingMargin" id="Mrz-u0-du7"/>
-                                    <constraint firstItem="cvj-FT-JgR" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" id="PVg-P6-Vn6"/>
+                                    <constraint firstItem="cvj-FT-JgR" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" constant="100" id="PVg-P6-Vn6"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="uwJ-0m-Apn" secondAttribute="trailing" constant="-8" id="XFp-z8-sFJ"/>
                                     <constraint firstItem="uwJ-0m-Apn" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" constant="-8" id="cwQ-zq-I2f"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="bottom" secondItem="DPL-Ft-96i" secondAttribute="bottomMargin" id="wF0-cs-Uy1"/>
@@ -266,6 +267,6 @@
         <image name="camera-icon" width="137" height="102"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ghZ-e3-gjk"/>
+        <segue reference="LUi-t4-2Rf"/>
     </inferredMetricsTieBreakers>
 </document>
