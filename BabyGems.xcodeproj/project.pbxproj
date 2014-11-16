@@ -199,9 +199,9 @@
 				9E59DB951A18397D00ABCAEA /* Constants.h */,
 				9EDF42511A1264F900ABC447 /* Login and Signup */,
 				9E11BB901A1260CB0001090B /* Utils */,
-				9EDF42521A12651300ABC447 /* Resources */,
 				9E59DB8E1A182F6800ABCAEA /* GemBox */,
 				9EDF42591A126D1200ABC447 /* Gem Creation */,
+				9EDF42521A12651300ABC447 /* Resources */,
 			);
 			path = BabyGems;
 			sourceTree = "<group>";
