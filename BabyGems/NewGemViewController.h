@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol NewGemDelegate <NSObject>
+
+-(void)didSaveNewGem;
+-(void)dismissNewGem;
+@end
+
 @class Gem;
 @interface NewGemViewController : UIViewController <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
@@ -19,10 +25,13 @@
     BOOL imageFileReady;
     PFFile *imageFile;
 }
+@property (weak, nonatomic) id delegate;
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView *inputQuote;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDistanceFromBottom;
+
+-(IBAction)didClickGemBox:(id)sender;
 @end
