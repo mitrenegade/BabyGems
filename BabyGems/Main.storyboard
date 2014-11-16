@@ -213,9 +213,9 @@
                                     <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uwJ-0m-Apn">
+                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uwJ-0m-Apn" customClass="AsyncImageView">
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
-                                            <color key="backgroundColor" red="0.2156421077" green="1" blue="0.3477988139" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
                                             <rect key="frame" x="8" y="108" width="144" height="44"/>
@@ -226,7 +226,7 @@
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
-                                <color key="backgroundColor" red="0.92549019610000005" green="0.4823529412" blue="0.1843137255" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstItem="uwJ-0m-Apn" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" constant="-8" id="9WN-Md-P6c"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" id="JQM-g5-hgS"/>
@@ -239,7 +239,7 @@
                                 </constraints>
                                 <size key="customSize" width="160" height="160"/>
                                 <connections>
-                                    <outlet property="imageView" destination="uwJ-0m-Apn" id="bEc-yJ-m7l"/>
+                                    <outlet property="imageView" destination="uwJ-0m-Apn" id="NCY-c8-oja"/>
                                     <outlet property="labelQuote" destination="cvj-FT-JgR" id="8kh-Ej-ghh"/>
                                 </connections>
                             </collectionViewCell>

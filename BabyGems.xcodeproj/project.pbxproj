@@ -27,6 +27,7 @@
 		9E11BBC51A1260CB0001090B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BBAA1A1260CB0001090B /* Util.m */; };
 		9E1833841A139FAD00732A3D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E1833831A139FAD00732A3D /* LaunchScreen.xib */; };
 		9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1833861A13A3A600732A3D /* FacebookHelper.m */; };
+		9E24031A1A18A53C003187F5 /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E2403191A18A53C003187F5 /* AsyncImageView.m */; };
 		9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */; };
 		9E59DB7B1A1825F200ABCAEA /* ParseBase+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB791A1825F200ABCAEA /* ParseBase+Parse.m */; };
 		9E59DB811A1825FF00ABCAEA /* ParseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB801A1825FF00ABCAEA /* ParseBase.m */; };
@@ -109,6 +110,8 @@
 		9E1833831A139FAD00732A3D /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		9E1833851A13A3A600732A3D /* FacebookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookHelper.h; sourceTree = "<group>"; };
 		9E1833861A13A3A600732A3D /* FacebookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookHelper.m; sourceTree = "<group>"; };
+		9E2403181A18A53C003187F5 /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AsyncImageView.h; path = ../AsyncImageView.h; sourceTree = "<group>"; };
+		9E2403191A18A53C003187F5 /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AsyncImageView.m; path = ../AsyncImageView.m; sourceTree = "<group>"; };
 		9E59DB761A18253C00ABCAEA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9E59DB781A1825F200ABCAEA /* ParseBase+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ParseBase+Parse.h"; sourceTree = "<group>"; };
 		9E59DB791A1825F200ABCAEA /* ParseBase+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ParseBase+Parse.m"; sourceTree = "<group>"; };
@@ -209,6 +212,8 @@
 		9E11BB901A1260CB0001090B /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				9E2403181A18A53C003187F5 /* AsyncImageView.h */,
+				9E2403191A18A53C003187F5 /* AsyncImageView.m */,
 				9E11BB911A1260CB0001090B /* ALAssetsLibrary+CustomPhotoAlbum.h */,
 				9E11BB921A1260CB0001090B /* ALAssetsLibrary+CustomPhotoAlbum.m */,
 				9E11BB931A1260CB0001090B /* MKAdditions */,
@@ -458,6 +463,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E11BBBB1A1260CB0001090B /* NSObject+MKBlockAdditions.m in Sources */,
+				9E24031A1A18A53C003187F5 /* AsyncImageView.m in Sources */,
 				9E11BBC21A1260CB0001090B /* UIImage+Alpha.m in Sources */,
 				9E59DB911A182F9800ABCAEA /* GemBoxViewController.m in Sources */,
 				9E11BBBF1A1260CB0001090B /* NSManagedObject+Query.m in Sources */,
