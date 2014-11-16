@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class Gem;
 @interface NewGemViewController : UIViewController <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 {
     NSString *quote;
     UIImage *image;
     UIImagePickerController *picker;
 
-    PFObject *gemObject;
+    Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
 }
