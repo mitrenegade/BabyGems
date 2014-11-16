@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NewGemViewController.h"
 
-@interface GemBoxViewController : UICollectionViewController
+
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
+    NewGemViewController *newGemController;
 }
 
 -(NSFetchedResultsController *)gemFetcher;
 
--(IBAction)didClickAddGem:(id)sender;
 @end

@@ -9,6 +9,7 @@
 #import "GemBoxViewController.h"
 #import "Gem+Parse.h"
 #import "GemCell.h"
+#import "NewGemViewController.h"
 
 @interface GemBoxViewController ()
 
@@ -21,6 +22,17 @@ static NSString * const reuseIdentifier = @"GemCell";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+#if !AIRPLANE_MODE
+    self.collectionView.alpha = 0;
+    if ([PFUser currentUser]) {
+        self.collectionView.alpha = 1;
+    }
+    else {
+        [_appDelegate goToLoginSignup];
+    }
+    [self listenFor:@"mainView:show" action:@selector(showMainView)];
+#endif
+
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -30,17 +42,27 @@ static NSString * const reuseIdentifier = @"GemCell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
+    [self stopListeningFor:@"mainView:show"];
 }
 
-/*
+-(void)showMainView {
+    self.collectionView.alpha = 1;
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"GoToAddGem"]) {
+        UINavigationController *nav = [segue destinationViewController];
+        NewGemViewController *controller = [nav.viewControllers lastObject];
+        controller.delegate = self;
+        newGemController = controller;
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -96,6 +118,15 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 */
 
+#pragma mark NewGemDelegate
+-(void)didSaveNewGem {
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [self.gemFetcher performFetch:nil];
+        [self.collectionView reloadData];
+        newGemController = nil;
+    }];
+}
+
 #pragma mark Core Data
 -(NSFetchedResultsController *)gemFetcher {
     if (__gemFetcher) {
@@ -112,9 +143,4 @@ static NSString * const reuseIdentifier = @"GemCell";
     return __gemFetcher;
 }
 
-#pragma mark Navigation
--(void)didClickAddGem:(id)sender {
-    // since gembox is presented modally, actually a dismiss
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
 @end

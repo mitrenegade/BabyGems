@@ -22,20 +22,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    self.viewBG.alpha = 0;
-#if AIRPLANE_MODE
-    self.viewBG.alpha = 1;
-    [self listenFor:@"mainView:show" action:@selector(showMainView)];
-#else
-    if ([PFUser currentUser]) {
-        self.viewBG.alpha = 1;
-    }
-    else {
-        [_appDelegate goToLoginSignup];
-    }
-    [self listenFor:@"mainView:show" action:@selector(showMainView)];
-#endif
-
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave:)];
     self.navigationItem.rightBarButtonItem = right;
     [self enableButtons:NO];
@@ -55,9 +41,6 @@
     self.inputQuote.inputAccessoryView = keyboardDoneButtonView;
     self.inputQuote.text = PLACEHOLDER_TEXT;
 
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    [self.imageView addGestureRecognizer:tap];
-
     imageFileReady = YES;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -70,6 +53,8 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:self.view.window];
 
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [self.imageView addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,12 +69,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIKeyboardWillHideNotification
                                                   object:nil];
-    [self stopListeningFor:@"mainView:show"];
 }
 
--(void)showMainView {
-    self.viewBG.alpha = 1;
-}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -160,7 +141,7 @@
     picker.toolbarHidden = YES; // hide toolbar of app, if there is one.
     picker.delegate = self;
 
-    [self presentViewController:picker animated:YES completion:nil];
+    [self.navigationController presentViewController:picker animated:YES completion:nil];
 }
 
 #pragma mark ImagePickerController delegate
@@ -186,7 +167,7 @@
         [self enableButtons:YES];
     }];
 
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 //Tells the delegate that the user cancelled the pick operation.
@@ -221,13 +202,11 @@
     }];
 
     // offline storage
-    [_appDelegate.managedObjectContext save:nil];
+    [_appDelegate.managedObjectContext performBlockAndWait:^{
+        [_appDelegate.managedObjectContext save:nil];
+    }];
 
-    // goto gembox
-    NSArray *allGems = [[Gem where:@{}] all];
-    NSLog(@"Gems: %d", [allGems count]);
-
-    [self performSegueWithIdentifier:@"GoToGemBox" sender:self];
+    [self.delegate didSaveNewGem];
 }
 
 - (void)keyboardWillShow:(NSNotification *)n
@@ -249,6 +228,5 @@
     } completion:^(BOOL finished) {
     }];
 }
-
 
 @end
