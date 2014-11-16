@@ -21,17 +21,6 @@ static NSString * const reuseIdentifier = @"GemCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-#if !AIRPLANE_MODE
-    self.collectionView.alpha = 0;
-    if ([PFUser currentUser]) {
-        self.collectionView.alpha = 1;
-    }
-    else {
-        [_appDelegate goToLoginSignup];
-    }
-    [self listenFor:@"mainView:show" action:@selector(showMainView)];
-#endif
 
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -42,12 +31,6 @@ static NSString * const reuseIdentifier = @"GemCell";
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-
-    [self stopListeningFor:@"mainView:show"];
-}
-
--(void)showMainView {
-    self.collectionView.alpha = 1;
 }
 
 #pragma mark - Navigation
@@ -69,7 +52,6 @@ static NSString * const reuseIdentifier = @"GemCell";
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     NSInteger objects = [[[self gemFetcher] fetchedObjects] count];
@@ -124,6 +106,10 @@ static NSString * const reuseIdentifier = @"GemCell";
         [self.gemFetcher performFetch:nil];
         [self.collectionView reloadData];
         newGemController = nil;
+    }];
+}
+-(void)dismissNewGem {
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
     }];
 }
 

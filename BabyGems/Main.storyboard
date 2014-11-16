@@ -14,12 +14,35 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="E0b-6c-CWR" kind="relationship" relationship="rootViewController" id="MlW-8C-Abx"/>
+                        <segue destination="yfd-OU-igc" kind="relationship" relationship="rootViewController" id="MWb-kK-JNW"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Jh-Jg-qXr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="632" y="-90"/>
+            <point key="canvasLocation" x="-6" y="-90"/>
+        </scene>
+        <!--Initial View Controller-->
+        <scene sceneID="66W-b8-fvi">
+            <objects>
+                <viewController id="yfd-OU-igc" customClass="InitialViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="nBD-Ps-jLQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="vra-GO-fIj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nem-Sa-jIn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="GQ1-rZ-BMN"/>
+                    <connections>
+                        <segue destination="B0Y-TF-HyW" kind="presentation" identifier="InitialAddGem" animates="NO" id="ghZ-e3-gjk"/>
+                        <segue destination="Lua-zo-KDp" kind="presentation" identifier="InitialGemBox" animates="NO" id="91e-Ju-1ul"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ryg-sm-iF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="652" y="-90"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="UG2-ab-avb">
@@ -35,7 +58,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VVs-9E-wyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1976" y="-66"/>
+            <point key="canvasLocation" x="2392" y="-90"/>
         </scene>
         <!--New Gem View Controller-->
         <scene sceneID="TUa-kB-Z6t">
@@ -149,7 +172,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2645" y="-66"/>
+            <point key="canvasLocation" x="3075" y="-90"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="AaW-eM-oj8">
+            <objects>
+                <navigationController id="Lua-zo-KDp" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="B40-WP-vfO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="E0b-6c-CWR" kind="relationship" relationship="rootViewController" id="rVY-8E-MFd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iIo-1v-fsm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1046" y="630"/>
         </scene>
         <!--Gem Box View Controller-->
         <scene sceneID="PlR-bb-uWc">
@@ -220,10 +259,13 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ivz-u0-BXF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1308" y="-90"/>
+            <point key="canvasLocation" x="1690" y="630"/>
         </scene>
     </scenes>
     <resources>
         <image name="camera-icon" width="137" height="102"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="ghZ-e3-gjk"/>
+    </inferredMetricsTieBreakers>
 </document>

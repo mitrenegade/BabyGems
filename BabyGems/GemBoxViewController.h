@@ -14,6 +14,7 @@
 {
     NSFetchedResultsController *__gemFetcher;
     NewGemViewController *newGemController;
+    IBOutlet UIView *viewBG;
 }
 
 -(NSFetchedResultsController *)gemFetcher;

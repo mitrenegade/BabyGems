@@ -229,4 +229,9 @@
     }];
 }
 
+#pragma mark Navigation
+-(void)didClickGemBox:(id)sender {
+    [self.delegate dismissNewGem];
+}
+
 @end

@@ -11,7 +11,7 @@
 @protocol NewGemDelegate <NSObject>
 
 -(void)didSaveNewGem;
-
+-(void)dismissNewGem;
 @end
 
 @class Gem;
