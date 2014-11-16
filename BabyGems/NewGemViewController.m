@@ -23,6 +23,10 @@
     // Do any additional setup after loading the view.
 
     self.viewBG.alpha = 0;
+#if AIRPLANE_MODE
+    self.viewBG.alpha = 1;
+    [self listenFor:@"mainView:show" action:@selector(showMainView)];
+#else
     if ([PFUser currentUser]) {
         self.viewBG.alpha = 1;
     }
@@ -30,6 +34,7 @@
         [_appDelegate goToLoginSignup];
     }
     [self listenFor:@"mainView:show" action:@selector(showMainView)];
+#endif
 
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave:)];
     self.navigationItem.rightBarButtonItem = right;
