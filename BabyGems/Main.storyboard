@@ -217,10 +217,10 @@
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <color key="backgroundColor" red="0.2156421077" green="1" blue="0.3477988139" alpha="1" colorSpace="calibratedRGB"/>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
-                                            <rect key="frame" x="8" y="8" width="144" height="144"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
+                                            <rect key="frame" x="8" y="108" width="144" height="44"/>
+                                            <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="12"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -232,7 +232,7 @@
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" id="JQM-g5-hgS"/>
                                     <constraint firstAttribute="bottomMargin" secondItem="uwJ-0m-Apn" secondAttribute="bottom" constant="-8" id="LFt-sL-eoU"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="trailing" secondItem="DPL-Ft-96i" secondAttribute="trailingMargin" id="Mrz-u0-du7"/>
-                                    <constraint firstItem="cvj-FT-JgR" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" id="PVg-P6-Vn6"/>
+                                    <constraint firstItem="cvj-FT-JgR" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" constant="100" id="PVg-P6-Vn6"/>
                                     <constraint firstAttribute="trailingMargin" secondItem="uwJ-0m-Apn" secondAttribute="trailing" constant="-8" id="XFp-z8-sFJ"/>
                                     <constraint firstItem="uwJ-0m-Apn" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" constant="-8" id="cwQ-zq-I2f"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="bottom" secondItem="DPL-Ft-96i" secondAttribute="bottomMargin" id="wF0-cs-Uy1"/>
@@ -267,6 +267,6 @@
         <image name="camera-icon" width="137" height="102"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ghZ-e3-gjk"/>
+        <segue reference="LUi-t4-2Rf"/>
     </inferredMetricsTieBreakers>
 </document>
