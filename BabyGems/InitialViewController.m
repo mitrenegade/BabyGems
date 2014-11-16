@@ -8,6 +8,8 @@
 
 #import "InitialViewController.h"
 #import "GemBoxViewController.h"
+#import "ParseBase+Parse.h"
+#import "Gem+Parse.h"
 
 @interface InitialViewController ()
 
@@ -24,6 +26,7 @@
 #else
     if ([PFUser currentUser]) {
         [self performSegueWithIdentifier:@"InitialAddGem" sender:nil];
+        [self synchronizeWithParse];
     }
     else {
         [_appDelegate goToLoginSignup];
@@ -43,6 +46,7 @@
 
 -(void)showMainView {
     [self performSegueWithIdentifier:@"InitialAddGem" sender:nil];
+    [self synchronizeWithParse];
 }
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -64,5 +68,30 @@
     [self dismissNewGem];
 }
 
+#pragma mark Parse
+-(void)synchronizeWithParse {
+    // make sure all parse objects are in core data
+    NSArray *classes = @[@"Gem"];
+
+    for (NSString *className in classes) {
+        PFQuery *query = [PFQuery queryWithClassName:className];
+        PFUser *user = _currentUser;
+        [user fetchIfNeeded];
+        [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
+        NSLog(@"Querying for %@ for organization %@", className, _currentUser[@"organization"]);
+        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+            if (error) {
+                NSLog(@"Error: %@", error);
+            }
+            else {
+                NSLog(@"Synchronizing class %@", className);
+                [ParseBase synchronizeClass:className fromObjects:objects replaceExisting:YES completion:^{
+                    // reload
+                    [self notify:@"gems:updated"];
+                }];
+            }
+        }];
+    }
+}
 
 @end

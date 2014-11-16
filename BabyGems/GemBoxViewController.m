@@ -26,6 +26,7 @@ static NSString * const reuseIdentifier = @"GemCell";
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Do any additional setup after loading the view.
+    [self listenFor:@"gems:updated" action:@selector(reloadData)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,4 +130,8 @@ static NSString * const reuseIdentifier = @"GemCell";
     return __gemFetcher;
 }
 
+-(void)reloadData {
+    [[self gemFetcher] performFetch:nil];
+    [self.collectionView reloadData];
+}
 @end
