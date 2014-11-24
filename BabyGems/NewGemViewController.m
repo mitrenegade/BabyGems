@@ -320,9 +320,7 @@
     }];
 
     // offline storage
-    [_appDelegate.managedObjectContext performBlockAndWait:^{
-        [_appDelegate.managedObjectContext save:nil];
-    }];
+    [_appDelegate.managedObjectContext save:nil];
 
     [self saveScreenshot];
 
