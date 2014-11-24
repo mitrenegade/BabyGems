@@ -10,6 +10,7 @@
 #import "Gem+Parse.h"
 #import "GemCell.h"
 #import "NewGemViewController.h"
+#import "Gem+Info.h"
 
 @interface GemBoxViewController ()
 
@@ -85,9 +86,39 @@ static NSString * const reuseIdentifier = @"GemCell";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Adjust cell size for orientation
     Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
-    if (gem.imageURL || gem.offlineImage) {
+    if ([gem isPhotoGem]) {
+        // check to see if surrounding gems are wide
+
+        // this is the first gem
+        if (self.gemFetcher.fetchedObjects.count == 1) {
+            return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+        }
+        else {
+            if (indexPath.row == 0) {
+                // there is a next gem
+                Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
+                if (![nextGem isPhotoGem]) {
+                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                }
+            }
+            // this is the last gem
+            else if (indexPath.row == self.gemFetcher.fetchedObjects.count - 1) {
+                // there is a previous gem
+                Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+                if (![prevGem isPhotoGem]) {
+                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                }
+            }
+            else {
+                Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
+                Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+                if (![nextGem isPhotoGem] && ![prevGem isPhotoGem]) {
+                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                }
+            }
+        }
+
         return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
     }
 
