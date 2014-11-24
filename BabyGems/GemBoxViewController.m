@@ -60,12 +60,23 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    GemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
-    
+    GemCell *cell;
+    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+
     // Configure the cell
     if (indexPath.row < [self gemFetcher].fetchedObjects.count) {
         Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+
+        if (gem.imageURL || gem.offlineImage) {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemPhotoCell" forIndexPath:indexPath];
+        }
+        else {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+        }
         [cell setupForGem:gem];
+    }
+    else {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
     }
     return cell;
 }
@@ -75,7 +86,14 @@ static NSString * const reuseIdentifier = @"GemCell";
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     // Adjust cell size for orientation
-    return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
+    Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+    if (gem.imageURL || gem.offlineImage) {
+        float isFull = arc4random() % 2;
+        if (isFull)
+            return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+        return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
+    }
+    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width/2);
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -112,8 +130,7 @@ static NSString * const reuseIdentifier = @"GemCell";
 #pragma mark NewGemDelegate
 -(void)didSaveNewGem {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self.gemFetcher performFetch:nil];
-        [self.collectionView reloadData];
+        [self reloadData];
         newGemController = nil;
     }];
 }

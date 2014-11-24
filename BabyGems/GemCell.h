@@ -11,12 +11,9 @@
 @class Gem;
 @class AsyncImageView;
 @interface GemCell : UICollectionViewCell
-{
-    IBOutlet AsyncImageView *imageView;
-    IBOutlet UILabel *labelQuote;
-}
-//@property (nonatomic, weak) IBOutlet UIImageView *imageView;
-//@property (nonatomic, weak) IBOutlet UILabel *labelQuote;
+
+@property (nonatomic, weak) IBOutlet UILabel *labelQuote;
+@property (nonatomic, weak) Gem *gem;
 
 -(void)setupForGem:(Gem *)gem;
 @end

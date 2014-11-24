@@ -13,19 +13,12 @@
 @implementation GemCell
 
 -(void)setupForGem:(Gem *)gem {
+    self.gem = gem;
     NSLog(@"Gem.id: %@", gem.parseID);
-    NSData *data = gem.offlineImage;
-    if (data) {
-        UIImage *image = [UIImage imageWithData:data];
-        imageView.image = image;
-    }
-    // todo: populate from url
-    else if (gem.imageURL) {
-        imageView.imageURL = [NSURL URLWithString:gem.imageURL];
-    }
-
+    self.labelQuote.textColor = [UIColor lightGrayColor];
+    self.backgroundColor = [UIColor redColor];
     if (gem.quote) {
-        labelQuote.text = gem.quote;
+        self.labelQuote.text = gem.quote;
     }
 }
 @end
