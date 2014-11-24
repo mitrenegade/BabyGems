@@ -88,12 +88,13 @@ static NSString * const reuseIdentifier = @"GemCell";
     // Adjust cell size for orientation
     Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
     if (gem.imageURL || gem.offlineImage) {
-        float isFull = arc4random() % 2;
-        if (isFull)
-            return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
         return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
     }
-    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width/2);
+
+    NSString *text = gem.quote;
+    UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+    return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + 40);
 }
 
 #pragma mark <UICollectionViewDelegate>

@@ -22,7 +22,6 @@
 
 -(void)setupForGem:(Gem *)gem {
     [super setupForGem:gem];
-    self.labelQuote.textColor = [UIColor whiteColor];
 
     NSData *data = gem.offlineImage;
     if (data) {
