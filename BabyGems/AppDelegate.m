@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation AppDelegate
 
@@ -24,6 +25,8 @@
     [PFAnalytics trackAppOpenedWithLaunchOptions:launchOptions];
 
     [PFFacebookUtils initializeFacebook];
+
+    [Crashlytics startWithAPIKey:@"70160b7dec925a91c6fe09e38bf1f8659c1eda41"];
 
     return YES;
 }
