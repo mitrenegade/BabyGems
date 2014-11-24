@@ -239,7 +239,7 @@
                                 </constraints>
                                 <size key="customSize" width="160" height="160"/>
                                 <connections>
-                                    <outlet property="imageView" destination="uwJ-0m-Apn" id="yKS-Fa-oik"/>
+                                    <outlet property="imageView" destination="uwJ-0m-Apn" id="zja-LE-RJt"/>
                                     <outlet property="labelQuote" destination="cvj-FT-JgR" id="8kh-Ej-ghh"/>
                                 </connections>
                             </collectionViewCell>
@@ -252,9 +252,9 @@
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoE-f1-UL1">
                                             <rect key="frame" x="2" y="2" width="316" height="156"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.050000000000000003" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="16"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
