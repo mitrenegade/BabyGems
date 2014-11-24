@@ -28,10 +28,6 @@ static NSString * const reuseIdentifier = @"GemCell";
     
     // Do any additional setup after loading the view.
     [self listenFor:@"gems:updated" action:@selector(reloadData)];
-    NSArray *gems = [[Gem where:@{}] all];
-    for (Gem *gem in gems) {
-        NSLog(@"Gem: %@ %@", gem.parseID, gem.createdAt);
-    }
 }
 
 - (void)didReceiveMemoryWarning {

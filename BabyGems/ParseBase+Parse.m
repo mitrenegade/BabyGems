@@ -7,6 +7,7 @@
 //
 
 #import "ParseBase+Parse.h"
+#import "Gem+Info.h"
 
 @implementation ParseBase (Parse)
 
@@ -16,7 +17,7 @@ static NSMutableDictionary *pfObjectCache; // a cache to store pfObjects so that
     id parseID = object.objectId;
     NSArray *objectArray = [[[self class] where:@{@"parseID":parseID}] all];
     id newObject;
-    if (0 && [objectArray count]) {
+    if ([objectArray count]) {
         newObject = [objectArray firstObject];
     }
     else {
@@ -25,13 +26,11 @@ static NSMutableDictionary *pfObjectCache; // a cache to store pfObjects so that
 
     ((ParseBase *)newObject).parseID = object.objectId;
     ((ParseBase *)newObject).pfObject = object;
-    ((ParseBase *)newObject).createdAt = object.createdAt;
-    ((ParseBase *)newObject).updatedAt = object.updatedAt;
+    [(ParseBase *)newObject updateFromParse]; // update other base attributes
 
     [newObject updateAttributesFromPFObject]; // update from the immediate pfobject
     [newObject updateFromParseWithCompletion:nil]; // update from web
 
-    [_appDelegate.managedObjectContext save:nil];
     return newObject;
 }
 
@@ -80,9 +79,8 @@ static NSMutableDictionary *pfObjectCache; // a cache to store pfObjects so that
 }
 
 -(void)updateFromParse {
-    self.createdAt = self.pfObject[@"createdAt"];
-    self.updatedAt = self.pfObject[@"updatedAt"];
-    self.parseID = self.pfObject[@"objectId"];
+    self.createdAt = self.pfObject.createdAt;
+    self.updatedAt = self.pfObject.updatedAt;
     PFUser *user = self.pfObject[@"user"];
     self.pfUserID = user.objectId;
 }
@@ -152,8 +150,7 @@ static NSMutableDictionary *pfObjectCache; // a cache to store pfObjects so that
         }
     }
 
-    NSError *error;
-    [_appDelegate.managedObjectContext save:&error];
+    [_appDelegate saveContext];
 
     if (completion)
         completion();
