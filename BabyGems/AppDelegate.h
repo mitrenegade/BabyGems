@@ -18,4 +18,6 @@
 
 -(void)goToLoginSignup;
 -(void)goToMainView;
+- (void)saveContext;
+-(void)printAll;
 @end

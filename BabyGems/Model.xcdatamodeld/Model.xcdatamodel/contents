@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="14A389" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Gem" representedClassName="Gem" parentEntity="ParseBase" syncable="YES">
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="offlineImage" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -12,7 +12,7 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Gem" positionX="-63" positionY="-18" width="128" height="88"/>
+        <element name="Gem" positionX="-63" positionY="-18" width="128" height="90"/>
         <element name="ParseBase" positionX="-54" positionY="9" width="128" height="103"/>
     </elements>
 </model>

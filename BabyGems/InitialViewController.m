@@ -79,6 +79,11 @@
         [user fetchIfNeeded];
         [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
         NSLog(@"Querying for %@ for organization %@", className, _currentUser[@"organization"]);
+
+        if ([className isEqualToString:@"Gem"]) {
+            NSLog(@"Before sync:");
+            [_appDelegate printAll];
+        }
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error) {
                 NSLog(@"Error: %@", error);
@@ -88,12 +93,11 @@
                 [ParseBase synchronizeClass:className fromObjects:objects replaceExisting:YES completion:^{
                     // reload
                     [self notify:@"gems:updated"];
-#if TESTING
-                    NSArray *all = [[Gem where:@{}] all];
-                    for (Gem *gem in all) {
-                        NSLog(@"Gem: %@ %@", gem.parseID, gem.createdAt);
+
+                    if ([className isEqualToString:@"Gem"]) {
+                        NSLog(@"After sync:");
+                        [_appDelegate printAll];
                     }
-#endif
                 }];
             }
         }];

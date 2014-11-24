@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @class Gem;
-@class AsyncImageView;
 @interface GemCell : UICollectionViewCell
 
 @property (nonatomic, weak) IBOutlet UILabel *labelQuote;

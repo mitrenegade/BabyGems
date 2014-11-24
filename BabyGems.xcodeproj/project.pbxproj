@@ -27,11 +27,11 @@
 		9E11BBC51A1260CB0001090B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BBAA1A1260CB0001090B /* Util.m */; };
 		9E1833841A139FAD00732A3D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E1833831A139FAD00732A3D /* LaunchScreen.xib */; };
 		9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1833861A13A3A600732A3D /* FacebookHelper.m */; };
+		9E38D3641A23C93D00126BD7 /* Gem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E38D3631A23C93D00126BD7 /* Gem.m */; };
 		9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */; };
 		9E59DB7B1A1825F200ABCAEA /* ParseBase+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB791A1825F200ABCAEA /* ParseBase+Parse.m */; };
 		9E59DB811A1825FF00ABCAEA /* ParseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB801A1825FF00ABCAEA /* ParseBase.m */; };
 		9E59DB841A18266500ABCAEA /* Gem+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB831A18266500ABCAEA /* Gem+Parse.m */; };
-		9E59DB8D1A182CBC00ABCAEA /* Gem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB8C1A182CBC00ABCAEA /* Gem.m */; };
 		9E59DB911A182F9800ABCAEA /* GemBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB901A182F9800ABCAEA /* GemBoxViewController.m */; };
 		9E59DB941A1835E100ABCAEA /* GemCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB931A1835E100ABCAEA /* GemCell.m */; };
 		9E79B7F2196435AA00559838 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E79B7F1196435AA00559838 /* Foundation.framework */; };
@@ -115,6 +115,8 @@
 		9E1833831A139FAD00732A3D /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		9E1833851A13A3A600732A3D /* FacebookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookHelper.h; sourceTree = "<group>"; };
 		9E1833861A13A3A600732A3D /* FacebookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookHelper.m; sourceTree = "<group>"; };
+		9E38D3621A23C93D00126BD7 /* Gem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gem.h; sourceTree = "<group>"; };
+		9E38D3631A23C93D00126BD7 /* Gem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gem.m; sourceTree = "<group>"; };
 		9E59DB761A18253C00ABCAEA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9E59DB781A1825F200ABCAEA /* ParseBase+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ParseBase+Parse.h"; sourceTree = "<group>"; };
 		9E59DB791A1825F200ABCAEA /* ParseBase+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ParseBase+Parse.m"; sourceTree = "<group>"; };
@@ -123,8 +125,6 @@
 		9E59DB801A1825FF00ABCAEA /* ParseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParseBase.m; sourceTree = "<group>"; };
 		9E59DB821A18266500ABCAEA /* Gem+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Gem+Parse.h"; sourceTree = "<group>"; };
 		9E59DB831A18266500ABCAEA /* Gem+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Gem+Parse.m"; sourceTree = "<group>"; };
-		9E59DB8B1A182CBC00ABCAEA /* Gem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gem.h; sourceTree = "<group>"; };
-		9E59DB8C1A182CBC00ABCAEA /* Gem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Gem.m; sourceTree = "<group>"; };
 		9E59DB8F1A182F9800ABCAEA /* GemBoxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemBoxViewController.h; sourceTree = "<group>"; };
 		9E59DB901A182F9800ABCAEA /* GemBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GemBoxViewController.m; sourceTree = "<group>"; };
 		9E59DB921A1835E100ABCAEA /* GemCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemCell.h; sourceTree = "<group>"; };
@@ -273,8 +273,8 @@
 			isa = PBXGroup;
 			children = (
 				9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */,
-				9E59DB8B1A182CBC00ABCAEA /* Gem.h */,
-				9E59DB8C1A182CBC00ABCAEA /* Gem.m */,
+				9E38D3621A23C93D00126BD7 /* Gem.h */,
+				9E38D3631A23C93D00126BD7 /* Gem.m */,
 				9E59DB7F1A1825FF00ABCAEA /* ParseBase.h */,
 				9E59DB801A1825FF00ABCAEA /* ParseBase.m */,
 				9E59DB781A1825F200ABCAEA /* ParseBase+Parse.h */,
@@ -537,6 +537,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9E11BBBB1A1260CB0001090B /* NSObject+MKBlockAdditions.m in Sources */,
+				9E38D3641A23C93D00126BD7 /* Gem.m in Sources */,
 				9E11BBC21A1260CB0001090B /* UIImage+Alpha.m in Sources */,
 				9E59DB911A182F9800ABCAEA /* GemBoxViewController.m in Sources */,
 				9E11BBBF1A1260CB0001090B /* NSManagedObject+Query.m in Sources */,
@@ -548,7 +549,6 @@
 				9E11BBAD1A1260CB0001090B /* AppDelegate.m in Sources */,
 				9EDF42581A12686300ABC447 /* NewGemViewController.m in Sources */,
 				9E11BBBD1A1260CB0001090B /* UIAlertView+MKBlockAdditions.m in Sources */,
-				9E59DB8D1A182CBC00ABCAEA /* Gem.m in Sources */,
 				9E7A89611A236804009FD39F /* GemPhotoCell.m in Sources */,
 				9E59DB941A1835E100ABCAEA /* GemCell.m in Sources */,
 				9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */,

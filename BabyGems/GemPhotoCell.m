@@ -29,7 +29,8 @@
         self.imageView.image = image;
     }
     else if (gem.imageURL) {
-        self.imageView.imageURL = [NSURL URLWithString:gem.imageURL];
+        AsyncImageView *view = (AsyncImageView *)self.imageView;
+        view.imageURL = [NSURL URLWithString:gem.imageURL];
     }
     else {
         self.imageView.image = nil;
