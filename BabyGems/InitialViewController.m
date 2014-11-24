@@ -88,6 +88,12 @@
                 [ParseBase synchronizeClass:className fromObjects:objects replaceExisting:YES completion:^{
                     // reload
                     [self notify:@"gems:updated"];
+#if TESTING
+                    NSArray *all = [[Gem where:@{}] all];
+                    for (Gem *gem in all) {
+                        NSLog(@"Gem: %@ %@", gem.parseID, gem.createdAt);
+                    }
+#endif
                 }];
             }
         }];

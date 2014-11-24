@@ -24,6 +24,7 @@
 -(void)updateAttributesFromPFObject {
     self.quote = [self.pfObject objectForKey:@"quote"];
     self.imageURL = [self.pfObject objectForKey:@"imageURL"];
+    self.pfUserID = [self.pfObject objectForKey:@"pfUserID"];
 }
 
 -(void)saveOrUpdateToParseWithCompletion:(void (^)(BOOL))completion {

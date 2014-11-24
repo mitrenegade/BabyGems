@@ -16,7 +16,7 @@ static NSMutableDictionary *pfObjectCache; // a cache to store pfObjects so that
     id parseID = object.objectId;
     NSArray *objectArray = [[[self class] where:@{@"parseID":parseID}] all];
     id newObject;
-    if ([objectArray count]) {
+    if (0 && [objectArray count]) {
         newObject = [objectArray firstObject];
     }
     else {
@@ -25,9 +25,13 @@ static NSMutableDictionary *pfObjectCache; // a cache to store pfObjects so that
 
     ((ParseBase *)newObject).parseID = object.objectId;
     ((ParseBase *)newObject).pfObject = object;
+    ((ParseBase *)newObject).createdAt = object.createdAt;
+    ((ParseBase *)newObject).updatedAt = object.updatedAt;
 
     [newObject updateAttributesFromPFObject]; // update from the immediate pfobject
     [newObject updateFromParseWithCompletion:nil]; // update from web
+
+    [_appDelegate.managedObjectContext save:nil];
     return newObject;
 }
 

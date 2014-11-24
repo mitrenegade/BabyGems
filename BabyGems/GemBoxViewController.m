@@ -10,6 +10,7 @@
 #import "Gem+Parse.h"
 #import "GemCell.h"
 #import "NewGemViewController.h"
+#import "Gem+Info.h"
 
 @interface GemBoxViewController ()
 
@@ -27,6 +28,10 @@ static NSString * const reuseIdentifier = @"GemCell";
     
     // Do any additional setup after loading the view.
     [self listenFor:@"gems:updated" action:@selector(reloadData)];
+    NSArray *gems = [[Gem where:@{}] all];
+    for (Gem *gem in gems) {
+        NSLog(@"Gem: %@ %@", gem.parseID, gem.createdAt);
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -60,12 +65,23 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    GemCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
-    
+    GemCell *cell;
+    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+
     // Configure the cell
     if (indexPath.row < [self gemFetcher].fetchedObjects.count) {
         Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+
+        if (gem.imageURL || gem.offlineImage) {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemPhotoCell" forIndexPath:indexPath];
+        }
+        else {
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+        }
         [cell setupForGem:gem];
+    }
+    else {
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
     }
     return cell;
 }
@@ -74,8 +90,46 @@ static NSString * const reuseIdentifier = @"GemCell";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    // Adjust cell size for orientation
-    return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
+    Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+    if ([gem isPhotoGem]) {
+        // check to see if surrounding gems are wide
+
+        // this is the first gem
+        if (self.gemFetcher.fetchedObjects.count == 1) {
+            return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+        }
+        else {
+            if (indexPath.row == 0) {
+                // there is a next gem
+                Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
+                if (![nextGem isPhotoGem]) {
+                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                }
+            }
+            // this is the last gem
+            else if (indexPath.row == self.gemFetcher.fetchedObjects.count - 1) {
+                // there is a previous gem
+                Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+                if (![prevGem isPhotoGem]) {
+                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                }
+            }
+            else {
+                Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
+                Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+                if (![nextGem isPhotoGem] && ![prevGem isPhotoGem]) {
+                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                }
+            }
+        }
+
+        return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
+    }
+
+    NSString *text = gem.quote;
+    UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+    return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + 40);
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -112,8 +166,7 @@ static NSString * const reuseIdentifier = @"GemCell";
 #pragma mark NewGemDelegate
 -(void)didSaveNewGem {
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self.gemFetcher performFetch:nil];
-        [self.collectionView reloadData];
+        [self reloadData];
         newGemController = nil;
     }];
 }
