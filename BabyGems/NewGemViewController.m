@@ -9,6 +9,7 @@
 #import "NewGemViewController.h"
 #import "UIImage+Resize.h"
 #import "Gem+Parse.h"
+#import "ALAssetsLibrary+CustomPhotoAlbum.h"
 
 @interface NewGemViewController ()
 
@@ -323,6 +324,8 @@
         [_appDelegate.managedObjectContext save:nil];
     }];
 
+    [self saveScreenshot];
+
     [self.delegate didSaveNewGem];
 }
 
@@ -349,6 +352,79 @@
 #pragma mark Navigation
 -(void)didClickGemBox:(id)sender {
     [self.delegate dismissNewGem];
+}
+
+#pragma mark saveToAlbum
+-(void)saveScreenshot {
+    // Create the screenshot. draw image in viewBounds
+    //    if (isPortrait) {
+    //        [self.canvas setTransform:CGAffineTransformMakeRotation(M_PI_2)];
+    //    }
+    float scaleX = image.size.width / self.imageView.frame.size.width;
+    float scaleY = image.size.height / self.imageView.frame.size.height;
+
+    if ([quote length] == 0)
+        [self.inputQuote setHidden:YES];
+
+    CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
+    CGSize size = image.size;
+    UIGraphicsBeginImageContext(size);
+
+    // Put everything in the current view into the screenshot
+    CGContextRef ctx = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(ctx);
+    CGContextConcatCTM(ctx, t);
+    /*
+    if (isPortrait) {
+        CGAffineTransform r = CGAffineTransformMakeRotation(M_PI_2);
+        CGAffineTransform dx = CGAffineTransformMakeTranslation(0, -320);
+        CGContextConcatCTM(ctx, r);
+        CGContextConcatCTM(ctx, dx);
+    }
+     */
+    [image drawAtPoint:CGPointZero blendMode:kCGBlendModeOverlay alpha:1.0];
+    [self.inputQuote.layer renderInContext:UIGraphicsGetCurrentContext()];
+
+    CGContextRestoreGState(ctx);
+    // Save the current image context info into a UIImage
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+
+    [NewGemViewController saveToAlbum:newImage meta:nil];
+}
+
++(BOOL)canSaveToAlbum {
+    // todo: toggle
+    return YES;
+}
+
++(BOOL)saveToAlbum:(UIImage *)image meta:(NSDictionary *)meta {
+    // save to album
+    if (![self canSaveToAlbum])
+        return NO;
+    if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusDenied) {
+        [UIAlertView alertViewWithTitle:@"Cannot save to album" message:@"BabyGems could not access your camera roll. Please go to your phone Settings->Privacy to change this." cancelButtonTitle:@"Skip" otherButtonTitles:@[@"Never save"] onDismiss:^(int buttonIndex) {
+            if (buttonIndex == 0) {
+                [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"camera:albumAccess:requested"];
+                [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"camera:saveToAlbum"];
+            }
+        } onCancel:nil];
+        return NO;
+    }
+
+    NSMutableDictionary *cachedMeta = [meta mutableCopy];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[ALAssetsLibrary sharedALAssetsLibrary] saveImage:image meta:cachedMeta toAlbum:@"BabyGems" withCompletionBlock:^(NSError *error) {
+            if (error!=nil) {
+                NSLog(@"Image could not be saved!");
+            }
+            else {
+                NSLog(@"Saved to album with meta: %@", cachedMeta);
+            }
+        }];
+    });
+
+    return YES;
 }
 
 @end
