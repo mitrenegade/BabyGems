@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QUI-Dp-X63">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QUI-Dp-X63">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -36,29 +36,12 @@
                     </view>
                     <navigationItem key="navigationItem" id="GQ1-rZ-BMN"/>
                     <connections>
-                        <segue destination="B0Y-TF-HyW" kind="presentation" identifier="InitialAddGem" animates="NO" id="ghZ-e3-gjk"/>
                         <segue destination="Lua-zo-KDp" kind="presentation" identifier="InitialGemBox" animates="NO" id="91e-Ju-1ul"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ryg-sm-iF0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="652" y="-90"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="UG2-ab-avb">
-            <objects>
-                <navigationController id="B0Y-TF-HyW" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PsQ-Dj-r7S">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="YLL-mI-Kxj" kind="relationship" relationship="rootViewController" id="gE0-tM-K3x"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="VVs-9E-wyq" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2392" y="-90"/>
         </scene>
         <!--New Gem View Controller-->
         <scene sceneID="TUa-kB-Z6t">
@@ -173,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3075" y="-90"/>
+            <point key="canvasLocation" x="2535" y="630"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AaW-eM-oj8">
@@ -191,7 +174,7 @@
             </objects>
             <point key="canvasLocation" x="1046" y="630"/>
         </scene>
-        <!--Gem Box View Controller-->
+        <!--My GemBox-->
         <scene sceneID="PlR-bb-uWc">
             <objects>
                 <collectionViewController id="E0b-6c-CWR" customClass="GemBoxViewController" sceneMemberID="viewController">
@@ -277,24 +260,17 @@
                             <outlet property="delegate" destination="E0b-6c-CWR" id="1Q8-NF-rd7"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="DMT-HM-dWk">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mfP-ix-Xds">
-                            <connections>
-                                <action selector="didClickAddGem:" destination="E0b-6c-CWR" id="lvT-Yl-v7T"/>
-                                <segue destination="B0Y-TF-HyW" kind="presentation" identifier="GoToAddGem" modalTransitionStyle="flipHorizontal" id="LUi-t4-2Rf"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="My GemBox" id="DMT-HM-dWk"/>
+                    <connections>
+                        <segue destination="YLL-mI-Kxj" kind="show" identifier="GoToAddGem" id="NQT-BD-E0p"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ivz-u0-BXF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1750" y="630"/>
+            <point key="canvasLocation" x="1861" y="639"/>
         </scene>
     </scenes>
     <resources>
         <image name="camera-icon" width="137" height="102"/>
     </resources>
-    <inferredMetricsTieBreakers>
-        <segue reference="LUi-t4-2Rf"/>
-    </inferredMetricsTieBreakers>
 </document>

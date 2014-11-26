@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CameraViewController.h"
 #import "NewGemViewController.h"
 
-
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate>
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
-    NewGemViewController *newGemController;
+    CameraViewController *cameraController;
     IBOutlet UIView *viewBG;
+
+    UIImage *savedImage;
 }
 
 -(NSFetchedResultsController *)gemFetcher;
