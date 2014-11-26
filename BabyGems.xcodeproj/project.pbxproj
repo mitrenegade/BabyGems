@@ -61,6 +61,7 @@
 		9EDA284F1A1863C100A5AD06 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDA284E1A1863C100A5AD06 /* InitialViewController.m */; };
 		9EDF42551A12673600ABC447 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF42541A12673600ABC447 /* Main.storyboard */; };
 		9EDF42581A12686300ABC447 /* NewGemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF42571A12686300ABC447 /* NewGemViewController.m */; };
+		9EE0200E1A2617210028FFBC /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE0200D1A2617210028FFBC /* CameraViewController.m */; };
 		F37DA4307F13E94AF0851425 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997E5C0758E8BFD3DADD6D97 /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +162,8 @@
 		9EDF42541A12673600ABC447 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9EDF42561A12686300ABC447 /* NewGemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGemViewController.h; sourceTree = "<group>"; };
 		9EDF42571A12686300ABC447 /* NewGemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGemViewController.m; sourceTree = "<group>"; };
+		9EE0200C1A2617210028FFBC /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
+		9EE0200D1A2617210028FFBC /* CameraViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraViewController.m; sourceTree = "<group>"; };
 		ACE629DC3122C6FA7A78A5CE /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,14 +219,14 @@
 			isa = PBXGroup;
 			children = (
 				9E59DB741A18252F00ABCAEA /* Core Data */,
+				9E59DB951A18397D00ABCAEA /* Constants.h */,
 				9E11BB7A1A1260CB0001090B /* AppDelegate.h */,
 				9E11BB7B1A1260CB0001090B /* AppDelegate.m */,
-				9EDF42541A12673600ABC447 /* Main.storyboard */,
-				9E59DB951A18397D00ABCAEA /* Constants.h */,
 				9EDF42511A1264F900ABC447 /* Login and Signup */,
-				9E11BB901A1260CB0001090B /* Utils */,
+				9EDF42541A12673600ABC447 /* Main.storyboard */,
 				9E59DB8E1A182F6800ABCAEA /* GemBox */,
 				9EDF42591A126D1200ABC447 /* Gem Creation */,
+				9E11BB901A1260CB0001090B /* Utils */,
 				9EDF42521A12651300ABC447 /* Resources */,
 			);
 			path = BabyGems;
@@ -380,6 +383,8 @@
 			children = (
 				9EDF42561A12686300ABC447 /* NewGemViewController.h */,
 				9EDF42571A12686300ABC447 /* NewGemViewController.m */,
+				9EE0200C1A2617210028FFBC /* CameraViewController.h */,
+				9EE0200D1A2617210028FFBC /* CameraViewController.m */,
 			);
 			name = "Gem Creation";
 			sourceTree = "<group>";
@@ -563,6 +568,7 @@
 				9E11BBBC1A1260CB0001090B /* UIActionSheet+MKBlockAdditions.m in Sources */,
 				9E11BBB41A1260CB0001090B /* main.m in Sources */,
 				9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */,
+				9EE0200E1A2617210028FFBC /* CameraViewController.m in Sources */,
 				9E11BBC31A1260CB0001090B /* UIImage+Resize.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

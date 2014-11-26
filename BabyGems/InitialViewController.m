@@ -22,10 +22,10 @@
     // Do any additional setup after loading the view.
 
 #if AIRPLANE_MODE
-    [self performSegueWithIdentifier:@"InitialAddGem" sender:nil];
+    [self performSegueWithIdentifier:@"InitialGemBox" sender:nil];
 #else
     if ([PFUser currentUser]) {
-        [self performSegueWithIdentifier:@"InitialAddGem" sender:nil];
+        [self performSegueWithIdentifier:@"InitialGemBox" sender:nil];
         [self synchronizeWithParse];
     }
     else {
@@ -45,7 +45,7 @@
 }
 
 -(void)showMainView {
-    [self performSegueWithIdentifier:@"InitialAddGem" sender:nil];
+    [self performSegueWithIdentifier:@"InitialGemBox" sender:nil];
     [self synchronizeWithParse];
 }
 

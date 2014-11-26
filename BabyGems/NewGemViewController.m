@@ -57,6 +57,9 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.imageView addGestureRecognizer:tap];
 
+    if (self.image)
+        [self updateGemImage];
+
     [self updateTextSize];
 }
 
@@ -142,87 +145,23 @@
 
 #pragma mark Camera
 -(void)handleGesture:(UIGestureRecognizer *)gesture {
-    NSLog(@"Take a photo!");
-    _picker = [[UIImagePickerController alloc] init];
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
-        _picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-        _picker.showsCameraControls = NO;
-    }
-    else
-        _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-
-    _picker.toolbarHidden = YES; // hide toolbar of app, if there is one.
-    _picker.allowsEditing = NO;
-    _picker.delegate = self;
-
-    CGRect frame = _appDelegate.window.bounds;
-    frame.origin.y = 0;
-    [self addOverlayWithFrame:frame];
-
-    [self.navigationController presentViewController:_picker animated:YES completion:nil];
+    cameraController = [[CameraViewController alloc] init];
+    cameraController.delegate = self;
+    [cameraController showCameraFromController:self];
 }
 
--(void)addOverlayWithFrame:(CGRect)frame {
-    // Initialization code
+-(void)didTakePicture:(UIImage *)image {
+    self.image = image;
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [self updateGemImage];
+    }];
+}
 
-    if (_picker.sourceType != UIImagePickerControllerSourceTypeCamera)
+-(void)updateGemImage {
+    if (!self.image)
         return;
 
-    overlay = [[UIView alloc] initWithFrame:frame];
-
-    CALayer *top = [[CALayer alloc] init];
-    top.frame = CGRectMake(0, 0, self.view.frame.size.width, 50);
-    top.backgroundColor = [[UIColor blackColor] CGColor];
-    CALayer *bottom = [[CALayer alloc] init];
-    bottom.frame = CGRectMake(0, frame.size.height - 80, frame.size.width, 80);
-    bottom.backgroundColor = [[UIColor blackColor] CGColor];
-
-    [overlay.layer addSublayer:top];
-    [overlay.layer addSublayer:bottom];
-
-    buttonCamera = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 72, 72)];
-    [buttonCamera setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
-    [buttonCamera setContentMode:UIViewContentModeCenter];
-    [buttonCamera setBackgroundColor:[UIColor clearColor]];
-    [buttonCamera setCenter:CGPointMake(160, frame.size.height - bottom.frame.size.height / 2)];
-    [buttonCamera addTarget:self action:@selector(takePicture) forControlEvents:UIControlEventTouchUpInside];
-    [overlay addSubview:buttonCamera];
-
-    buttonCancel = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buttonCancel setFrame:CGRectMake(0, 0, 30, 30)];
-    [buttonCancel setImage:[UIImage imageNamed:@"close_white"] forState:UIControlStateNormal];
-    [buttonCancel setTintColor:[UIColor whiteColor]];
-    [buttonCancel setCenter:CGPointMake(30, top.frame.size.height/2)];
-    [buttonCancel addTarget:self action:@selector(dismissCamera) forControlEvents:UIControlEventTouchUpInside];
-    [overlay addSubview:buttonCancel];
-
-    if ([UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
-        buttonRotate = [UIButton buttonWithType:UIButtonTypeCustom];
-        [buttonRotate setFrame:CGRectMake(0, 0, 40, 40)];
-        [buttonRotate setBackgroundColor:[UIColor clearColor]];
-        [buttonRotate setCenter:CGPointMake(top.frame.size.width - 30, top.frame.size.height/2)];
-        [buttonRotate setImage:[UIImage imageNamed:@"rotateCamera"] forState:UIControlStateNormal];
-        [buttonRotate addTarget:self action:@selector(rotateCamera) forControlEvents:UIControlEventTouchUpInside];
-        [overlay addSubview:buttonRotate];
-    }
-
-    buttonLibrary = [UIButton buttonWithType:UIButtonTypeCustom];
-    [buttonLibrary setFrame:CGRectMake(0, 0, 30, 30)];
-    [buttonLibrary setImage:[UIImage imageNamed:@"polaroid"] forState:UIControlStateNormal];
-    [buttonLibrary setTintColor:[UIColor whiteColor]];
-    [buttonLibrary setCenter:CGPointMake(260, frame.size.height - bottom.frame.size.height / 2)];
-    [buttonLibrary addTarget:self action:@selector(showLibrary) forControlEvents:UIControlEventTouchUpInside];
-    [overlay addSubview:buttonLibrary];
-
-    [_picker setCameraOverlayView:overlay];
-}
-
-
-#pragma mark ImagePickerController delegate
--(void)imagePickerController:(UIImagePickerController *)_picker didFinishPickingMediaWithInfo:(NSDictionary *)info
-{
-    image = [info objectForKey:UIImagePickerControllerOriginalImage];
-    self.imageView.image = image;
+    self.imageView.image = self.image;
     imageFileReady = NO;
     [self enableButtons:NO];
 
@@ -231,7 +170,7 @@
     }
 
     // allow offline image storage
-    NSData *data = UIImageJPEGRepresentation(image, .8);
+    NSData *data = UIImageJPEGRepresentation(self.image, .8);
     gem.offlineImage = data;
 
     // online image storage
@@ -240,53 +179,6 @@
         imageFileReady = YES;
         [self enableButtons:YES];
     }];
-
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-}
-
-//Tells the delegate that the user cancelled the pick operation.
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    if (_picker.presentedViewController) {
-        [_picker dismissViewControllerAnimated:YES completion:nil];
-    }
-    else {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }
-}
-
--(void)takePicture {
-    [_picker takePicture];
-}
-
--(void)showLibrary {
-    UIImagePickerController *library = [[UIImagePickerController alloc] init];
-    library.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    library.toolbarHidden = YES; // hide toolbar of app, if there is one.
-    library.delegate = self;
-
-    [_picker presentViewController:library animated:YES completion:nil];
-}
-
--(void)rotateCamera {
-    if (![UIImagePickerController isCameraDeviceAvailable:UIImagePickerControllerCameraDeviceFront]) {
-        return;
-    }
-
-    if(_picker.cameraDevice == UIImagePickerControllerCameraDeviceFront)
-    {
-        _picker.cameraDevice = UIImagePickerControllerCameraDeviceRear;
-    }
-    else {
-        _picker.cameraDevice = UIImagePickerControllerCameraDeviceFront;
-    }
-}
-
--(void)dismissCamera {
-    if ([self.delegate respondsToSelector:@selector(dismissCamera)])
-        [self.delegate dismissCamera];
-    else
-        [_picker.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark Parse
@@ -308,6 +200,7 @@
     else {
         // todo: set a flag to do image upload later when internet is ready
     }
+    gem.createdAt = [NSDate date];
 
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
@@ -358,14 +251,14 @@
     //    if (isPortrait) {
     //        [self.canvas setTransform:CGAffineTransformMakeRotation(M_PI_2)];
     //    }
-    float scaleX = image.size.width / self.imageView.frame.size.width;
-    float scaleY = image.size.height / self.imageView.frame.size.height;
+    float scaleX = self.image.size.width / self.imageView.frame.size.width;
+    float scaleY = self.image.size.height / self.imageView.frame.size.height;
 
     if ([quote length] == 0)
         [self.inputQuote setHidden:YES];
 
     CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
-    CGSize size = image.size;
+    CGSize size = self.image.size;
     UIGraphicsBeginImageContext(size);
 
     // Put everything in the current view into the screenshot
@@ -380,8 +273,7 @@
         CGContextConcatCTM(ctx, dx);
     }
      */
-    [image drawAtPoint:CGPointZero blendMode:kCGBlendModeOverlay alpha:1.0];
-    [self.inputQuote.layer renderInContext:UIGraphicsGetCurrentContext()];
+    [self.view.layer renderInContext:ctx];
 
     CGContextRestoreGState(ctx);
     // Save the current image context info into a UIImage

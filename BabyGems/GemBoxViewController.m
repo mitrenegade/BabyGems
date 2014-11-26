@@ -28,6 +28,8 @@ static NSString * const reuseIdentifier = @"GemCell";
     
     // Do any additional setup after loading the view.
     [self listenFor:@"gems:updated" action:@selector(reloadData)];
+
+    [self setupCamera];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,15 +37,24 @@ static NSString * const reuseIdentifier = @"GemCell";
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setupCamera {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 40, 40);
+    [button setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
+    button.backgroundColor = [UIColor blackColor];
+    button.alpha = .9;
+    button.layer.cornerRadius = button.frame.size.width/2;
+    [self.view addSubview:button];
+    [button addTarget:self action:@selector(goToCamera) forControlEvents:UIControlEventTouchUpInside];
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"GoToAddGem"]) {
-        UINavigationController *nav = [segue destinationViewController];
-        NewGemViewController *controller = [nav.viewControllers lastObject];
+        NewGemViewController *controller = [segue destinationViewController];
         controller.delegate = self;
-        newGemController = controller;
+        controller.image = savedImage;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -161,14 +172,12 @@ static NSString * const reuseIdentifier = @"GemCell";
 
 #pragma mark NewGemDelegate
 -(void)didSaveNewGem {
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self reloadData];
-        newGemController = nil;
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
+    [self reloadData];
+    cameraController = nil;
 }
 -(void)dismissNewGem {
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark Core Data
@@ -190,5 +199,19 @@ static NSString * const reuseIdentifier = @"GemCell";
 -(void)reloadData {
     [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
+}
+
+#pragma mark Camera
+-(void)goToCamera {
+    cameraController = [[CameraViewController alloc] init];
+    cameraController.delegate = self;
+    [cameraController showCameraFromController:self];
+}
+
+-(void)didTakePicture:(UIImage *)_image {
+    savedImage = _image;
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        [self performSegueWithIdentifier:@"GoToAddGem" sender:self];
+    }];
 }
 @end

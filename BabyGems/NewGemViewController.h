@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CameraViewController.h"
 
 @protocol NewGemDelegate <NSObject>
 
@@ -15,24 +16,18 @@
 @end
 
 @class Gem;
-@interface NewGemViewController : UIViewController <UITextViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface NewGemViewController : UIViewController <UITextViewDelegate, CameraDelegate>
 {
     NSString *quote;
-    UIImage *image;
-
-    UIImagePickerController *_picker;
-    UIView *overlay;
 
     Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
 
-    UIButton *buttonCamera;
-    UIButton *buttonCancel;
-    UIButton *buttonRotate;
-    UIButton *buttonLibrary;
+    CameraViewController *cameraController;
 }
 @property (weak, nonatomic) id delegate;
+@property (nonatomic) UIImage *image;
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
