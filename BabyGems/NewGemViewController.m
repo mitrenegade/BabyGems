@@ -272,8 +272,7 @@
         CGContextConcatCTM(ctx, dx);
     }
      */
-    [self.image drawAtPoint:CGPointZero blendMode:kCGBlendModeOverlay alpha:1.0];
-    [self.inputQuote.layer renderInContext:UIGraphicsGetCurrentContext()];
+    [self.view.layer renderInContext:ctx];
 
     CGContextRestoreGState(ctx);
     // Save the current image context info into a UIImage
