@@ -200,6 +200,7 @@
     else {
         // todo: set a flag to do image upload later when internet is ready
     }
+    gem.createdAt = [NSDate date];
 
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
