@@ -47,6 +47,14 @@
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
     }
+
+    [self setupBorder];
+}
+
+-(void)setupBorder {
+    self.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.imageView.layer.borderWidth = 1;
+    self.imageView.layer.cornerRadius = 5;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,6 +64,7 @@
 
 -(IBAction)didClickShare:(id)sender {
     NSLog(@"Share!");
+    [UIAlertView alertViewWithTitle:@"Share coming" message:nil];
 }
 
 -(IBAction)didClickTrash:(id)sender {
