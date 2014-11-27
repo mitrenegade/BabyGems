@@ -19,5 +19,6 @@
 
 -(void)setupForGem:(Gem *)gem;
 -(IBAction)didClickShare:(id)sender;
+-(IBAction)didClickTrash:(id)sender;
 
 @end

@@ -48,5 +48,14 @@
     NSLog(@"Share!");
 }
 
-
+-(IBAction)didClickTrash:(id)sender {
+    [UIAlertView alertViewWithTitle:@"Delete gem?" message:@"Are you sure you want to permanently delete this gem?" cancelButtonTitle:@"No" otherButtonTitles:@[@"Delete Gem"] onDismiss:^(int buttonIndex) {
+        [self.gem.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [_appDelegate.managedObjectContext deleteObject:self.gem];
+            }
+            [self notify:@"gems:updated"];
+        }];
+    } onCancel:nil];
+}
 @end

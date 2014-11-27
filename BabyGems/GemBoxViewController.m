@@ -39,7 +39,7 @@ static NSString * const reuseIdentifier = @"GemCell";
 
 -(void)setupCamera {
     UIButton *buttonQuote = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 180, 40, 40);
+    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 150, 40, 40);
     [buttonQuote setImage:[UIImage imageNamed:@"quoteButton"] forState:UIControlStateNormal];
     buttonQuote.backgroundColor = [UIColor blackColor];
     buttonQuote.alpha = .9;
@@ -48,7 +48,7 @@ static NSString * const reuseIdentifier = @"GemCell";
     [buttonQuote addTarget:self action:@selector(goToQuote) forControlEvents:UIControlEventTouchUpInside];
 
     UIButton *buttonLibrary = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonLibrary.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 120, 40, 40);
+    buttonLibrary.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 100, 40, 40);
     [buttonLibrary setImage:[UIImage imageNamed:@"polaroid"] forState:UIControlStateNormal];
     buttonLibrary.backgroundColor = [UIColor blackColor];
     buttonLibrary.alpha = .9;
@@ -58,7 +58,7 @@ static NSString * const reuseIdentifier = @"GemCell";
 
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIButton *buttonPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
-        buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 40, 40);
+        buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 50, 40, 40);
         [buttonPhoto setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
         buttonPhoto.backgroundColor = [UIColor blackColor];
         buttonPhoto.alpha = .9;
