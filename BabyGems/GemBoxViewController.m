@@ -97,20 +97,35 @@ static NSString * const reuseIdentifier = @"GemCell";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    static const NSInteger COMMENTS_HEIGHT = 50;
     Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+
+    // photo gem
     if ([gem isPhotoGem]) {
         // check to see if surrounding gems are wide
 
-        // this is the first gem
+        NSInteger width;
+        NSInteger height;
+
+        // todo: scale according to actual image dimensions
+        float scale = 4.0/3.0;
+
+        // this is the only gem
         if (self.gemFetcher.fetchedObjects.count == 1) {
-            return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+            width = self.collectionView.frame.size.width;
+            height = width * scale;
         }
         else {
+            // default is half column width
+            width = self.collectionView.frame.size.width/2;
+            height = width * scale;
+
             if (indexPath.row == 0) {
                 // there is a next gem
                 Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
                 if (![nextGem isPhotoGem]) {
-                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                    width = self.collectionView.frame.size.width;
+                    height = width * scale;
                 }
             }
             // this is the last gem
@@ -118,25 +133,28 @@ static NSString * const reuseIdentifier = @"GemCell";
                 // there is a previous gem
                 Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
                 if (![prevGem isPhotoGem]) {
-                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                    width = self.collectionView.frame.size.width;
+                    height = width * scale;
                 }
             }
             else {
                 Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
                 Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
                 if (![nextGem isPhotoGem] && ![prevGem isPhotoGem]) {
-                    return CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.width);
+                    width = self.collectionView.frame.size.width;
+                    height = width * scale;
                 }
             }
         }
 
-        return CGSizeMake(self.collectionView.frame.size.width/2, self.collectionView.frame.size.width/2);
+        return CGSizeMake(width, height + COMMENTS_HEIGHT);
     }
-
-    NSString *text = gem.quote;
-    UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
-    CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
-    return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + 40);
+    else {
+        NSString *text = gem.quote;
+        UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+        return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + 40 + COMMENTS_HEIGHT);
+    }
 }
 
 #pragma mark <UICollectionViewDelegate>

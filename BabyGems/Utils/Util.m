@@ -35,7 +35,7 @@
     }
     else if (deltaDays < 7)
     {
-        if (deltaDays == 1)
+        if (deltaDays < 2)
             return @"1 day ago";
         return [NSString stringWithFormat:@"%d days ago", (int)deltaDays];
     }
