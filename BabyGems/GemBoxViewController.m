@@ -39,7 +39,7 @@ static NSString * const reuseIdentifier = @"GemCell";
 
 -(void)setupCamera {
     UIButton *buttonQuote = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 120, self.view.frame.size.height - 60, 40, 40);
+    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 180, 40, 40);
     [buttonQuote setImage:[UIImage imageNamed:@"quoteButton"] forState:UIControlStateNormal];
     buttonQuote.backgroundColor = [UIColor blackColor];
     buttonQuote.alpha = .9;
@@ -47,14 +47,25 @@ static NSString * const reuseIdentifier = @"GemCell";
     [self.view addSubview:buttonQuote];
     [buttonQuote addTarget:self action:@selector(goToQuote) forControlEvents:UIControlEventTouchUpInside];
 
-    UIButton *buttonPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 40, 40);
-    [buttonPhoto setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
-    buttonPhoto.backgroundColor = [UIColor blackColor];
-    buttonPhoto.alpha = .9;
-    buttonPhoto.layer.cornerRadius = buttonPhoto.frame.size.width/2;
-    [self.view addSubview:buttonPhoto];
-    [buttonPhoto addTarget:self action:@selector(goToCamera) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *buttonLibrary = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonLibrary.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 120, 40, 40);
+    [buttonLibrary setImage:[UIImage imageNamed:@"polaroid"] forState:UIControlStateNormal];
+    buttonLibrary.backgroundColor = [UIColor blackColor];
+    buttonLibrary.alpha = .9;
+    buttonLibrary.layer.cornerRadius = buttonLibrary.frame.size.width/2;
+    [self.view addSubview:buttonLibrary];
+    [buttonLibrary addTarget:self action:@selector(goToLibrary) forControlEvents:UIControlEventTouchUpInside];
+
+    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        UIButton *buttonPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
+        buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 40, 40);
+        [buttonPhoto setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
+        buttonPhoto.backgroundColor = [UIColor blackColor];
+        buttonPhoto.alpha = .9;
+        buttonPhoto.layer.cornerRadius = buttonPhoto.frame.size.width/2;
+        [self.view addSubview:buttonPhoto];
+        [buttonPhoto addTarget:self action:@selector(goToCamera) forControlEvents:UIControlEventTouchUpInside];
+    }
 
 }
 #pragma mark - Navigation
@@ -248,6 +259,12 @@ static NSString * const reuseIdentifier = @"GemCell";
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [self performSegueWithIdentifier:@"GoToAddGem" sender:self];
     }];
+}
+
+-(void)goToLibrary {
+    cameraController = [[CameraViewController alloc] init];
+    cameraController.delegate = self;
+    [cameraController showLibraryFromController:self];
 }
 
 #pragma mark Alertview
