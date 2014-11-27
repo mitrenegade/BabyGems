@@ -15,7 +15,7 @@
 
 @end
 
-#define PLACEHOLDER_TEXT @"Enter your gem here"
+#define PLACEHOLDER_TEXT @"Click here to add a quote"
 
 @implementation NewGemViewController
 
@@ -59,7 +59,7 @@
 
     if (self.image)
         [self updateGemImage];
-    if (self.quote)
+    if (self.quote.length)
         self.inputQuote.text = self.quote;
 
     [self updateTextSize];
