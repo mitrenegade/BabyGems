@@ -30,6 +30,17 @@ static NSString * const reuseIdentifier = @"GemCell";
     [self listenFor:@"gems:updated" action:@selector(reloadData)];
 
     [self setupCamera];
+    UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [self.view addGestureRecognizer:swipeLeft];
+
+    UISwipeGestureRecognizer *swipeRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [swipeRight setDirection:UISwipeGestureRecognizerDirectionRight];
+    [self.view addGestureRecognizer:swipeRight];
+
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    [tap setNumberOfTapsRequired:2];
+    [self.view addGestureRecognizer:tap];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -285,6 +296,23 @@ static NSString * const reuseIdentifier = @"GemCell";
             NewGemViewController *controller = [[NewGemViewController alloc] init];
             [controller saveGemWithQuote:savedQuote image:nil];
         }
+    }
+}
+
+#pragma mark Swipe gestures
+-(void)handleGesture:(UIGestureRecognizer *)gesture {
+    if ([gesture isKindOfClass:[UISwipeGestureRecognizer class]]) {
+        if ([(UISwipeGestureRecognizer *)gesture direction] == UISwipeGestureRecognizerDirectionLeft) {
+            // swipe left = camera
+            [self goToCamera];
+        }
+        else if ([(UISwipeGestureRecognizer *)gesture direction] == UISwipeGestureRecognizerDirectionRight) {
+            // swipe right = library
+            [self goToLibrary];
+        }
+    }
+    else if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
+        [self goToQuote];
     }
 }
 @end
