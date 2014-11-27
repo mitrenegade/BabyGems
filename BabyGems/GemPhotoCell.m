@@ -36,6 +36,12 @@
         self.imageView.image = nil;
     }
 
+    if (gem.quote) {
+        NSString *text = gem.quote;
+        UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+        self.constraintLabelHeight.constant = rect.size.height + 40;
+    }
 }
 
 -(void)setupBorder {

@@ -203,8 +203,11 @@
                                                     <rect key="frame" x="8" y="8" width="144" height="144"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
                                                     <rect key="frame" x="8" y="58" width="144" height="94"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="94" id="qTN-jk-wbZ"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -213,7 +216,10 @@
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
                                                 <constraint firstAttribute="bottom" secondItem="uwJ-0m-Apn" secondAttribute="bottom" constant="8" id="6BF-ID-gWl"/>
+                                                <constraint firstAttribute="bottom" secondItem="cvj-FT-JgR" secondAttribute="bottom" constant="8" id="FB9-8x-Rhi"/>
+                                                <constraint firstItem="cvj-FT-JgR" firstAttribute="leading" secondItem="KZ1-OG-ukh" secondAttribute="leading" constant="8" id="KHT-rl-b0c"/>
                                                 <constraint firstItem="uwJ-0m-Apn" firstAttribute="top" secondItem="KZ1-OG-ukh" secondAttribute="top" constant="8" id="O3j-Bd-puO"/>
+                                                <constraint firstAttribute="trailing" secondItem="cvj-FT-JgR" secondAttribute="trailing" constant="8" id="S9H-Nd-Ma0"/>
                                                 <constraint firstItem="uwJ-0m-Apn" firstAttribute="leading" secondItem="KZ1-OG-ukh" secondAttribute="leading" constant="8" id="bhW-EY-5d8"/>
                                                 <constraint firstAttribute="trailing" secondItem="uwJ-0m-Apn" secondAttribute="trailing" constant="8" id="s4p-e9-nAj"/>
                                             </constraints>
@@ -238,7 +244,7 @@
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bby-Ze-LME">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="bby-Ze-LME">
                                                     <rect key="frame" x="44" y="9" width="66" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="ND6-aQ-UGp"/>
@@ -256,6 +262,9 @@
                                                     <state key="normal" image="share">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="didClickShare:" destination="DPL-Ft-96i" eventType="touchUpInside" id="UMA-O0-4R5"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -287,8 +296,11 @@
                                 </constraints>
                                 <size key="customSize" width="160" height="200"/>
                                 <connections>
+                                    <outlet property="constraintLabelHeight" destination="qTN-jk-wbZ" id="UYC-Hm-j4k"/>
                                     <outlet property="imageView" destination="uwJ-0m-Apn" id="zja-LE-RJt"/>
-                                    <outlet property="labelQuote" destination="cvj-FT-JgR" id="8kh-Ej-ghh"/>
+                                    <outlet property="labelCommentCount" destination="AtD-cl-sOw" id="U2h-bD-Kvr"/>
+                                    <outlet property="labelDate" destination="bby-Ze-LME" id="dB7-OD-Qzk"/>
+                                    <outlet property="labelQuote" destination="cvj-FT-JgR" id="qlP-gT-cj4"/>
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="GemCell" id="p3T-IU-z3c" userLabel="GemCell" customClass="GemCell">
@@ -343,6 +355,9 @@
                                                     <state key="normal" image="share">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="didClickShare:" destination="p3T-IU-z3c" eventType="touchUpInside" id="YMK-16-KMQ"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -373,6 +388,8 @@
                                 </constraints>
                                 <size key="customSize" width="320" height="200"/>
                                 <connections>
+                                    <outlet property="labelCommentCount" destination="fll-Rp-xra" id="iHn-r1-tbe"/>
+                                    <outlet property="labelDate" destination="gqD-yB-9qi" id="8UZ-XO-b4N"/>
                                     <outlet property="labelQuote" destination="xoE-f1-UL1" id="j6v-Qh-dsc"/>
                                 </connections>
                             </collectionViewCell>
