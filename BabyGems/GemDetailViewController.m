@@ -63,8 +63,13 @@
         [self.gem.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
                 [_appDelegate.managedObjectContext deleteObject:self.gem];
+                [self.navigationController popViewControllerAnimated:YES];
+                [self notify:@"gems:updated"];
             }
-            [self notify:@"gems:updated"];
+            else {
+                NSLog(@"Failed!");
+                [UIAlertView alertViewWithTitle:@"Error" message:@"Could not delete gem, please try again"];
+            }
         }];
     } onCancel:nil];
 }
