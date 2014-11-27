@@ -38,14 +38,24 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 
 -(void)setupCamera {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 40, 40);
-    [button setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor blackColor];
-    button.alpha = .9;
-    button.layer.cornerRadius = button.frame.size.width/2;
-    [self.view addSubview:button];
-    [button addTarget:self action:@selector(goToCamera) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *buttonQuote = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 120, self.view.frame.size.height - 60, 40, 40);
+    [buttonQuote setImage:[UIImage imageNamed:@"quoteButton"] forState:UIControlStateNormal];
+    buttonQuote.backgroundColor = [UIColor blackColor];
+    buttonQuote.alpha = .9;
+    buttonQuote.layer.cornerRadius = buttonQuote.frame.size.width/2;
+    [self.view addSubview:buttonQuote];
+    [buttonQuote addTarget:self action:@selector(goToQuote) forControlEvents:UIControlEventTouchUpInside];
+
+    UIButton *buttonPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
+    buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 60, 40, 40);
+    [buttonPhoto setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
+    buttonPhoto.backgroundColor = [UIColor blackColor];
+    buttonPhoto.alpha = .9;
+    buttonPhoto.layer.cornerRadius = buttonPhoto.frame.size.width/2;
+    [self.view addSubview:buttonPhoto];
+    [buttonPhoto addTarget:self action:@selector(goToCamera) forControlEvents:UIControlEventTouchUpInside];
+
 }
 #pragma mark - Navigation
 
@@ -55,6 +65,7 @@ static NSString * const reuseIdentifier = @"GemCell";
         NewGemViewController *controller = [segue destinationViewController];
         controller.delegate = self;
         controller.image = savedImage;
+        controller.quote = savedQuote;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -219,7 +230,13 @@ static NSString * const reuseIdentifier = @"GemCell";
     [self.collectionView reloadData];
 }
 
-#pragma mark Camera
+#pragma mark New Gem
+-(void)goToQuote {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enter a Gem" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Add photo", @"Save gem", nil];
+    alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alert show];
+}
+
 -(void)goToCamera {
     cameraController = [[CameraViewController alloc] init];
     cameraController.delegate = self;
@@ -231,5 +248,26 @@ static NSString * const reuseIdentifier = @"GemCell";
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [self performSegueWithIdentifier:@"GoToAddGem" sender:self];
     }];
+}
+
+#pragma mark Alertview
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        return;
+    }
+    UITextField *textField = [alertView textFieldAtIndex:0];
+    savedQuote = textField.text;
+
+    if (buttonIndex == 1) {
+        savedImage = nil;
+        [self goToCamera];
+    }
+    else if (buttonIndex == 2) {
+        // save quote only
+        if ([savedQuote length]) {
+            NewGemViewController *controller = [[NewGemViewController alloc] init];
+            [controller saveGemWithQuote:savedQuote image:nil];
+        }
+    }
 }
 @end

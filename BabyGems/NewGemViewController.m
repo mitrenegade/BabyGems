@@ -59,6 +59,8 @@
 
     if (self.image)
         [self updateGemImage];
+    if (self.quote)
+        self.inputQuote.text = self.quote;
 
     [self updateTextSize];
 }
@@ -95,10 +97,10 @@
 
 #pragma mark Textview delegate
 -(void)cancelEditQuote {
-    self.inputQuote.text = quote;
+    self.inputQuote.text = self.quote;
     if ([self.inputQuote.text length] == 0) {
         [self.inputQuote setText:PLACEHOLDER_TEXT];
-        quote = @"";
+        self.quote = nil;
     }
     [self.inputQuote resignFirstResponder];
 }
@@ -108,7 +110,7 @@
 }
 
 -(void)textViewDidBeginEditing:(UITextView *)textView {
-    [self.inputQuote setText:quote];
+    [self.inputQuote setText:self.quote];
     [self updateTextSize];
 }
 
@@ -116,17 +118,17 @@
     [self.inputQuote resignFirstResponder];
     if ([self.inputQuote.text length] == 0 || [self.inputQuote.text isEqualToString:PLACEHOLDER_TEXT]) {
         [self.inputQuote setText:PLACEHOLDER_TEXT];
-        quote = @"";
+        self.quote = nil;
     }
     else {
-        quote = self.inputQuote.text;
+        self.quote = self.inputQuote.text;
     }
     return YES;
 }
 
 -(void)textViewDidEndEditing:(UITextView *)textView {
     [self.inputQuote resignFirstResponder];
-    if (quote.length) {
+    if (self.quote.length) {
         [self enableButtons:YES];
     }
     else {
@@ -183,6 +185,11 @@
 
 #pragma mark Parse
 -(void)saveGem {
+    [self saveGemWithQuote:self.quote image:self.image];
+    [self.delegate didSaveNewGem];
+}
+
+-(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image {
     [self enableButtons:NO];
 
     if (!gem) {
@@ -205,19 +212,21 @@
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
         [self enableButtons:YES];
+        [self notify:@"gems:updated"];
 
         if (imageFile) {
             [gem.pfObject setObject:imageFile forKey:@"imageFile"];
-            [gem saveOrUpdateToParseWithCompletion:nil];
+            [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+                [self notify:@"gems:updated"];
+            }];
         }
     }];
 
     // offline storage
     [_appDelegate.managedObjectContext save:nil];
 
-    [self saveScreenshot];
-
-    [self.delegate didSaveNewGem];
+    if (self.image)
+        [self saveScreenshot];
 }
 
 - (void)keyboardWillShow:(NSNotification *)n
@@ -254,7 +263,7 @@
     float scaleX = self.image.size.width / self.imageView.frame.size.width;
     float scaleY = self.image.size.height / self.imageView.frame.size.height;
 
-    if ([quote length] == 0)
+    if ([self.quote length] == 0)
         [self.inputQuote setHidden:YES];
 
     CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
