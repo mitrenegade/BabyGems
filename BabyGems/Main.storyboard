@@ -196,8 +196,8 @@
                                     <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uwJ-0m-Apn" customClass="AsyncImageView">
-                                            <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
+                                        <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="1" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uwJ-0m-Apn" customClass="AsyncImageView">
+                                            <rect key="frame" x="8" y="8" width="144" height="144"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="cvj-FT-JgR">
@@ -211,13 +211,13 @@
                                 </view>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="uwJ-0m-Apn" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" constant="-8" id="9WN-Md-P6c"/>
+                                    <constraint firstItem="uwJ-0m-Apn" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" id="9WN-Md-P6c"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="leading" secondItem="DPL-Ft-96i" secondAttribute="leadingMargin" id="JQM-g5-hgS"/>
-                                    <constraint firstAttribute="bottomMargin" secondItem="uwJ-0m-Apn" secondAttribute="bottom" constant="-8" id="LFt-sL-eoU"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="uwJ-0m-Apn" secondAttribute="bottom" id="LFt-sL-eoU"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="trailing" secondItem="DPL-Ft-96i" secondAttribute="trailingMargin" id="Mrz-u0-du7"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" constant="50" id="PVg-P6-Vn6"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="uwJ-0m-Apn" secondAttribute="trailing" constant="-8" id="XFp-z8-sFJ"/>
-                                    <constraint firstItem="uwJ-0m-Apn" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" constant="-8" id="cwQ-zq-I2f"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="uwJ-0m-Apn" secondAttribute="trailing" id="XFp-z8-sFJ"/>
+                                    <constraint firstItem="uwJ-0m-Apn" firstAttribute="top" secondItem="DPL-Ft-96i" secondAttribute="topMargin" id="cwQ-zq-I2f"/>
                                     <constraint firstItem="cvj-FT-JgR" firstAttribute="bottom" secondItem="DPL-Ft-96i" secondAttribute="bottomMargin" id="wF0-cs-Uy1"/>
                                 </constraints>
                                 <size key="customSize" width="160" height="160"/>
@@ -234,7 +234,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xoE-f1-UL1">
-                                            <rect key="frame" x="2" y="2" width="316" height="156"/>
+                                            <rect key="frame" x="8" y="8" width="304" height="144"/>
                                             <color key="backgroundColor" white="0.0" alpha="0.050000000000000003" colorSpace="calibratedWhite"/>
                                             <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="16"/>
                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -244,10 +244,10 @@
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <constraints>
-                                    <constraint firstAttribute="bottomMargin" secondItem="xoE-f1-UL1" secondAttribute="bottom" constant="-6" id="T4z-Qh-iGa"/>
-                                    <constraint firstItem="xoE-f1-UL1" firstAttribute="top" secondItem="p3T-IU-z3c" secondAttribute="topMargin" constant="-6" id="nRS-kf-fuX"/>
-                                    <constraint firstAttribute="trailingMargin" secondItem="xoE-f1-UL1" secondAttribute="trailing" constant="-6" id="vL6-CH-CKs"/>
-                                    <constraint firstItem="xoE-f1-UL1" firstAttribute="leading" secondItem="p3T-IU-z3c" secondAttribute="leadingMargin" constant="-6" id="zW4-98-3mf"/>
+                                    <constraint firstAttribute="bottomMargin" secondItem="xoE-f1-UL1" secondAttribute="bottom" id="T4z-Qh-iGa"/>
+                                    <constraint firstItem="xoE-f1-UL1" firstAttribute="top" secondItem="p3T-IU-z3c" secondAttribute="topMargin" id="nRS-kf-fuX"/>
+                                    <constraint firstAttribute="trailingMargin" secondItem="xoE-f1-UL1" secondAttribute="trailing" id="vL6-CH-CKs"/>
+                                    <constraint firstItem="xoE-f1-UL1" firstAttribute="leading" secondItem="p3T-IU-z3c" secondAttribute="leadingMargin" id="zW4-98-3mf"/>
                                 </constraints>
                                 <size key="customSize" width="320" height="160"/>
                                 <connections>

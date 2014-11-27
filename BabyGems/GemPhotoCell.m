@@ -35,5 +35,13 @@
     else {
         self.imageView.image = nil;
     }
+
 }
+
+-(void)setupBorder {
+    self.imageView.layer.cornerRadius = 5;
+    self.imageView.layer.borderWidth = 1;
+    self.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+}
+
 @end

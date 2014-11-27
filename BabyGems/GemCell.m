@@ -15,7 +15,15 @@
 -(void)setupForGem:(Gem *)gem {
     self.gem = gem;
     if (gem.quote) {
-        self.labelQuote.text = gem.quote;
+        self.labelQuote.text = [NSString stringWithFormat:@"“%@”", gem.quote];
     }
+
+    [self setupBorder];
+}
+
+-(void)setupBorder {
+    self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.labelQuote.layer.borderWidth = 1;
+    self.labelQuote.layer.cornerRadius = 5;
 }
 @end
