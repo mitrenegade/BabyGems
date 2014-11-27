@@ -9,6 +9,7 @@
 #import "GemDetailViewController.h"
 #import "Gem.h"
 #import <AsyncImageView/AsyncImageView.h>
+#import "Gem+Parse.h"
 
 @interface GemDetailViewController ()
 
@@ -40,6 +41,11 @@
         else {
             self.labelQuote.text = @"";
         }
+
+        NSString *text = self.gem.quote;
+        UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+        self.constraintQuoteHeight.constant = rect.size.height + 40;
     }
 }
 
@@ -48,8 +54,19 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewDidAppear:(BOOL)animated {
-    NSLog(@"Here");
+-(IBAction)didClickShare:(id)sender {
+    NSLog(@"Share!");
+}
+
+-(IBAction)didClickTrash:(id)sender {
+    [UIAlertView alertViewWithTitle:@"Delete gem?" message:@"Are you sure you want to permanently delete this gem?" cancelButtonTitle:@"No" otherButtonTitles:@[@"Delete Gem"] onDismiss:^(int buttonIndex) {
+        [self.gem.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            if (succeeded) {
+                [_appDelegate.managedObjectContext deleteObject:self.gem];
+            }
+            [self notify:@"gems:updated"];
+        }];
+    } onCancel:nil];
 }
 
 /*

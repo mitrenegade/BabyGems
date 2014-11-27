@@ -18,7 +18,4 @@
 @property (nonatomic, weak) IBOutlet UILabel *labelDate;
 
 -(void)setupForGem:(Gem *)gem;
--(IBAction)didClickShare:(id)sender;
--(IBAction)didClickTrash:(id)sender;
-
 @end

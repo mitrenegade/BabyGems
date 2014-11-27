@@ -19,4 +19,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelQuote;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
+
+-(IBAction)didClickShare:(id)sender;
+-(IBAction)didClickTrash:(id)sender;
 @end
