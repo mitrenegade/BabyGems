@@ -34,6 +34,21 @@
 }
 */
 
+-(void)showLibraryFromController:(UIViewController *)controller {
+    _picker = [[UIImagePickerController alloc] init];
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    _picker.toolbarHidden = YES; // hide toolbar of app, if there is one.
+    _picker.allowsEditing = NO;
+    _picker.delegate = self;
+
+    CGRect frame = _appDelegate.window.bounds;
+    frame.origin.y = 0;
+    [self addOverlayWithFrame:frame];
+
+    [controller.navigationController presentViewController:_picker animated:YES completion:nil];
+}
+
 -(void)showCameraFromController:(UIViewController *)controller {
     _picker = [[UIImagePickerController alloc] init];
     if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
@@ -98,6 +113,7 @@
         [overlay addSubview:buttonRotate];
     }
 
+    /*
     buttonLibrary = [UIButton buttonWithType:UIButtonTypeCustom];
     [buttonLibrary setFrame:CGRectMake(0, 0, 30, 30)];
     [buttonLibrary setImage:[UIImage imageNamed:@"polaroid"] forState:UIControlStateNormal];
@@ -105,7 +121,7 @@
     [buttonLibrary setCenter:CGPointMake(260, frame.size.height - bottom.frame.size.height / 2)];
     [buttonLibrary addTarget:self action:@selector(showLibrary) forControlEvents:UIControlEventTouchUpInside];
     [overlay addSubview:buttonLibrary];
-
+     */
     [_picker setCameraOverlayView:overlay];
 }
 
@@ -125,7 +141,7 @@
         [_picker dismissViewControllerAnimated:YES completion:nil];
     }
     else {
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissCamera];
     }
 }
 

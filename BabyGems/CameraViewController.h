@@ -29,4 +29,5 @@
 @property (weak, nonatomic) id delegate;
 
 -(void)showCameraFromController:(UIViewController *)controller;
+-(void)showLibraryFromController:(UIViewController *)controller;
 @end

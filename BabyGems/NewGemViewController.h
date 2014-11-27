@@ -18,8 +18,6 @@
 @class Gem;
 @interface NewGemViewController : UIViewController <UITextViewDelegate, CameraDelegate>
 {
-    NSString *quote;
-
     Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
@@ -28,6 +26,7 @@
 }
 @property (weak, nonatomic) id delegate;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) NSString *quote;
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
@@ -37,4 +36,5 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
 
 -(IBAction)didClickGemBox:(id)sender;
+-(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image;
 @end
