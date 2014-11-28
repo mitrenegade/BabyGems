@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet AsyncImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *viewQuote;
 @property (weak, nonatomic) IBOutlet UILabel *labelQuote;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
 

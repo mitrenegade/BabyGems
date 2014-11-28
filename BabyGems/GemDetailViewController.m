@@ -22,19 +22,6 @@
     // Do any additional setup after loading the view.
 
     if (self.gem) {
-        NSData *data = self.gem.offlineImage;
-        if (data) {
-            UIImage *image = [UIImage imageWithData:data];
-            self.imageView.image = image;
-        }
-        else if (self.gem.imageURL) {
-            self.imageView.imageURL = [NSURL URLWithString:self.gem.imageURL];
-        }
-        else {
-            self.imageView.image = nil;
-        }
-        
-
         if (self.gem.quote) {
             self.labelQuote.text = [NSString stringWithFormat:@"“%@”", self.gem.quote];
         }
@@ -46,15 +33,41 @@
         UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
+
+        NSData *data = self.gem.offlineImage;
+        if (data) {
+            UIImage *image = [UIImage imageWithData:data];
+            self.imageView.image = image;
+            [self setupImageBorder];
+        }
+        else if (self.gem.imageURL) {
+            self.imageView.imageURL = [NSURL URLWithString:self.gem.imageURL];
+            [self setupImageBorder];
+        }
+        else {
+            // only text/quote, no image
+            self.imageView.image = nil;
+            self.labelQuote.backgroundColor = [UIColor colorWithWhite:.95 alpha:1];
+            self.labelQuote.textColor = [UIColor darkGrayColor];
+            self.constraintQuoteDistanceFromTop.constant = 0;
+            self.constraintQuoteDistanceFromBottom.constant = 0;
+            self.constraintQuoteHeight.priority = 900;
+            [self setupTextBorder];
+        }
     }
 
-    [self setupBorder];
 }
 
--(void)setupBorder {
+-(void)setupImageBorder {
     self.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.imageView.layer.borderWidth = 1;
     self.imageView.layer.cornerRadius = 5;
+}
+
+-(void)setupTextBorder {
+    self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.labelQuote.layer.borderWidth = 1;
+    self.labelQuote.layer.cornerRadius = 5;
 }
 
 - (void)didReceiveMemoryWarning {

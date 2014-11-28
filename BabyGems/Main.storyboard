@@ -212,7 +212,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kVM-pg-nhQ">
                                 <rect key="frame" x="0.0" y="372" width="600" height="141"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOH-ty-nXN">
+                                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iOH-ty-nXN">
                                         <rect key="frame" x="8" y="8" width="584" height="125"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="16"/>
@@ -243,12 +243,15 @@
                             <constraint firstItem="kVM-pg-nhQ" firstAttribute="leading" secondItem="eHJ-Go-578" secondAttribute="leadingMargin" constant="-16" id="VFy-ks-ohH"/>
                             <constraint firstItem="fif-Hu-m8e" firstAttribute="leading" secondItem="eHJ-Go-578" secondAttribute="leadingMargin" constant="-8" id="akF-I4-Xft"/>
                             <constraint firstItem="bLj-dH-LSA" firstAttribute="top" secondItem="fif-Hu-m8e" secondAttribute="bottom" constant="8" id="oBd-2L-1zF"/>
+                            <constraint firstItem="kVM-pg-nhQ" firstAttribute="top" secondItem="7Qj-x9-ZOE" secondAttribute="bottom" constant="308" id="qbe-w5-9tH"/>
                             <constraint firstItem="bLj-dH-LSA" firstAttribute="leading" secondItem="eHJ-Go-578" secondAttribute="leadingMargin" constant="-16" id="wmg-WJ-Ag3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="bLj-dH-LSA" secondAttribute="trailing" constant="-16" id="xUv-JQ-9ja"/>
                             <constraint firstItem="fif-Hu-m8e" firstAttribute="top" secondItem="7Qj-x9-ZOE" secondAttribute="bottom" constant="8" id="xus-z3-DKG"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="constraintQuoteDistanceFromBottom" destination="Gm7-Ra-wIW" id="NNg-Mb-gfN"/>
+                        <outlet property="constraintQuoteDistanceFromTop" destination="qbe-w5-9tH" id="fbc-KY-4nq"/>
                         <outlet property="constraintQuoteHeight" destination="8O4-lm-GFC" id="akG-DF-dI2"/>
                         <outlet property="imageView" destination="fif-Hu-m8e" id="hDz-nY-WCG"/>
                         <outlet property="labelQuote" destination="iOH-ty-nXN" id="di2-Ga-pak"/>
