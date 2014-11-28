@@ -11,6 +11,7 @@
 #import "GemCell.h"
 #import "NewGemViewController.h"
 #import "Gem+Info.h"
+#import "GemDetailViewController.h"
 
 @interface GemBoxViewController ()
 
@@ -88,6 +89,10 @@ static NSString * const reuseIdentifier = @"GemCell";
         controller.delegate = self;
         controller.image = savedImage;
         controller.quote = savedQuote;
+    }
+    else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
+        GemDetailViewController *controller = [segue destinationViewController];
+        controller.gem = (Gem *)sender;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -191,6 +196,10 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 
 #pragma mark <UICollectionViewDelegate>
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+    [self performSegueWithIdentifier:@"GoToGemDetail" sender:gem];
+}
 
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking
