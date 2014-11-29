@@ -11,4 +11,20 @@
 
 #define AIRPLANE_MODE 0
 #define TESTING 1
+
+typedef enum GemCellStyleEnum {
+    CellStyleFirst,
+    CellStyleFull = CellStyleFirst,
+    CellStyleBottom,
+    CellStyleMax
+} GemCellStyle;
+
+typedef enum GemBorderStyleEnum {
+    BorderStyleFirst,
+    BorderStyleNone = BorderStyleFirst,
+    BorderStyleRound,
+    BorderStyleMax
+} GemBorderStyle;
+
+
 #endif

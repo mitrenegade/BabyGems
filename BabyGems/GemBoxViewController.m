@@ -106,6 +106,7 @@
     }
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
         GemDetailViewController *controller = [segue destinationViewController];
+        controller.borderStyle = borderStyle;
         controller.gem = (Gem *)sender;
     }
     // Get the new view controller using [segue destinationViewController].
@@ -149,7 +150,7 @@
         else {
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         }
-        cell.showBorder = borderStyle == BorderStyleRound;
+        cell.borderStyle = borderStyle;
         [cell setupForGem:gem];
     }
     else {

@@ -170,6 +170,10 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LtW-z0-j4z" userLabel="View - bg">
+                                <rect key="frame" x="8" y="72" width="584" height="472"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bLj-dH-LSA" userLabel="View - comments">
                                 <rect key="frame" x="0.0" y="552" width="600" height="40"/>
                                 <subviews>
@@ -209,6 +213,10 @@
                                     <constraint firstAttribute="centerY" secondItem="y4t-t3-Efc" secondAttribute="centerY" id="xXt-XH-67p"/>
                                 </constraints>
                             </view>
+                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fif-Hu-m8e" customClass="AsyncImageView">
+                                <rect key="frame" x="8" y="72" width="584" height="472"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kVM-pg-nhQ">
                                 <rect key="frame" x="0.0" y="372" width="600" height="141"/>
                                 <subviews>
@@ -229,10 +237,6 @@
                                     <constraint firstItem="iOH-ty-nXN" firstAttribute="top" secondItem="kVM-pg-nhQ" secondAttribute="top" constant="8" id="wh5-mp-DAO"/>
                                 </constraints>
                             </view>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fif-Hu-m8e" customClass="AsyncImageView">
-                                <rect key="frame" x="8" y="72" width="584" height="472"/>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -260,7 +264,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4j0-98-c7K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2747" y="1211"/>
+            <point key="canvasLocation" x="2747" y="1204"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AaW-eM-oj8">

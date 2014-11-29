@@ -33,6 +33,8 @@
         UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
+        self.constraintQuoteDistanceFromTop.priority = 900;
+        self.constraintQuoteHeight.priority = 1000;
 
         NSData *data = self.gem.offlineImage;
         if (data) {
@@ -51,6 +53,7 @@
             self.labelQuote.textColor = [UIColor darkGrayColor];
             self.constraintQuoteDistanceFromTop.constant = 0;
             self.constraintQuoteDistanceFromBottom.constant = 0;
+            self.constraintQuoteDistanceFromTop.priority = 1000;
             self.constraintQuoteHeight.priority = 900;
             [self setupTextBorder];
         }
@@ -60,14 +63,26 @@
 
 -(void)setupImageBorder {
     self.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.imageView.layer.borderWidth = 1;
-    self.imageView.layer.cornerRadius = 5;
+    if (self.borderStyle == BorderStyleRound) {
+        self.imageView.layer.borderWidth = 1;
+        self.imageView.layer.cornerRadius = 5;
+    }
+    else {
+        self.imageView.layer.borderWidth = 0;
+        self.imageView.layer.cornerRadius = 0;
+    }
 }
 
 -(void)setupTextBorder {
     self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.labelQuote.layer.borderWidth = 1;
-    self.labelQuote.layer.cornerRadius = 5;
+    if (self.borderStyle == BorderStyleRound) {
+        self.labelQuote.layer.borderWidth = 1;
+        self.labelQuote.layer.cornerRadius = 5;
+    }
+    else {
+        self.labelQuote.layer.borderWidth = 0;
+        self.labelQuote.layer.cornerRadius = 0;
+    }
 }
 
 - (void)didReceiveMemoryWarning {
