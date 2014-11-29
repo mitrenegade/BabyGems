@@ -10,6 +10,20 @@
 #import "CameraViewController.h"
 #import "NewGemViewController.h"
 
+typedef enum GemCellStyleEnum {
+    CellStyleFirst,
+    CellStyleFull = CellStyleFirst,
+    CellStyleBottom,
+    CellStyleMax
+} GemCellStyle;
+
+typedef enum GemBorderStyleEnum {
+    BorderStyleFirst,
+    BorderStyleNone = BorderStyleFirst,
+    BorderStyleRound,
+    BorderStyleMax
+} GemBorderStyle;
+
 @interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
@@ -18,6 +32,9 @@
 
     UIImage *savedImage;
     NSString *savedQuote;
+
+    GemCellStyle cellStyle;
+    GemBorderStyle borderStyle;
 }
 
 -(NSFetchedResultsController *)gemFetcher;

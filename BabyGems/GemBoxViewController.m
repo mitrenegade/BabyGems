@@ -12,14 +12,13 @@
 #import "NewGemViewController.h"
 #import "Gem+Info.h"
 #import "GemDetailViewController.h"
+#import "UIActionSheet+MKBlockAdditions.h"
 
 @interface GemBoxViewController ()
 
 @end
 
 @implementation GemBoxViewController
-
-static NSString * const reuseIdentifier = @"GemCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -42,6 +41,21 @@ static NSString * const reuseIdentifier = @"GemCell";
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [tap setNumberOfTapsRequired:2];
     [self.view addGestureRecognizer:tap];
+
+#if TESTING
+    // admin options
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(showSettings)];
+    self.navigationItem.leftBarButtonItem = left;
+#endif
+
+    cellStyle = CellStyleFirst;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
+        cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
+    }
+    borderStyle = BorderStyleFirst;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
+        borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"efaults:borderstyle"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,23 +124,36 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellIdentifier;
+    NSString *photoCellIdentifier;
+
+    if (CellStyleFull == cellStyle) {
+        cellIdentifier = @"GemFullCell";
+        photoCellIdentifier = @"GemFullPhotoCell";
+    }
+    else {
+        cellIdentifier = @"GemCell";
+        photoCellIdentifier = @"GemPhotoCell";
+    }
+
     GemCell *cell;
-    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+    cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
 
     // Configure the cell
     if (indexPath.row < [self gemFetcher].fetchedObjects.count) {
         Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
 
         if (gem.imageURL || gem.offlineImage) {
-            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemPhotoCell" forIndexPath:indexPath];
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:photoCellIdentifier forIndexPath:indexPath];
         }
         else {
-            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         }
+        cell.showBorder = borderStyle == BorderStyleRound;
         [cell setupForGem:gem];
     }
     else {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     }
     return cell;
 }
@@ -135,7 +162,18 @@ static NSString * const reuseIdentifier = @"GemCell";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    static const NSInteger COMMENTS_HEIGHT = 50;
+    NSInteger COMMENTS_HEIGHT = 0;
+    NSInteger LABEL_BORDER = 60;
+
+    if (cellStyle == CellStyleBottom) {
+        COMMENTS_HEIGHT = 50;
+        LABEL_BORDER = 40;
+    }
+    else if (cellStyle == CellStyleFull) {
+        COMMENTS_HEIGHT = 0;
+        LABEL_BORDER = 60;
+    }
+
     Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
 
     // photo gem
@@ -191,7 +229,7 @@ static NSString * const reuseIdentifier = @"GemCell";
         NSString *text = gem.quote;
         UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
-        return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + 40 + COMMENTS_HEIGHT);
+        return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + LABEL_BORDER + COMMENTS_HEIGHT);
     }
 }
 
@@ -323,5 +361,41 @@ static NSString * const reuseIdentifier = @"GemCell";
     else if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
         [self goToQuote];
     }
+}
+
+#pragma mark Admin settings
+-(void)showSettings {
+    [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle cell style", @"Toggle cell border"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            [self toggleCellStyle];
+        }
+        else if (buttonIndex == 1) {
+            [self toggleCellBorder];
+        }
+    } onCancel:^{
+        // do nothing
+    }];
+}
+
+-(void)toggleCellStyle {
+    cellStyle += 1;
+    if (cellStyle == CellStyleMax)
+        cellStyle = CellStyleFirst;
+
+    [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:cellstyle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self reloadData];
+}
+
+-(void)toggleCellBorder {
+    borderStyle += 1;
+    if (borderStyle == BorderStyleMax)
+        borderStyle = BorderStyleFirst;
+
+    [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:borderstyle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self reloadData];
 }
 @end

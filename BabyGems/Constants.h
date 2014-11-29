@@ -10,5 +10,5 @@
 #define BabyGems_Constants_h
 
 #define AIRPLANE_MODE 0
-#define TESTING 0
+#define TESTING 1
 #endif

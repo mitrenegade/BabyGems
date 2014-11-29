@@ -39,9 +39,16 @@
 }
 
 -(void)setupBorder {
-    self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.labelQuote.layer.borderWidth = 1;
-    self.labelQuote.layer.cornerRadius = 5;
+    if (self.showBorder) {
+        self.viewBorder.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+        self.viewBorder.layer.borderWidth = 1;
+        self.viewBorder.layer.cornerRadius = 5;
+    }
+    else {
+        self.viewBorder.layer.borderColor = [[UIColor clearColor] CGColor];
+        self.viewBorder.layer.borderWidth = 0;
+        self.viewBorder.layer.cornerRadius = 0;
+    }
 }
 
 @end
