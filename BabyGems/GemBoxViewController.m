@@ -13,13 +13,13 @@
 #import "Gem+Info.h"
 #import "GemDetailViewController.h"
 
+#define USE_FULL_CELLS 1
+
 @interface GemBoxViewController ()
 
 @end
 
 @implementation GemBoxViewController
-
-static NSString * const reuseIdentifier = @"GemCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -110,23 +110,30 @@ static NSString * const reuseIdentifier = @"GemCell";
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+#if USE_FULL_CELLS
+    NSString *cellIdentifier = @"GemFullCell";
+    NSString *photoCellIdentifier = @"GemFullPhotoCell";
+#else
+    NSString *cellIdentifier = @"GemCell";
+    NSString *photoCellIdentifier = @"GemPhotoCell";
+#endif
     GemCell *cell;
-    cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+    cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
 
     // Configure the cell
     if (indexPath.row < [self gemFetcher].fetchedObjects.count) {
         Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
 
         if (gem.imageURL || gem.offlineImage) {
-            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemPhotoCell" forIndexPath:indexPath];
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:photoCellIdentifier forIndexPath:indexPath];
         }
         else {
-            cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+            cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         }
         [cell setupForGem:gem];
     }
     else {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemCell" forIndexPath:indexPath];
+        cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     }
     return cell;
 }
@@ -135,7 +142,13 @@ static NSString * const reuseIdentifier = @"GemCell";
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+#if USE_FULL_CELLS
+    static const NSInteger COMMENTS_HEIGHT = 0;
+    static const NSInteger LABEL_BORDER = 60;
+#else
     static const NSInteger COMMENTS_HEIGHT = 50;
+    static const NSInteger LABEL_BORDER = 40;
+#endif
     Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
 
     // photo gem
@@ -191,7 +204,7 @@ static NSString * const reuseIdentifier = @"GemCell";
         NSString *text = gem.quote;
         UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
-        return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + 40 + COMMENTS_HEIGHT);
+        return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + LABEL_BORDER + COMMENTS_HEIGHT);
     }
 }
 

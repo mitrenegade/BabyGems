@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *constraintLabelHeight;
 @property (nonatomic, weak) IBOutlet UILabel *labelCommentCount;
 @property (nonatomic, weak) IBOutlet UILabel *labelDate;
+@property (nonatomic, weak) IBOutlet UIView *viewBorder;
 
 -(void)setupForGem:(Gem *)gem;
 @end

@@ -39,9 +39,9 @@
 }
 
 -(void)setupBorder {
-    self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.labelQuote.layer.borderWidth = 1;
-    self.labelQuote.layer.cornerRadius = 5;
+    self.viewBorder.layer.borderColor = [[UIColor lightGrayColor] CGColor];
+    self.viewBorder.layer.borderWidth = 1;
+    self.viewBorder.layer.cornerRadius = 5;
 }
 
 @end
