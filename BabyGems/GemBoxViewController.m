@@ -12,8 +12,7 @@
 #import "NewGemViewController.h"
 #import "Gem+Info.h"
 #import "GemDetailViewController.h"
-
-#define USE_FULL_CELLS 1
+#import "UIActionSheet+MKBlockAdditions.h"
 
 @interface GemBoxViewController ()
 
@@ -42,6 +41,17 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [tap setNumberOfTapsRequired:2];
     [self.view addGestureRecognizer:tap];
+
+#if TESTING
+    // admin options
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(showSettings)];
+    self.navigationItem.leftBarButtonItem = left;
+#endif
+
+    cellStyle = CellStyleBottom;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
+        cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -110,13 +120,18 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-#if USE_FULL_CELLS
-    NSString *cellIdentifier = @"GemFullCell";
-    NSString *photoCellIdentifier = @"GemFullPhotoCell";
-#else
-    NSString *cellIdentifier = @"GemCell";
-    NSString *photoCellIdentifier = @"GemPhotoCell";
-#endif
+    NSString *cellIdentifier;
+    NSString *photoCellIdentifier;
+
+    if (CellStyleFull == cellStyle) {
+        cellIdentifier = @"GemFullCell";
+        photoCellIdentifier = @"GemFullPhotoCell";
+    }
+    else {
+        cellIdentifier = @"GemCell";
+        photoCellIdentifier = @"GemPhotoCell";
+    }
+
     GemCell *cell;
     cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
 
@@ -142,13 +157,18 @@
                   layout:(UICollectionViewLayout *)collectionViewLayout
   sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-#if USE_FULL_CELLS
-    static const NSInteger COMMENTS_HEIGHT = 0;
-    static const NSInteger LABEL_BORDER = 60;
-#else
-    static const NSInteger COMMENTS_HEIGHT = 50;
-    static const NSInteger LABEL_BORDER = 40;
-#endif
+    NSInteger COMMENTS_HEIGHT = 0;
+    NSInteger LABEL_BORDER = 60;
+
+    if (cellStyle == CellStyleBottom) {
+        COMMENTS_HEIGHT = 50;
+        LABEL_BORDER = 40;
+    }
+    else if (cellStyle == CellStyleFull) {
+        COMMENTS_HEIGHT = 0;
+        LABEL_BORDER = 60;
+    }
+
     Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
 
     // photo gem
@@ -336,5 +356,27 @@
     else if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
         [self goToQuote];
     }
+}
+
+#pragma mark Admin settings
+-(void)showSettings {
+    [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle style"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            [self toggleCellStyle];
+        }
+    } onCancel:^{
+        // do nothing
+    }];
+}
+
+-(void)toggleCellStyle {
+    cellStyle += 1;
+    if (cellStyle == CellStyleMax)
+        cellStyle = CellStyleFirst;
+
+    [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:cellstyle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self reloadData];
 }
 @end
