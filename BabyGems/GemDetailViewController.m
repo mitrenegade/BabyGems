@@ -33,6 +33,8 @@
         UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
+        self.constraintQuoteDistanceFromTop.priority = 900;
+        self.constraintQuoteHeight.priority = 1000;
 
         NSData *data = self.gem.offlineImage;
         if (data) {
@@ -51,6 +53,7 @@
             self.labelQuote.textColor = [UIColor darkGrayColor];
             self.constraintQuoteDistanceFromTop.constant = 0;
             self.constraintQuoteDistanceFromBottom.constant = 0;
+            self.constraintQuoteDistanceFromTop.priority = 1000;
             self.constraintQuoteHeight.priority = 900;
             [self setupTextBorder];
         }
