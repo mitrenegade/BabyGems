@@ -60,14 +60,26 @@
 
 -(void)setupImageBorder {
     self.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.imageView.layer.borderWidth = 1;
-    self.imageView.layer.cornerRadius = 5;
+    if (self.borderStyle == BorderStyleRound) {
+        self.imageView.layer.borderWidth = 1;
+        self.imageView.layer.cornerRadius = 5;
+    }
+    else {
+        self.imageView.layer.borderWidth = 0;
+        self.imageView.layer.cornerRadius = 0;
+    }
 }
 
 -(void)setupTextBorder {
     self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    self.labelQuote.layer.borderWidth = 1;
-    self.labelQuote.layer.cornerRadius = 5;
+    if (self.borderStyle == BorderStyleRound) {
+        self.labelQuote.layer.borderWidth = 1;
+        self.labelQuote.layer.cornerRadius = 5;
+    }
+    else {
+        self.labelQuote.layer.borderWidth = 0;
+        self.labelQuote.layer.cornerRadius = 0;
+    }
 }
 
 - (void)didReceiveMemoryWarning {

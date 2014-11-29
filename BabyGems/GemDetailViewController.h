@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
 
 @class Gem;
 @class AsyncImageView;
 @interface GemDetailViewController : UIViewController
-
+{
+    GemCellStyle cellStyle;
+    GemBorderStyle borderStyle;
+}
 @property (nonatomic, weak) Gem *gem;
 @property (weak, nonatomic) id delegate;
 @property (weak, nonatomic) IBOutlet AsyncImageView *imageView;
@@ -20,6 +24,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
+
+@property (nonatomic, assign) GemBorderStyle borderStyle;
 
 -(IBAction)didClickShare:(id)sender;
 -(IBAction)didClickTrash:(id)sender;
