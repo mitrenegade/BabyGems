@@ -12,10 +12,17 @@
 
 typedef enum GemCellStyleEnum {
     CellStyleFirst,
-    CellStyleBottom = CellStyleFirst,
-    CellStyleFull,
+    CellStyleFull = CellStyleFirst,
+    CellStyleBottom,
     CellStyleMax
 } GemCellStyle;
+
+typedef enum GemBorderStyleEnum {
+    BorderStyleFirst,
+    BorderStyleNone = BorderStyleFirst,
+    BorderStyleRound,
+    BorderStyleMax
+} GemBorderStyle;
 
 @interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate>
 {
@@ -26,7 +33,8 @@ typedef enum GemCellStyleEnum {
     UIImage *savedImage;
     NSString *savedQuote;
 
-    GemCellStyle cellStyle;;
+    GemCellStyle cellStyle;
+    GemBorderStyle borderStyle;
 }
 
 -(NSFetchedResultsController *)gemFetcher;

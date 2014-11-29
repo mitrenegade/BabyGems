@@ -48,9 +48,13 @@
     self.navigationItem.leftBarButtonItem = left;
 #endif
 
-    cellStyle = CellStyleBottom;
+    cellStyle = CellStyleFirst;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
         cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
+    }
+    borderStyle = BorderStyleFirst;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
+        borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"efaults:borderstyle"];
     }
 }
 
@@ -145,6 +149,7 @@
         else {
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         }
+        cell.showBorder = borderStyle == BorderStyleRound;
         [cell setupForGem:gem];
     }
     else {
@@ -360,9 +365,12 @@
 
 #pragma mark Admin settings
 -(void)showSettings {
-    [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle style"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+    [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle cell style", @"Toggle cell border"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self toggleCellStyle];
+        }
+        else if (buttonIndex == 1) {
+            [self toggleCellBorder];
         }
     } onCancel:^{
         // do nothing
@@ -375,6 +383,17 @@
         cellStyle = CellStyleFirst;
 
     [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:cellstyle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self reloadData];
+}
+
+-(void)toggleCellBorder {
+    borderStyle += 1;
+    if (borderStyle == BorderStyleMax)
+        borderStyle = BorderStyleFirst;
+
+    [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:borderstyle"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
     [self reloadData];
