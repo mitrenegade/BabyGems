@@ -92,7 +92,45 @@
 
 -(IBAction)didClickShare:(id)sender {
     NSLog(@"Share!");
-    [UIAlertView alertViewWithTitle:@"Share coming" message:nil];
+    // use action sheet
+    /*
+     Activity types:
+     NSString *const UIActivityTypePostToFacebook;
+     NSString *const UIActivityTypePostToTwitter;
+     NSString *const UIActivityTypePostToWeibo;
+     NSString *const UIActivityTypeMessage;
+     NSString *const UIActivityTypeMail;
+     NSString *const UIActivityTypePrint;
+     NSString *const UIActivityTypeCopyToPasteboard;
+     NSString *const UIActivityTypeAssignToContact;
+     NSString *const UIActivityTypeSaveToCameraRoll;
+     NSString *const UIActivityTypeAddToReadingList;
+     NSString *const UIActivityTypePostToFlickr;
+     NSString *const UIActivityTypePostToVimeo;
+     NSString *const UIActivityTypePostToTencentWeibo;
+     NSString *const UIActivityTypeAirDrop;
+     */
+    NSString *textToShare = self.gem.quote?self.labelQuote.text:nil;
+    UIImage *image;
+    if (self.imageView.image)
+        image = self.imageView.image;
+    else if (self.gem.offlineImage)
+        image = [UIImage imageWithData:self.gem.offlineImage];
+    UIImage *imageToShare = image;
+    NSMutableArray *itemsToShare = [NSMutableArray array];
+    if (textToShare)
+        [itemsToShare addObject:textToShare];
+    if (imageToShare)
+        [itemsToShare addObject:imageToShare];
+
+    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypePostToWeibo, UIActivityTypePostToFlickr, UIActivityTypePostToVimeo]; //or whichever you don't need
+    activityVC.completionHandler = ^(NSString *activityType, BOOL completed) {
+        if (!activityType)
+            return;
+        NSLog(@"shared with activity: %@ completed: %d", activityType, completed);
+    };
+    [self.navigationController presentViewController:activityVC animated:YES completion:nil];
 }
 
 -(IBAction)didClickTrash:(id)sender {
