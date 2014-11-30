@@ -109,6 +109,12 @@
         controller.borderStyle = borderStyle;
         controller.gem = (Gem *)sender;
     }
+    else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
+        UIViewController *controller = [segue destinationViewController];
+        tutorialView = controller.view;
+        tutorialView.frame = self.collectionView.frame;
+        [self.view insertSubview:tutorialView aboveSubview:self.collectionView];
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
@@ -298,6 +304,14 @@
 -(void)reloadData {
     [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
+
+    if ([self.gemFetcher.fetchedObjects count] == 0) {
+        [self performSegueWithIdentifier:@"EmbedTutorial" sender:self];
+        [tutorialView setHidden:NO];
+    }
+    else {
+        [tutorialView setHidden:YES];
+    }
 }
 
 #pragma mark New Gem

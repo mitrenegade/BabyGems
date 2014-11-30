@@ -21,6 +21,8 @@
 
     GemCellStyle cellStyle;
     GemBorderStyle borderStyle;
+
+    UIView *tutorialView;
 }
 
 -(NSFetchedResultsController *)gemFetcher;
