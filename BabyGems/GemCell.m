@@ -34,7 +34,10 @@
     }
 
     // todo: make real comment count
-    int comments = arc4random() % 25;
+    int comments = 0;
+#if TESTING
+    comments = arc4random() % 25;
+#endif
     self.labelCommentCount.text = [NSString stringWithFormat:@"%d", comments];
 }
 
