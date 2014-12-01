@@ -42,9 +42,14 @@
     [tap setNumberOfTapsRequired:2];
     [self.view addGestureRecognizer:tap];
 
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [button addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = right;
+
 #if TESTING
     // admin options
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(showSettings)];
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Admin" style:UIBarButtonItemStyleBordered target:self action:@selector(showAdmin)];
     self.navigationItem.leftBarButtonItem = left;
 
     cellStyle = CellStyleFirst;
@@ -386,8 +391,76 @@
     }
 }
 
-#pragma mark Admin settings
+#pragma mark Settings
 -(void)showSettings {
+    NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            [self goToFeedback];
+        }
+        else if (buttonIndex == 1) {
+            [self goToTOS];
+        }
+    } onCancel:^{
+        // do nothing
+    }];
+}
+
+-(void)goToTOS {
+    NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+#pragma mark Mail composer
+-(void)goToFeedback {
+    if ([MFMailComposeViewController canSendMail]){
+        NSString *title = @"BabyGems feedback";
+        NSString *message = [NSString stringWithFormat:@"Version %@", VERSION];
+        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
+        composer.mailComposeDelegate = self;
+        [composer setSubject:title];
+        [composer setToRecipients:@[@"bobbyren+babygems@gmail.com"]];
+        [composer setMessageBody:message isHTML:NO];
+
+        [self presentViewController:composer animated:YES completion:nil];
+    }
+    else {
+        [UIAlertView alertViewWithTitle:@"Currently unable to send email" message:@"Please make sure email is available"];
+    }
+}
+
+#pragma mark MessageController delegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+
+    // Notifies users about errors associated with the interface
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            //feedbackMsg.text = @"Result: Mail sending canceled";
+            break;
+        case MFMailComposeResultSaved:
+            //feedbackMsg.text = @"Result: Mail saved";
+            break;
+        case MFMailComposeResultSent:
+            //feedbackMsg.text = @"Result: Mail sent";
+            [UIAlertView alertViewWithTitle:@"Thanks for your feedback" message:nil];
+            break;
+        case MFMailComposeResultFailed:
+            //feedbackMsg.text = @"Result: Mail sending failed";
+            [UIAlertView alertViewWithTitle:@"There was an error sending feedback" message:nil];
+            break;
+        default:
+            //feedbackMsg.text = @"Result: Mail not sent";
+            break;
+    }
+    // dismiss the composer
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+#pragma mark Admin settings
+-(void)showAdmin {
     [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle cell style", @"Toggle cell border"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self toggleCellStyle];
