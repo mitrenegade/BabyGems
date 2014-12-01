@@ -763,7 +763,7 @@
 				GCC_PREFIX_HEADER = "$(PRODUCT_NAME)/$(PRODUCT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/BabyGems/BabyGems-Info.plist";
 				PRODUCT_NAME = BabyGems;
-				PROVISIONING_PROFILE = "00c199ac-02d1-4e22-8f3f-99629ba7c77e";
+				PROVISIONING_PROFILE = "faf06a2e-acd1-4136-bebb-b694deb72471";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
