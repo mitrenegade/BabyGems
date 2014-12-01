@@ -46,7 +46,6 @@
     // admin options
     UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(showSettings)];
     self.navigationItem.leftBarButtonItem = left;
-#endif
 
     cellStyle = CellStyleFirst;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
@@ -56,6 +55,11 @@
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
         borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"efaults:borderstyle"];
     }
+#else
+    cellStyle = CellStyleBottom;
+    borderStyle = BorderStyleRound;
+#endif
+
 }
 
 - (void)didReceiveMemoryWarning {
