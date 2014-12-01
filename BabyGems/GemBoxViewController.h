@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "CameraViewController.h"
 #import "NewGemViewController.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate>
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
     CameraViewController *cameraController;

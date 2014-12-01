@@ -10,7 +10,7 @@
 #define BabyGems_Constants_h
 
 #define AIRPLANE_MODE 0
-#define TESTING 1
+#define TESTING 0
 
 typedef enum GemCellStyleEnum {
     CellStyleFirst,

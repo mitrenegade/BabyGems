@@ -30,6 +30,8 @@
     }
     else if (gem.imageURL) {
         AsyncImageView *view = (AsyncImageView *)self.imageView;
+        view.crossfadeDuration = 0;
+        view.image = nil;
         view.imageURL = [NSURL URLWithString:gem.imageURL];
     }
     else {

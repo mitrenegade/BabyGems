@@ -42,11 +42,15 @@
     [tap setNumberOfTapsRequired:2];
     [self.view addGestureRecognizer:tap];
 
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [button addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = right;
+
 #if TESTING
     // admin options
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStyleBordered target:self action:@selector(showSettings)];
+    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Admin" style:UIBarButtonItemStyleBordered target:self action:@selector(showAdmin)];
     self.navigationItem.leftBarButtonItem = left;
-#endif
 
     cellStyle = CellStyleFirst;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
@@ -56,6 +60,11 @@
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
         borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"efaults:borderstyle"];
     }
+#else
+    cellStyle = CellStyleBottom;
+    borderStyle = BorderStyleRound;
+#endif
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,8 +73,12 @@
 }
 
 -(void)setupCamera {
+    int offset = 0;
+    if (TESTING || [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        offset = 50;
+    }
     UIButton *buttonQuote = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 150, 40, 40);
+    buttonQuote.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 150 - offset, 40, 40);
     [buttonQuote setImage:[UIImage imageNamed:@"quoteButton"] forState:UIControlStateNormal];
     buttonQuote.backgroundColor = [UIColor blackColor];
     buttonQuote.alpha = .9;
@@ -74,7 +87,7 @@
     [buttonQuote addTarget:self action:@selector(goToQuote) forControlEvents:UIControlEventTouchUpInside];
 
     UIButton *buttonLibrary = [UIButton buttonWithType:UIButtonTypeCustom];
-    buttonLibrary.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 100, 40, 40);
+    buttonLibrary.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 100 - offset, 40, 40);
     [buttonLibrary setImage:[UIImage imageNamed:@"polaroid"] forState:UIControlStateNormal];
     buttonLibrary.backgroundColor = [UIColor blackColor];
     buttonLibrary.alpha = .9;
@@ -82,9 +95,9 @@
     [self.view addSubview:buttonLibrary];
     [buttonLibrary addTarget:self action:@selector(goToLibrary) forControlEvents:UIControlEventTouchUpInside];
 
-    if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+    if (TESTING || [UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         UIButton *buttonPhoto = [UIButton buttonWithType:UIButtonTypeCustom];
-        buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 50, 40, 40);
+        buttonPhoto.frame = CGRectMake(self.view.frame.size.width - 60, self.view.frame.size.height - 50 - offset, 40, 40);
         [buttonPhoto setImage:[UIImage imageNamed:@"camera"] forState:UIControlStateNormal];
         buttonPhoto.backgroundColor = [UIColor blackColor];
         buttonPhoto.alpha = .9;
@@ -378,8 +391,76 @@
     }
 }
 
-#pragma mark Admin settings
+#pragma mark Settings
 -(void)showSettings {
+    NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            [self goToFeedback];
+        }
+        else if (buttonIndex == 1) {
+            [self goToTOS];
+        }
+    } onCancel:^{
+        // do nothing
+    }];
+}
+
+-(void)goToTOS {
+    NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+#pragma mark Mail composer
+-(void)goToFeedback {
+    if ([MFMailComposeViewController canSendMail]){
+        NSString *title = @"BabyGems feedback";
+        NSString *message = [NSString stringWithFormat:@"Version %@", VERSION];
+        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
+        composer.mailComposeDelegate = self;
+        [composer setSubject:title];
+        [composer setToRecipients:@[@"bobbyren+babygems@gmail.com"]];
+        [composer setMessageBody:message isHTML:NO];
+
+        [self presentViewController:composer animated:YES completion:nil];
+    }
+    else {
+        [UIAlertView alertViewWithTitle:@"Currently unable to send email" message:@"Please make sure email is available"];
+    }
+}
+
+#pragma mark MessageController delegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+
+    // Notifies users about errors associated with the interface
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            //feedbackMsg.text = @"Result: Mail sending canceled";
+            break;
+        case MFMailComposeResultSaved:
+            //feedbackMsg.text = @"Result: Mail saved";
+            break;
+        case MFMailComposeResultSent:
+            //feedbackMsg.text = @"Result: Mail sent";
+            [UIAlertView alertViewWithTitle:@"Thanks for your feedback" message:nil];
+            break;
+        case MFMailComposeResultFailed:
+            //feedbackMsg.text = @"Result: Mail sending failed";
+            [UIAlertView alertViewWithTitle:@"There was an error sending feedback" message:nil];
+            break;
+        default:
+            //feedbackMsg.text = @"Result: Mail not sent";
+            break;
+    }
+    // dismiss the composer
+    [self dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+#pragma mark Admin settings
+-(void)showAdmin {
     [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle cell style", @"Toggle cell border"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self toggleCellStyle];

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9E06FCF51A2D0F3F00FE18CD /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E06FCF41A2D0F3F00FE18CD /* MessageUI.framework */; };
+		9E06FCF71A2D0F6300FE18CD /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E06FCF61A2D0F6300FE18CD /* ParseFacebookUtils.framework */; };
 		9E11BBAD1A1260CB0001090B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BB7B1A1260CB0001090B /* AppDelegate.m */; };
 		9E11BBB11A1260CB0001090B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9E11BB811A1260CB0001090B /* InfoPlist.strings */; };
 		9E11BBB21A1260CB0001090B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9E11BB831A1260CB0001090B /* Images.xcassets */; };
@@ -53,7 +55,6 @@
 		9E7A89671A237B22009FD39F /* Gem+Info.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E7A89661A237B22009FD39F /* Gem+Info.m */; };
 		9E7A89731A23B3C4009FD39F /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7A89721A23B3C4009FD39F /* Crashlytics.framework */; };
 		9E7A89751A23B3F1009FD39F /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7A89741A23B3F1009FD39F /* Fabric.framework */; };
-		9E7A89771A23B5DC009FD39F /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7A89761A23B5DC009FD39F /* ParseFacebookUtils.framework */; };
 		9E7A8D231A23B679009FD39F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E7A8D211A23B679009FD39F /* FacebookSDK.framework */; };
 		9ECFA61B1A2947110049BB5E /* GemFullCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ECFA61A1A2947110049BB5E /* GemFullCell.m */; };
 		9ECFA6201A2948920049BB5E /* GemFullPhotoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9ECFA61F1A2948920049BB5E /* GemFullPhotoCell.m */; };
@@ -81,6 +82,8 @@
 /* Begin PBXFileReference section */
 		49A046803F881D9CFFB18B27 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		997E5C0758E8BFD3DADD6D97 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E06FCF41A2D0F3F00FE18CD /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		9E06FCF61A2D0F6300FE18CD /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = BabyGems/ParseFacebookUtils.framework; sourceTree = "<group>"; };
 		9E11BB7A1A1260CB0001090B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		9E11BB7B1A1260CB0001090B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		9E11BB7D1A1260CB0001090B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LoginSignup.storyboard; sourceTree = "<group>"; };
@@ -155,7 +158,6 @@
 		9E7A89661A237B22009FD39F /* Gem+Info.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Gem+Info.m"; sourceTree = "<group>"; };
 		9E7A89721A23B3C4009FD39F /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9E7A89741A23B3F1009FD39F /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		9E7A89761A23B5DC009FD39F /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ParseFacebookUtils.framework; path = "../../../Downloads/parse-library-1.4.2/ParseFacebookUtils.framework"; sourceTree = "<group>"; };
 		9E7A8D211A23B679009FD39F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		9ECFA6191A2947110049BB5E /* GemFullCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemFullCell.h; sourceTree = "<group>"; };
 		9ECFA61A1A2947110049BB5E /* GemFullCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GemFullCell.m; sourceTree = "<group>"; };
@@ -181,13 +183,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E06FCF51A2D0F3F00FE18CD /* MessageUI.framework in Frameworks */,
 				9E79B86A19643B0A00559838 /* MobileCoreServices.framework in Frameworks */,
 				9E7A8D231A23B679009FD39F /* FacebookSDK.framework in Frameworks */,
 				9E79B86619643AFE00559838 /* CoreLocation.framework in Frameworks */,
 				9E7A89731A23B3C4009FD39F /* Crashlytics.framework in Frameworks */,
 				9E79B87219643B2100559838 /* SystemConfiguration.framework in Frameworks */,
 				9E79B87019643B1900559838 /* StoreKit.framework in Frameworks */,
-				9E7A89771A23B5DC009FD39F /* ParseFacebookUtils.framework in Frameworks */,
 				9E79B86E19643B1600559838 /* Security.framework in Frameworks */,
 				9ED638F61A12610800D1F62C /* Parse.framework in Frameworks */,
 				9E79B86C19643B1100559838 /* QuartzCore.framework in Frameworks */,
@@ -199,6 +201,7 @@
 				9E79B7F4196435AA00559838 /* CoreGraphics.framework in Frameworks */,
 				9E79B7F6196435AA00559838 /* UIKit.framework in Frameworks */,
 				9E79B7F2196435AA00559838 /* Foundation.framework in Frameworks */,
+				9E06FCF71A2D0F6300FE18CD /* ParseFacebookUtils.framework in Frameworks */,
 				F37DA4307F13E94AF0851425 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -337,8 +340,9 @@
 		9E79B7F0196435AA00559838 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9E06FCF61A2D0F6300FE18CD /* ParseFacebookUtils.framework */,
+				9E06FCF41A2D0F3F00FE18CD /* MessageUI.framework */,
 				9E7A8D211A23B679009FD39F /* FacebookSDK.framework */,
-				9E7A89761A23B5DC009FD39F /* ParseFacebookUtils.framework */,
 				9E7A895D1A23632A009FD39F /* Crashlytics.framework */,
 				9ED638F31A12610800D1F62C /* Parse.framework */,
 				9E79B87119643B2100559838 /* SystemConfiguration.framework */,
@@ -759,7 +763,7 @@
 				GCC_PREFIX_HEADER = "$(PRODUCT_NAME)/$(PRODUCT_NAME)-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/BabyGems/BabyGems-Info.plist";
 				PRODUCT_NAME = BabyGems;
-				PROVISIONING_PROFILE = "00c199ac-02d1-4e22-8f3f-99629ba7c77e";
+				PROVISIONING_PROFILE = "faf06a2e-acd1-4136-bebb-b694deb72471";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
