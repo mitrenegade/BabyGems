@@ -10,6 +10,7 @@
 #import "UIImage+Resize.h"
 #import "Gem+Parse.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "BackgroundHelper.h"
 
 @interface NewGemViewController ()
 
@@ -182,6 +183,7 @@
     NSData *data = UIImageJPEGRepresentation(self.image, .8);
     gem.offlineImage = data;
 
+    [BackgroundHelper keepTaskInBackgroundForPhotoUpload];
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
         [self enableButtons:YES];
@@ -191,8 +193,10 @@
         imageFile = [PFFile fileWithData:data];
         [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [gem.pfObject setObject:imageFile forKey:@"imageFile"];
+            gem.imageURL = imageFile.url;
             [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
                 [self notify:@"gems:updated"];
+                [BackgroundHelper stopTaskInBackgroundForPhotoUpload];
             }];
         }];
     }];
