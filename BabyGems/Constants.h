@@ -10,19 +10,19 @@
 #define BabyGems_Constants_h
 
 #define AIRPLANE_MODE 0
-#define TESTING 0
+#define TESTING 1
 
 typedef enum GemCellStyleEnum {
     CellStyleFirst,
-    CellStyleFull = CellStyleFirst,
-    CellStyleBottom,
+    CellStyleBottom = CellStyleFirst,
+    CellStyleFull,
     CellStyleMax
 } GemCellStyle;
 
 typedef enum GemBorderStyleEnum {
     BorderStyleFirst,
-    BorderStyleNone = BorderStyleFirst,
-    BorderStyleRound,
+    BorderStyleRound = BorderStyleFirst,
+    BorderStyleNone,
     BorderStyleMax
 } GemBorderStyle;
 
