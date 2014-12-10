@@ -22,11 +22,11 @@
     // Do any additional setup after loading the view.
 
     if (self.gem) {
-        if (self.gem.quote) {
+        if (self.gem.quote.length) {
             self.labelQuote.text = [NSString stringWithFormat:@"“%@”", self.gem.quote];
         }
         else {
-            self.labelQuote.text = @"";
+            self.labelQuote.text = PLACEHOLDER_TEXT;
         }
 
         NSString *text = self.gem.quote;
@@ -35,7 +35,6 @@
         self.constraintQuoteHeight.constant = rect.size.height + 40;
         self.constraintQuoteDistanceFromTop.priority = 900;
         self.constraintQuoteHeight.priority = 1000;
-
         NSData *data = self.gem.offlineImage;
         if (data) {
             UIImage *image = [UIImage imageWithData:data];
@@ -136,7 +135,7 @@
      NSString *const UIActivityTypePostToTencentWeibo;
      NSString *const UIActivityTypeAirDrop;
      */
-    NSString *textToShare = self.gem.quote?self.labelQuote.text:nil;
+    NSString *textToShare = self.gem.quote.length?self.labelQuote.text:nil;
     UIImage *image;
     if (self.imageView.image)
         image = self.imageView.image;
@@ -180,7 +179,7 @@
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
         CGPoint touch = [gesture locationInView:self.view];
         if (CGRectContainsPoint(self.viewQuote.frame, touch)) {
-            [self updateInputWithText:self.gem.quote?:PLACEHOLDER_TEXT];
+            [self updateInputWithText:self.gem.quote.length?self.gem.quote:@""];
             [self.inputQuote becomeFirstResponder];
         }
     }
