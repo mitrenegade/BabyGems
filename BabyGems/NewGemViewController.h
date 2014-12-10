@@ -36,4 +36,6 @@
 
 -(IBAction)didClickGemBox:(id)sender;
 -(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image;
+
++(BOOL)toggleSaveToAlbum;
 @end

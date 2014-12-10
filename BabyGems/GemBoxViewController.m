@@ -396,12 +396,15 @@
 #pragma mark Settings
 -(void)showSettings {
     NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
-    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website", @"Toggle photo options"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self goToFeedback];
         }
         else if (buttonIndex == 1) {
             [self goToTOS];
+        }
+        else if (buttonIndex == 2) {
+            [NewGemViewController toggleSaveToAlbum];
         }
     } onCancel:^{
         // do nothing
@@ -412,6 +415,7 @@
     NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
+
 
 #pragma mark Mail composer
 -(void)goToFeedback {

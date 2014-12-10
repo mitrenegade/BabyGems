@@ -257,12 +257,24 @@
     return [permission boolValue];
 }
 
++(void)toggleSaveToAlbum {
+    [[NSUserDefaults standardUserDefaults] setValue:@(![self canSaveToAlbum]) forKey:@"camera:saveToAlbum"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    if ([self canSaveToAlbum]) {
+        [UIAlertView alertViewWithTitle:@"Camera roll enabled" message:@"babyGems will save pictures you take to the camera roll."];
+    }
+    else {
+        [UIAlertView alertViewWithTitle:@"Camera roll disabled" message:@"babyGems will no longer save pictures you take to the camera roll."];
+    }
+}
+
 +(BOOL)saveToAlbum:(UIImage *)image meta:(NSDictionary *)meta {
     // save to album
     if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusDenied) {
         [UIAlertView alertViewWithTitle:@"Cannot save to camera roll" message:@"babyGems could not access your camera roll. (Your gem was successfully saved to your gemBox.) You can go to Settings->Privacy to change this." cancelButtonTitle:@"Skip" otherButtonTitles:@[@"Never save to camera roll"] onDismiss:^(int buttonIndex) {
             if (buttonIndex == 0) {
-                [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"camera:saveToAlbum"];
+                [self toggleSaveToAlbum];
             }
         } onCancel:nil];
         return NO;
