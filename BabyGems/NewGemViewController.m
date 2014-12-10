@@ -264,14 +264,14 @@
     if ([self.quote length] == 0)
         [self.inputQuote setHidden:YES];
 
-    CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
-    CGSize size = self.image.size;
+//    CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
+    CGSize size = self.view.frame.size;
     UIGraphicsBeginImageContext(size);
 
     // Put everything in the current view into the screenshot
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
-    CGContextConcatCTM(ctx, t);
+    //CGContextConcatCTM(ctx, t);
     /*
     if (isPortrait) {
         CGAffineTransform r = CGAffineTransformMakeRotation(M_PI_2);
