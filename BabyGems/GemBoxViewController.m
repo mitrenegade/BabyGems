@@ -116,6 +116,7 @@
         controller.delegate = self;
         controller.image = savedImage;
         controller.quote = savedQuote;
+        controller.meta = savedMeta;
     }
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
         GemDetailViewController *controller = [segue destinationViewController];
@@ -340,8 +341,9 @@
     [cameraController showCameraFromController:self];
 }
 
--(void)didTakePicture:(UIImage *)image {
+-(void)didTakePicture:(UIImage *)image meta:(NSDictionary *)meta {
     savedImage = image;
+    savedMeta = meta;
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [self performSegueWithIdentifier:@"GoToAddGem" sender:self];
     }];

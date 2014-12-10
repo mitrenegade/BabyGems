@@ -24,6 +24,7 @@
 }
 @property (weak, nonatomic) id delegate;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) NSDictionary *meta;
 @property (nonatomic) NSString *quote;
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;

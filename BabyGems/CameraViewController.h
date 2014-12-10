@@ -10,7 +10,7 @@
 
 @protocol CameraDelegate <NSObject>
 
--(void)didTakePicture:(UIImage *)image;
+-(void)didTakePicture:(UIImage *)image meta:(NSDictionary *)meta;
 
 @end
 

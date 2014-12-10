@@ -135,9 +135,8 @@
     [CameraViewController getMetaForInfo:info withCompletion:^(NSDictionary *meta) {
         NSLog(@"Meta: %@", meta);
         // for now, no active stripping of metadata is done. When we save the image to parse, the metadata is not saved anyways.
+        [self.delegate didTakePicture:image meta:meta];
     }];
-
-    [self.delegate didTakePicture:image];
 }
 
 +(void)getMetaForInfo:(NSDictionary *)info withCompletion:(void(^)(NSDictionary *meta))completion {

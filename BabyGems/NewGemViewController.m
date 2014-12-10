@@ -23,7 +23,7 @@
 
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave:)];
     self.navigationItem.rightBarButtonItem = right;
-    [self enableButtons:NO];
+    //[self enableButtons:NO];
 
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     keyboardDoneButtonView.barStyle = UIBarStyleBlack;
@@ -149,6 +149,22 @@
 
 #pragma mark Parse
 -(void)saveGem {
+    if (self.image) {
+        NSNumber *permission = [[NSUserDefaults standardUserDefaults] valueForKey:@"camera:saveToAlbum"];
+        if (!permission) {
+            [UIAlertView alertViewWithTitle:@"Save images to camera roll?" message:@"Would you like babyGems to store pictures you take to the camera roll?" cancelButtonTitle:@"No thanks" otherButtonTitles:@[@"Yes"] onDismiss:^(int buttonIndex) {
+                [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:@"camera:saveToAlbum"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self saveGem];
+            } onCancel:^{
+                [[NSUserDefaults standardUserDefaults] setValue:@NO forKey:@"camera:saveToAlbum"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self saveGem];
+            }];
+            return;
+        }
+    }
+
     [self saveGemWithQuote:self.quote image:self.image];
     [self.delegate didSaveNewGem];
 }
@@ -184,8 +200,9 @@
     // offline storage
     [_appDelegate.managedObjectContext save:nil];
 
-//    if (self.image)
-//        [self saveScreenshot];
+    if (self.image && [NewGemViewController canSaveToAlbum]) {
+        [NewGemViewController saveToAlbum:image meta:self.meta];
+    }
 }
 
 - (void)keyboardWillShow:(NSNotification *)n
@@ -236,19 +253,15 @@
 }
 
 +(BOOL)canSaveToAlbum {
-    // todo: toggle
-    return YES;
+    NSNumber *permission = [[NSUserDefaults standardUserDefaults] valueForKey:@"camera:saveToAlbum"];
+    return [permission boolValue];
 }
 
 +(BOOL)saveToAlbum:(UIImage *)image meta:(NSDictionary *)meta {
     // save to album
-    if (![self canSaveToAlbum])
-        return NO;
-
     if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusDenied) {
-        [UIAlertView alertViewWithTitle:@"Cannot save to album" message:@"BabyGems could not access your camera roll. Please go to your phone Settings->Privacy to change this." cancelButtonTitle:@"Skip" otherButtonTitles:@[@"Never save"] onDismiss:^(int buttonIndex) {
+        [UIAlertView alertViewWithTitle:@"Cannot save to camera roll" message:@"babyGems could not access your camera roll. (Your gem was successfully saved to your gemBox.) You can go to Settings->Privacy to change this." cancelButtonTitle:@"Skip" otherButtonTitles:@[@"Never save to camera roll"] onDismiss:^(int buttonIndex) {
             if (buttonIndex == 0) {
-                [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"camera:albumAccess:requested"];
                 [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"camera:saveToAlbum"];
             }
         } onCancel:nil];
@@ -257,7 +270,7 @@
 
     NSMutableDictionary *cachedMeta = [meta mutableCopy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[ALAssetsLibrary sharedALAssetsLibrary] saveImage:image meta:cachedMeta toAlbum:@"BabyGems" withCompletionBlock:^(NSError *error) {
+        [[ALAssetsLibrary sharedALAssetsLibrary] saveImage:image meta:cachedMeta toAlbum:@"babyGems" withCompletionBlock:^(NSError *error) {
             if (error!=nil) {
                 NSLog(@"Image could not be saved!");
             }
