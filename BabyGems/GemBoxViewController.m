@@ -116,6 +116,7 @@
         controller.delegate = self;
         controller.image = savedImage;
         controller.quote = savedQuote;
+        controller.meta = savedMeta;
     }
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
         GemDetailViewController *controller = [segue destinationViewController];
@@ -340,8 +341,9 @@
     [cameraController showCameraFromController:self];
 }
 
--(void)didTakePicture:(UIImage *)_image {
-    savedImage = _image;
+-(void)didTakePicture:(UIImage *)image meta:(NSDictionary *)meta {
+    savedImage = image;
+    savedMeta = meta;
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [self performSegueWithIdentifier:@"GoToAddGem" sender:self];
     }];
@@ -394,12 +396,15 @@
 #pragma mark Settings
 -(void)showSettings {
     NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
-    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website", @"Toggle photo options"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self goToFeedback];
         }
         else if (buttonIndex == 1) {
             [self goToTOS];
+        }
+        else if (buttonIndex == 2) {
+            [NewGemViewController toggleSaveToAlbum];
         }
     } onCancel:^{
         // do nothing
@@ -410,6 +415,7 @@
     NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
+
 
 #pragma mark Mail composer
 -(void)goToFeedback {

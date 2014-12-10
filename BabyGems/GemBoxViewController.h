@@ -19,6 +19,7 @@
 
     UIImage *savedImage;
     NSString *savedQuote;
+    NSDictionary *savedMeta;
 
     GemCellStyle cellStyle;
     GemBorderStyle borderStyle;

@@ -16,16 +16,15 @@
 @end
 
 @class Gem;
-@interface NewGemViewController : UIViewController <UITextViewDelegate, CameraDelegate>
+@interface NewGemViewController : UIViewController <UITextViewDelegate>
 {
     Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
-
-    CameraViewController *cameraController;
 }
 @property (weak, nonatomic) id delegate;
 @property (nonatomic) UIImage *image;
+@property (nonatomic) NSDictionary *meta;
 @property (nonatomic) NSString *quote;
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
@@ -37,4 +36,6 @@
 
 -(IBAction)didClickGemBox:(id)sender;
 -(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image;
+
++(BOOL)toggleSaveToAlbum;
 @end

@@ -10,6 +10,7 @@
 #import "UIImage+Resize.h"
 #import "Gem+Parse.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
+#import "BackgroundHelper.h"
 
 @interface NewGemViewController ()
 
@@ -23,7 +24,7 @@
 
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(didClickSave:)];
     self.navigationItem.rightBarButtonItem = right;
-    [self enableButtons:NO];
+    //[self enableButtons:NO];
 
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     keyboardDoneButtonView.barStyle = UIBarStyleBlack;
@@ -51,9 +52,6 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:self.view.window];
-
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    [self.imageView addGestureRecognizer:tap];
 
     if (self.image)
         [self updateGemImage];
@@ -143,46 +141,31 @@
     self.constraintQuoteHeight.constant = rect.size.height + 40;
 }
 
-#pragma mark Camera
--(void)handleGesture:(UIGestureRecognizer *)gesture {
-    cameraController = [[CameraViewController alloc] init];
-    cameraController.delegate = self;
-    [cameraController showCameraFromController:self];
-}
-
--(void)didTakePicture:(UIImage *)image {
-    self.image = image;
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        [self updateGemImage];
-    }];
-}
-
 -(void)updateGemImage {
     if (!self.image)
         return;
 
     self.imageView.image = self.image;
-    imageFileReady = NO;
-    [self enableButtons:NO];
-
-    if (!gem) {
-        gem = (Gem *)[Gem createEntityInContext:_appDelegate.managedObjectContext];
-    }
-
-    // allow offline image storage
-    NSData *data = UIImageJPEGRepresentation(self.image, .8);
-    gem.offlineImage = data;
-
-    // online image storage
-    imageFile = [PFFile fileWithData:data];
-    [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        imageFileReady = YES;
-        [self enableButtons:YES];
-    }];
 }
 
 #pragma mark Parse
 -(void)saveGem {
+    if (self.image) {
+        NSNumber *permission = [[NSUserDefaults standardUserDefaults] valueForKey:@"camera:saveToAlbum"];
+        if (!permission) {
+            [UIAlertView alertViewWithTitle:@"Save images to camera roll?" message:@"Would you like babyGems to store pictures you take to the camera roll?" cancelButtonTitle:@"No thanks" otherButtonTitles:@[@"Yes"] onDismiss:^(int buttonIndex) {
+                [[NSUserDefaults standardUserDefaults] setValue:@YES forKey:@"camera:saveToAlbum"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self saveGem];
+            } onCancel:^{
+                [[NSUserDefaults standardUserDefaults] setValue:@NO forKey:@"camera:saveToAlbum"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self saveGem];
+            }];
+            return;
+        }
+    }
+
     [self saveGemWithQuote:self.quote image:self.image];
     [self.delegate didSaveNewGem];
 }
@@ -193,38 +176,37 @@
     if (!gem) {
         gem = (Gem *)[Gem createEntityInContext:_appDelegate.managedObjectContext];
     }
-
     gem.quote = quote;
-    if (imageFileReady) {
-        gem.imageURL = [imageFile url];
-
-        // also add a pointer to the PFFile if possible
-        if (gem.pfObject)
-            [gem.pfObject setObject:imageFile forKey:@"imageFile"];
-    }
-    else {
-        // todo: set a flag to do image upload later when internet is ready
-    }
     gem.createdAt = [NSDate date];
 
+    // allow offline image storage
+    NSData *data = UIImageJPEGRepresentation(self.image, .8);
+    gem.offlineImage = data;
+
+    [BackgroundHelper keepTaskInBackgroundForPhotoUpload];
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
         [self enableButtons:YES];
         [self notify:@"gems:updated"];
 
-        if (imageFile) {
+        // online image storage
+        imageFile = [PFFile fileWithData:data];
+        [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             [gem.pfObject setObject:imageFile forKey:@"imageFile"];
+            gem.imageURL = imageFile.url;
             [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
                 [self notify:@"gems:updated"];
+                [BackgroundHelper stopTaskInBackgroundForPhotoUpload];
             }];
-        }
+        }];
     }];
 
     // offline storage
     [_appDelegate.managedObjectContext save:nil];
 
-    if (self.image)
-        [self saveScreenshot];
+    if (self.image && [NewGemViewController canSaveToAlbum]) {
+        [NewGemViewController saveToAlbum:image meta:self.meta];
+    }
 }
 
 - (void)keyboardWillShow:(NSNotification *)n
@@ -255,31 +237,15 @@
 #pragma mark saveToAlbum
 -(void)saveScreenshot {
     // Create the screenshot. draw image in viewBounds
-    //    if (isPortrait) {
-    //        [self.canvas setTransform:CGAffineTransformMakeRotation(M_PI_2)];
-    //    }
-    float scaleX = self.image.size.width / self.imageView.frame.size.width;
-    float scaleY = self.image.size.height / self.imageView.frame.size.height;
-
     if ([self.quote length] == 0)
         [self.inputQuote setHidden:YES];
 
-    CGAffineTransform t = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
-    CGSize size = self.image.size;
+    CGSize size = self.view.frame.size;
     UIGraphicsBeginImageContext(size);
 
     // Put everything in the current view into the screenshot
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
-    CGContextConcatCTM(ctx, t);
-    /*
-    if (isPortrait) {
-        CGAffineTransform r = CGAffineTransformMakeRotation(M_PI_2);
-        CGAffineTransform dx = CGAffineTransformMakeTranslation(0, -320);
-        CGContextConcatCTM(ctx, r);
-        CGContextConcatCTM(ctx, dx);
-    }
-     */
     [self.view.layer renderInContext:ctx];
 
     CGContextRestoreGState(ctx);
@@ -291,19 +257,28 @@
 }
 
 +(BOOL)canSaveToAlbum {
-    // todo: toggle
-    return YES;
+    NSNumber *permission = [[NSUserDefaults standardUserDefaults] valueForKey:@"camera:saveToAlbum"];
+    return [permission boolValue];
+}
+
++(void)toggleSaveToAlbum {
+    [[NSUserDefaults standardUserDefaults] setValue:@(![self canSaveToAlbum]) forKey:@"camera:saveToAlbum"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    if ([self canSaveToAlbum]) {
+        [UIAlertView alertViewWithTitle:@"Camera roll enabled" message:@"babyGems will save pictures you take to the camera roll."];
+    }
+    else {
+        [UIAlertView alertViewWithTitle:@"Camera roll disabled" message:@"babyGems will no longer save pictures you take to the camera roll."];
+    }
 }
 
 +(BOOL)saveToAlbum:(UIImage *)image meta:(NSDictionary *)meta {
     // save to album
-    if (![self canSaveToAlbum])
-        return NO;
     if ([ALAssetsLibrary authorizationStatus] == ALAuthorizationStatusDenied) {
-        [UIAlertView alertViewWithTitle:@"Cannot save to album" message:@"BabyGems could not access your camera roll. Please go to your phone Settings->Privacy to change this." cancelButtonTitle:@"Skip" otherButtonTitles:@[@"Never save"] onDismiss:^(int buttonIndex) {
+        [UIAlertView alertViewWithTitle:@"Cannot save to camera roll" message:@"babyGems could not access your camera roll. (Your gem was successfully saved to your gemBox.) You can go to Settings->Privacy to change this." cancelButtonTitle:@"Skip" otherButtonTitles:@[@"Never save to camera roll"] onDismiss:^(int buttonIndex) {
             if (buttonIndex == 0) {
-                [[NSUserDefaults standardUserDefaults] setObject:@YES forKey:@"camera:albumAccess:requested"];
-                [[NSUserDefaults standardUserDefaults] setObject:@NO forKey:@"camera:saveToAlbum"];
+                [self toggleSaveToAlbum];
             }
         } onCancel:nil];
         return NO;
@@ -311,7 +286,7 @@
 
     NSMutableDictionary *cachedMeta = [meta mutableCopy];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[ALAssetsLibrary sharedALAssetsLibrary] saveImage:image meta:cachedMeta toAlbum:@"BabyGems" withCompletionBlock:^(NSError *error) {
+        [[ALAssetsLibrary sharedALAssetsLibrary] saveImage:image meta:cachedMeta toAlbum:@"babyGems" withCompletionBlock:^(NSError *error) {
             if (error!=nil) {
                 NSLog(@"Image could not be saved!");
             }
