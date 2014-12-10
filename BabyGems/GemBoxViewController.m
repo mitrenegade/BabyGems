@@ -340,8 +340,8 @@
     [cameraController showCameraFromController:self];
 }
 
--(void)didTakePicture:(UIImage *)_image {
-    savedImage = _image;
+-(void)didTakePicture:(UIImage *)image {
+    savedImage = image;
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         [self performSegueWithIdentifier:@"GoToAddGem" sender:self];
     }];

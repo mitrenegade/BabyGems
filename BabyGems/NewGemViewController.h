@@ -16,13 +16,11 @@
 @end
 
 @class Gem;
-@interface NewGemViewController : UIViewController <UITextViewDelegate, CameraDelegate>
+@interface NewGemViewController : UIViewController <UITextViewDelegate>
 {
     Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
-
-    CameraViewController *cameraController;
 }
 @property (weak, nonatomic) id delegate;
 @property (nonatomic) UIImage *image;
