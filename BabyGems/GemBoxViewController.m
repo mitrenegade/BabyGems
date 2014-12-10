@@ -58,7 +58,7 @@
     }
     borderStyle = BorderStyleFirst;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
-        borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"efaults:borderstyle"];
+        borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"];
     }
 #else
     cellStyle = CellStyleBottom;

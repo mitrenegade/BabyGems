@@ -15,7 +15,7 @@
 
 -(void)setupForGem:(Gem *)gem {
     self.gem = gem;
-    if (gem.quote) {
+    if (gem.quote.length) {
         self.labelQuote.text = [NSString stringWithFormat:@"“%@”", gem.quote];
     }
     else {

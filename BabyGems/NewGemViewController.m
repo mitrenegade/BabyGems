@@ -15,8 +15,6 @@
 
 @end
 
-#define PLACEHOLDER_TEXT @"Click here to add a quote"
-
 @implementation NewGemViewController
 
 - (void)viewDidLoad {
