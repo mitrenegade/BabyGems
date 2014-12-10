@@ -11,7 +11,7 @@
 
 @class Gem;
 @class AsyncImageView;
-@interface GemDetailViewController : UIViewController
+@interface GemDetailViewController : UIViewController <UITextViewDelegate>
 {
     GemCellStyle cellStyle;
     GemBorderStyle borderStyle;
@@ -26,6 +26,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
 
 @property (nonatomic, assign) GemBorderStyle borderStyle;
+@property (strong, nonatomic) UITextView *inputQuote;
 
 -(IBAction)didClickShare:(id)sender;
 -(IBAction)didClickTrash:(id)sender;

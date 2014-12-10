@@ -9,9 +9,15 @@
 #ifndef BabyGems_Constants_h
 #define BabyGems_Constants_h
 
+// testing constants
 #define AIRPLANE_MODE 0
 #define TESTING 1
 
+// string constants
+#define PLACEHOLDER_TEXT @"Click here to add a quote"
+
+/// enumerations
+// cell enumeration
 typedef enum GemCellStyleEnum {
     CellStyleFirst,
     CellStyleBottom = CellStyleFirst,

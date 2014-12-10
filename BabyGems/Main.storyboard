@@ -173,6 +173,10 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ucG-mB-PW7">
                                 <rect key="frame" x="8" y="0.0" width="584" height="528"/>
                                 <subviews>
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bi0-kF-lnP" customClass="AsyncImageView">
+                                        <rect key="frame" x="0.0" y="0.0" width="584" height="480"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                    </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jis-nk-usz" userLabel="View - quote">
                                         <rect key="frame" x="0.0" y="339" width="584" height="141"/>
                                         <subviews>
@@ -232,10 +236,6 @@
                                             <constraint firstAttribute="height" constant="40" id="vbI-dj-667"/>
                                         </constraints>
                                     </view>
-                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Bi0-kF-lnP" customClass="AsyncImageView">
-                                        <rect key="frame" x="0.0" y="0.0" width="584" height="480"/>
-                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                    </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
