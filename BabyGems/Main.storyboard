@@ -138,7 +138,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="WXn-NI-7tS">
-                        <barButtonItem key="leftBarButtonItem" title="GemBox" id="oTh-yA-731">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="oTh-yA-731">
                             <connections>
                                 <action selector="didClickGemBox:" destination="YLL-mI-Kxj" id="fAq-DS-ryU"/>
                             </connections>
