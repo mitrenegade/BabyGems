@@ -11,6 +11,7 @@
 @class Album;
 @interface AlbumCell : UICollectionViewCell
 
+@property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
 @property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet UILabel *labelCount;
@@ -18,5 +19,6 @@
 @property (weak, nonatomic) Album *album;
 
 -(void)setupWithAlbum:(Album *)album;
+-(void)setupForDefaultAlbumWithGems:(NSArray *)gems;
 
 @end

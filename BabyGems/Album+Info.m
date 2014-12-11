@@ -13,6 +13,6 @@
 
 -(NSString *)dateString {
     NSDate *date = self.startDate?:self.createdAt;
-    return [Util simpleTimeAgo:date];
+    return [Util timeAgo:date compact:NO];
 }
 @end

@@ -15,17 +15,14 @@
 
 @implementation AlbumsViewController
 
-static NSString * const reuseIdentifier = @"Cell";
+//static NSString * const reuseIdentifier = @"AlbumCell";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Register cell classes
-    [self.collectionView registerClass:[UICollectionViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    
+
     // Do any additional setup after loading the view.
 }
 
@@ -47,20 +44,27 @@ static NSString * const reuseIdentifier = @"Cell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 1;
+    return 2;
 }
 
-
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [[self.albumFetcher fetchedObjects] count];
+    if (section == 0)
+        return 1;
+    else
+        return [[self.albumFetcher fetchedObjects] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    AlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    AlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AlbumCell" forIndexPath:indexPath];
     
     // Configure the cell
-    Album *album = [self.albumFetcher objectAtIndexPath:indexPath];
-    [cell setupWithAlbum:album];
+    if (indexPath.section == 0) {
+        [cell setupForDefaultAlbumWithGems:self.gemFetcher.fetchedObjects];
+    }
+    else {
+        Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+        [cell setupWithAlbum:album];
+    }
 
     return cell;
 }
@@ -97,15 +101,30 @@ static NSString * const reuseIdentifier = @"Cell";
 */
 
 -(NSFetchedResultsController *) albumFetcher {
-    if (fetchController)
-        return fetchController;
+    if (albumFetcher)
+        return albumFetcher;
 
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Album"];
     //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@", @"pfUserID", _currentUser.objectId];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
     request.sortDescriptors = @[sortDescriptor];
-    fetchController = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [fetchController performFetch:nil];
-    return fetchController;
+    albumFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [albumFetcher performFetch:nil];
+    return albumFetcher;
+}
+
+-(NSFetchedResultsController *) gemFetcher {
+    // returns gems without an album
+    if (gemFetcher)
+        return gemFetcher;
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Gem"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album"];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
+    request.predicate = predicate;
+    request.sortDescriptors = @[sortDescriptor];
+    gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [gemFetcher performFetch:nil];
+    return gemFetcher;
 }
 @end

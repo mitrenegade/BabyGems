@@ -10,6 +10,7 @@
 
 @interface AlbumsViewController : UICollectionViewController
 {
-    NSFetchedResultsController *fetchController;
+    NSFetchedResultsController *albumFetcher;
+    NSFetchedResultsController *gemFetcher;
 }
 @end
