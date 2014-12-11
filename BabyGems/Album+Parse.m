@@ -1,15 +1,14 @@
 //
-//  Gem+Parse.m
+//  Album+Parse.m
 //  BabyGems
 //
-//  Created by Bobby Ren on 11/15/14.
+//  Created by Bobby Ren on 12/11/14.
 //  Copyright (c) 2014 BobbyRenTech. All rights reserved.
 //
 
-#import "Gem+Parse.h"
 #import "Album+Parse.h"
 
-@implementation Gem (Parse)
+@implementation Album (Parse)
 
 -(void)updateFromParseWithCompletion:(void (^)(BOOL))completion {
     // refreshes object from parse
@@ -23,30 +22,28 @@
 }
 
 -(void)updateAttributesFromPFObject {
-    self.quote = [self.pfObject objectForKey:@"quote"];
-    self.imageURL = [self.pfObject objectForKey:@"imageURL"];
-    self.pfUserID = [self.pfObject objectForKey:@"pfUserID"];
-
-    // relationships
-    self.album = [self.pfObject objectForKey:@"album"];
+    self.name = [self.pfObject objectForKey:@"name"];
+    self.longDescription = [self.pfObject objectForKey:@"longDescription"];
+    self.startDate = [self.pfObject objectForKey:@"startDate"];
+    self.endDate = [self.pfObject objectForKey:@"endDate"];
 }
 
 -(void)saveOrUpdateToParseWithCompletion:(void (^)(BOOL))completion {
     [super saveOrUpdateToParseWithCompletion:^(BOOL success) {
 
-        if (self.quote)
-            self.pfObject[@"quote"] = self.quote;
-        if (self.imageURL) {
-            self.pfObject[@"imageURL"] = self.imageURL;
-        }
+        if (self.name)
+            self.pfObject[@"name"] = self.name;
+        if (self.longDescription)
+            self.pfObject[@"longDescription"] = self.longDescription;
+        if (self.startDate)
+            self.pfObject[@"startDate"] = self.startDate;
+        if (self.endDate)
+            self.pfObject[@"endDate"] = self.endDate;
 
         if (_currentUser) {
             self.pfObject[@"user"] = _currentUser;
             self.pfObject[@"pfUserID"] = _currentUser.objectId;
         }
-        // relationships
-        if (self.album)
-            self.pfObject[@"album"] = self.album.pfObject;
 
         [self.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             if (succeeded) {
