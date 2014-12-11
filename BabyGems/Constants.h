@@ -10,7 +10,7 @@
 #define BabyGems_Constants_h
 
 // testing constants
-#define AIRPLANE_MODE 0
+#define AIRPLANE_MODE 1
 #define TESTING 1
 
 // string constants

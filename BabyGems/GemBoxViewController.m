@@ -48,10 +48,6 @@
     self.navigationItem.rightBarButtonItem = right;
 
 #if TESTING
-    // admin options
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Admin" style:UIBarButtonItemStyleBordered target:self action:@selector(showAdmin)];
-    self.navigationItem.leftBarButtonItem = left;
-
     cellStyle = CellStyleFirst;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
         cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
@@ -396,7 +392,11 @@
 #pragma mark Settings
 -(void)showSettings {
     NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
-    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website", @"Toggle photo options"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+    NSArray *menuOptions = @[@"Contact us", @"View website", @"Toggle photo options"];
+#if TESTING
+    menuOptions = [menuOptions arrayByAddingObject:@"Admin"];
+#endif
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:menuOptions showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self goToFeedback];
         }
@@ -406,11 +406,17 @@
         else if (buttonIndex == 2) {
             [NewGemViewController toggleSaveToAlbum];
         }
+        else {
+#if TESTING
+            [self showSettings];
+#endif
+        }
     } onCancel:^{
         // do nothing
     }];
 }
 
+#pragma mark Albums
 -(void)goToTOS {
     NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
