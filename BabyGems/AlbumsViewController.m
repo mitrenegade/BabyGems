@@ -8,6 +8,7 @@
 
 #import "AlbumsViewController.h"
 #import "AlbumCell.h"
+#import "Album+Parse.h"
 
 @interface AlbumsViewController ()
 
@@ -24,6 +25,10 @@
     // self.clearsSelectionOnViewWillAppear = NO;
 
     // Do any additional setup after loading the view.
+
+    // set section insets:
+    //http://www.appcoda.com/supplementary-view-uicollectionview-flow-layout/
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,8 +55,9 @@
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0)
         return 2;
-    else
+    else {
         return [[self.albumFetcher fetchedObjects] count];
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -73,6 +79,17 @@
 }
 
 #pragma mark <UICollectionViewDelegate>
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (indexPath.section == 0) {
+        if (indexPath.row == 1) {
+            // create a new album
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enter album name" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"OK", nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            [alert show];
+        }
+    }
+}
 
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking
@@ -103,6 +120,8 @@
 }
 */
 
+#pragma mark NSFetchedResultsController
+
 -(NSFetchedResultsController *) albumFetcher {
     if (albumFetcher)
         return albumFetcher;
@@ -129,5 +148,38 @@
     gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     [gemFetcher performFetch:nil];
     return gemFetcher;
+}
+
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 0) {
+        NSLog(@"Cancel");
+    }
+    else if (buttonIndex == 1) {
+        NSString *title = [alertView textFieldAtIndex:0].text;
+        NSLog(@"Create an album with title %@", title);
+        [self createAlbum:title];
+    }
+}
+
+#pragma mark Album
+-(void)createAlbum:(NSString *)title {
+    Album *album = (Album *)[Album createEntityInContext:_appDelegate.managedObjectContext];
+    album.startDate = [NSDate date];
+    album.name = title;
+#if AIRPLANE_MODE
+    [_appDelegate saveContext];
+    [UIAlertView alertViewWithTitle:@"Album created" message:@"Please add images to the album"];
+    [self.albumFetcher performFetch:nil];
+    [self.collectionView reloadData];
+#else
+    [album saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Success %d id %@", success, album.parseID);
+        [_appDelegate saveContext];
+        [UIAlertView alertViewWithTitle:@"Album created" message:@"Please add images to the album"];
+        [self.albumFetcher performFetch:nil];
+        [self.collectionView reloadData];
+    }];
+#endif
 }
 @end

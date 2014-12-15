@@ -71,18 +71,18 @@
 #pragma mark Parse
 -(void)synchronizeWithParse {
     // make sure all parse objects are in core data
-    NSArray *classes = @[@"Gem"];
+    NSArray *classes = @[@"Gem", @"Album"];
 
     for (NSString *className in classes) {
         PFQuery *query = [PFQuery queryWithClassName:className];
         PFUser *user = _currentUser;
         [user fetchIfNeeded];
         [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
-        NSLog(@"Querying for %@ for organization %@", className, _currentUser[@"organization"]);
+        NSLog(@"Querying for %@ for user %@", className, _currentUser.objectId);
 
-        if ([className isEqualToString:@"Gem"]) {
+        if ([className isEqualToString:@"Album"]) {
             NSLog(@"Before sync:");
-            [_appDelegate printAll];
+            [_appDelegate printAllAlbums];
         }
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error) {
@@ -94,9 +94,9 @@
                     // reload
                     [self notify:@"gems:updated"];
 
-                    if ([className isEqualToString:@"Gem"]) {
+                    if ([className isEqualToString:@"Album"]) {
                         NSLog(@"After sync:");
-                        [_appDelegate printAll];
+                        [_appDelegate printAllAlbums];
                     }
                 }];
             }

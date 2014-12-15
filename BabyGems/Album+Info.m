@@ -30,6 +30,6 @@
         if ([sorted[i] imageURL])
             return sorted[i];
     }
-    return sorted[0];
+    return [sorted count]?sorted[0]:nil;
 }
 @end

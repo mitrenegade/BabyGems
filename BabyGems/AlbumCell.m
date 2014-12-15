@@ -18,7 +18,10 @@
     [self setupBorder];
     [self setupName:album.name];
     self.labelCount.text = [NSString stringWithFormat:@"%lu", (unsigned long)[album.gems count]];
+
     Gem *gem = [album coverGem];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView.image = gem.offlineImage?[UIImage imageWithData:gem.offlineImage]:nil;
     self.imageView.imageURL = [NSURL URLWithString:gem.imageURL];
     self.viewCountBG.hidden = NO;
 }
@@ -27,6 +30,7 @@
     [self setupBorder];
     [self setupName:@"Your default album"];
     self.labelCount.text = [NSString stringWithFormat:@"%lu", (unsigned long)[gems count]];
+
     Gem *gem = nil;
     for (int i=0; i<[gems count]; i++) {
         if ([gems[i] imageURL]) {
@@ -34,6 +38,8 @@
             break;
         }
     }
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView.image = gem.offlineImage?[UIImage imageWithData:gem.offlineImage]:nil;
     self.imageView.imageURL = [NSURL URLWithString:gem.imageURL];
     self.viewCountBG.hidden = NO;
 }
@@ -42,6 +48,7 @@
     [self setupBorder];
     self.imageView.contentMode = UIViewContentModeCenter;
     self.imageView.image = [UIImage imageNamed:@"plus"];
+    self.imageView.imageURL = nil;
     [self setupName:@"Create a new album"];
     self.viewCountBG.hidden = YES;
 }
@@ -58,8 +65,6 @@
     self.viewBG.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     self.viewBG.layer.cornerRadius = 5;
     // todo: if current album, different border color
-
-    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
 
     self.viewCountBG.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     self.viewCountBG.layer.borderWidth = 1;

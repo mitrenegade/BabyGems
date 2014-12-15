@@ -14,7 +14,7 @@
 -(void)didSelectAlbum;
 
 @end
-@interface AlbumsViewController : UICollectionViewController
+@interface AlbumsViewController : UICollectionViewController <UIAlertViewDelegate>
 {
     NSFetchedResultsController *albumFetcher;
     NSFetchedResultsController *gemFetcher;
