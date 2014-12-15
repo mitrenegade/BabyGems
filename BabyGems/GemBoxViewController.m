@@ -244,7 +244,7 @@
     }
     else {
         NSString *text = gem.quote;
-        UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+        UIFont *font = CHALK(16);
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + LABEL_BORDER + COMMENTS_HEIGHT);
     }

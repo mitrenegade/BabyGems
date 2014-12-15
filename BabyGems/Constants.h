@@ -16,6 +16,9 @@
 // string constants
 #define PLACEHOLDER_TEXT @"Click here to add a quote"
 
+// fonts
+#define CHALK(x) ([UIFont fontWithName:@"Chalkduster" size:x])
+
 /// enumerations
 // cell enumeration
 typedef enum GemCellStyleEnum {

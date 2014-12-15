@@ -7,10 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Album.h"
 
+@protocol AlbumsViewDelegate <NSObject>
+
+-(void)didSelectAlbum;
+
+@end
 @interface AlbumsViewController : UICollectionViewController
 {
     NSFetchedResultsController *albumFetcher;
     NSFetchedResultsController *gemFetcher;
 }
+
+@property (nonatomic, assign) int mode;
+@property (weak, nonatomic) id<AlbumsViewDelegate> delegate;
+@property (weak, nonatomic) Album *currentAlbum;
+
 @end

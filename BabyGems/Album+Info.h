@@ -7,9 +7,10 @@
 //
 
 #import "Album.h"
-
+@class Gem;
 @interface Album (Info)
 
 -(NSString *)dateString;
+-(Gem *)coverGem;
 
 @end

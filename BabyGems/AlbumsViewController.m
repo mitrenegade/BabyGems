@@ -49,7 +49,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0)
-        return 1;
+        return 2;
     else
         return [[self.albumFetcher fetchedObjects] count];
 }
@@ -59,7 +59,10 @@
     
     // Configure the cell
     if (indexPath.section == 0) {
-        [cell setupForDefaultAlbumWithGems:self.gemFetcher.fetchedObjects];
+        if (indexPath.row == 0)
+            [cell setupForDefaultAlbumWithGems:self.gemFetcher.fetchedObjects];
+        else if (indexPath.row == 1)
+            [cell setupForNewAlbum];
     }
     else {
         Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
