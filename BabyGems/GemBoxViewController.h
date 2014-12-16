@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "CameraViewController.h"
 #import "NewGemViewController.h"
-#import <MessageUI/MFMailComposeViewController.h>
 #import "AlbumsViewController.h"
 #import "GemDetailViewController.h"
 
 @class Album;
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AlbumsViewDelegate, GemDetailDelegate>
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, GemDetailDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
     NSPredicate *albumPredicate;
@@ -25,9 +24,6 @@
     UIImage *savedImage;
     NSString *savedQuote;
     NSDictionary *savedMeta;
-
-    GemCellStyle cellStyle;
-    GemBorderStyle borderStyle;
 
     UIView *tutorialView;
 }

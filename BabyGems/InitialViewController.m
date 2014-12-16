@@ -51,10 +51,9 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"InitialAddGem"]) {
-        UINavigationController *nav = [segue destinationViewController];
-        NewGemViewController *controller = [nav.viewControllers lastObject];
-        controller.delegate = self;
+    if ([segue.identifier isEqualToString:@"InitialGemBox"]) {
+        UIViewController *controller = segue.destinationViewController;
+        _appDelegate.topViewController = controller;
     }
 }
 

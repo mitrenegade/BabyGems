@@ -10,7 +10,7 @@
 #import "Album.h"
 
 @protocol AlbumsViewDelegate <NSObject>
-
+// called by GemDetailsViewController to move an album
 -(void)didSelectAlbum:(Album *)album;
 
 @end
