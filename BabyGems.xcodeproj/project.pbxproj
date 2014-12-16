@@ -256,11 +256,13 @@
 				9E11BB7A1A1260CB0001090B /* AppDelegate.h */,
 				9E11BB7B1A1260CB0001090B /* AppDelegate.m */,
 				9EDF42541A12673600ABC447 /* Main.storyboard */,
+				9EDA284D1A1863C100A5AD06 /* InitialViewController.h */,
+				9EDA284E1A1863C100A5AD06 /* InitialViewController.m */,
 				9EDF42511A1264F900ABC447 /* Login and Signup */,
+				9E7E06051A39D4C30052BCEA /* Albums */,
 				9E59DB8E1A182F6800ABCAEA /* GemBox */,
 				9EDF42591A126D1200ABC447 /* Gem Creation */,
 				9ED3EF561A27E899003A4578 /* Gem Detail */,
-				9E7E06051A39D4C30052BCEA /* Albums */,
 				9E11BB901A1260CB0001090B /* Utils */,
 				9EDF42521A12651300ABC447 /* Resources */,
 			);
@@ -336,8 +338,6 @@
 			isa = PBXGroup;
 			children = (
 				9ECFA61C1A2948770049BB5E /* Cells */,
-				9EDA284D1A1863C100A5AD06 /* InitialViewController.h */,
-				9EDA284E1A1863C100A5AD06 /* InitialViewController.m */,
 				9E59DB8F1A182F9800ABCAEA /* GemBoxViewController.h */,
 				9E59DB901A182F9800ABCAEA /* GemBoxViewController.m */,
 			);

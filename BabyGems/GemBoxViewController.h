@@ -14,7 +14,7 @@
 #import "GemDetailViewController.h"
 
 @class Album;
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AlbumsViewDelegate, GemDetailDelegate>
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, GemDetailDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
     NSPredicate *albumPredicate;

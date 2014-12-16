@@ -60,8 +60,7 @@
     borderStyle = BorderStyleRound;
 #endif
 
-    // start off with nil selected album
-    [self didSelectAlbum:nil];
+    [self selectAlbum:self.currentAlbum];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -126,11 +125,6 @@
         tutorialView = controller.view;
         tutorialView.frame = self.collectionView.frame;
         [self.view insertSubview:tutorialView aboveSubview:self.collectionView];
-    }
-    else if ([segue.identifier isEqualToString:@"GoToAlbums"]) {
-        AlbumsViewController *controller = [segue destinationViewController];
-        controller.currentAlbum = self.currentAlbum;
-        controller.delegate = self;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -479,7 +473,7 @@
 }
 
 #pragma mark AlbumsViewController
--(void)didSelectAlbum:(Album *)album {
+-(void)selectAlbum:(Album *)album {
     if (album && album.parseID) {
         NSArray *results = [[Album where:@{@"parseID":album.parseID}] all];
         if (results)
@@ -499,13 +493,11 @@
     }
     __gemFetcher = nil;
     [self.collectionView reloadData];
-
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark GemDetailDelegate
 -(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
-    [self didSelectAlbum:album];
+    [self selectAlbum:album];
 }
 
 #pragma mark Admin settings

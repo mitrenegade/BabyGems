@@ -9,6 +9,7 @@
 #import "AlbumsViewController.h"
 #import "AlbumCell.h"
 #import "Album+Parse.h"
+#import "GemBoxViewController.h"
 
 @interface AlbumsViewController ()
 
@@ -30,10 +31,10 @@
     //http://www.appcoda.com/supplementary-view-uicollectionview-flow-layout/
 
     if (self.mode == AlbumsViewModeNormal) {
-        self.title = @"View Album";
+        self.title = @"All albums";
     }
     else {
-        self.title = @"Move to Album";
+        self.title = @"Move to album";
     }
 }
 
@@ -42,15 +43,17 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"AlbumsToGemBox"]) {
+        GemBoxViewController *controller = [segue destinationViewController];
+        controller.currentAlbum = self.currentAlbum;
+    }
 }
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -102,16 +105,24 @@
         }
         else {
             // view default album
-            [self.delegate didSelectAlbum:nil];
             self.currentAlbum = nil;
+
+            if (self.mode == AlbumsViewModeSelect && self.delegate)
+                [self.delegate didSelectAlbum:nil];
+            else
+                [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
             [self.collectionView reloadData];
         }
     }
     else {
         if (indexPath.row < [[self.albumFetcher fetchedObjects] count]) {
             Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
-            [self.delegate didSelectAlbum:album];
             self.currentAlbum = album;
+
+            if (self.mode == AlbumsViewModeSelect && self.delegate)
+                [self.delegate didSelectAlbum:album];
+            else
+                [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
             [self.collectionView reloadData];
         }
     }
@@ -193,11 +204,19 @@
     Album *album = (Album *)[Album createEntityInContext:_appDelegate.managedObjectContext];
     album.startDate = [NSDate date];
     album.name = title;
+    self.currentAlbum = album;
+
 #if AIRPLANE_MODE
     [_appDelegate saveContext];
     [UIAlertView alertViewWithTitle:@"Album created" message:@"Please add images to the album"];
     [self.albumFetcher performFetch:nil];
     [self.collectionView reloadData];
+
+    // select album and pop
+    if (self.mode == AlbumsViewModeSelect && self.delegate)
+        [self.delegate didSelectAlbum:album];
+    else
+        [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
 #else
     [album saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d id %@", success, album.parseID);
@@ -207,7 +226,10 @@
         [self.collectionView reloadData];
 
         // select album and pop
-        [self.delegate didSelectAlbum:album];
+        if (self.mode == AlbumsViewModeSelect && self.delegate)
+            [self.delegate didSelectAlbum:album];
+        else
+            [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
     }];
 #endif
 }

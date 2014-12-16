@@ -28,7 +28,7 @@
 
 -(void)setupForDefaultAlbumWithGems:(NSArray *)gems {
     [self setupBorder];
-    [self setupName:@"Your default album"];
+    [self setupName:@"All photos"];
     self.labelCount.text = [NSString stringWithFormat:@"%lu", (unsigned long)[gems count]];
 
     Gem *gem = nil;

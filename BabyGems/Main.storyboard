@@ -156,7 +156,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2747" y="509"/>
+            <point key="canvasLocation" x="3209" y="630"/>
         </scene>
         <!--Gem Detail View Controller-->
         <scene sceneID="qPK-XA-4Kz">
@@ -246,7 +246,7 @@
                                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                 </state>
                                                 <connections>
-                                                    <segue destination="1zg-CB-AfD" kind="show" identifier="GemDetailToAlbums" id="fbs-KW-va4"/>
+                                                    <segue destination="1zg-CB-AfD" kind="show" identifier="GemDetailsToAlbums" id="FYX-UA-T23"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -302,7 +302,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4j0-98-c7K" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2400" y="1462"/>
+            <point key="canvasLocation" x="2392" y="1275"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AaW-eM-oj8">
@@ -313,7 +313,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="E0b-6c-CWR" kind="relationship" relationship="rootViewController" id="rVY-8E-MFd"/>
+                        <segue destination="1zg-CB-AfD" kind="relationship" relationship="rootViewController" id="wZx-mM-DEC"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iIo-1v-fsm" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -325,7 +325,7 @@
             <objects>
                 <collectionViewController id="1zg-CB-AfD" customClass="AlbumsViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="mn5-ky-WNm">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewLayout key="collectionViewLayout" id="suS-mK-GXY" customClass="AlbumFlowLayout"/>
@@ -408,10 +408,14 @@
                         </connections>
                     </collectionView>
                     <extendedEdge key="edgesForExtendedLayout"/>
+                    <navigationItem key="navigationItem" id="EtT-e3-akY"/>
+                    <connections>
+                        <segue destination="E0b-6c-CWR" kind="show" identifier="AlbumsToGemBox" id="Oyo-Ps-D3M"/>
+                    </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I56-GR-4xR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3243" y="1202"/>
+            <point key="canvasLocation" x="1772" y="543"/>
         </scene>
         <!--My GemBox-->
         <scene sceneID="PlR-bb-uWc">
@@ -817,13 +821,7 @@
                             <outlet property="delegate" destination="E0b-6c-CWR" id="1Q8-NF-rd7"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" title="My GemBox" id="DMT-HM-dWk">
-                        <barButtonItem key="leftBarButtonItem" title="Albums" id="ctG-5k-3d5">
-                            <connections>
-                                <segue destination="1zg-CB-AfD" kind="custom" identifier="GoToAlbums" id="JbJ-VV-xO8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="My GemBox" id="DMT-HM-dWk"/>
                     <connections>
                         <segue destination="YLL-mI-Kxj" kind="show" identifier="GoToAddGem" id="NQT-BD-E0p"/>
                         <segue destination="2m5-rp-Xnh" kind="show" identifier="GoToGemDetail" id="r4z-sV-1Uu"/>
@@ -838,7 +836,7 @@
                     </connections>
                 </containerView>
             </objects>
-            <point key="canvasLocation" x="2059" y="695"/>
+            <point key="canvasLocation" x="2481" y="543"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="aVw-0H-ynM">
@@ -958,6 +956,6 @@
         <image name="trashcan" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="fbs-KW-va4"/>
+        <segue reference="wZx-mM-DEC"/>
     </inferredMetricsTieBreakers>
 </document>
