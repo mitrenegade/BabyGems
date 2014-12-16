@@ -103,6 +103,36 @@
     }
 
 }
+
+-(void)selectAlbum:(Album *)album {
+    if (album && album.parseID) {
+        NSArray *results = [[Album where:@{@"parseID":album.parseID}] all];
+        if (results)
+            self.currentAlbum = [results firstObject];
+        else
+            self.currentAlbum = nil;
+    }
+    else {
+        self.currentAlbum = album;
+    }
+
+    if (self.currentAlbum.parseID) {
+        albumPredicate = [NSPredicate predicateWithFormat:@"%K = %@", @"album.parseID", self.currentAlbum.parseID];
+    }
+    else {
+        albumPredicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album.parseID"];
+    }
+    __gemFetcher = nil;
+    [self.collectionView reloadData];
+
+    if (self.currentAlbum.name) {
+        self.title = self.currentAlbum.name;
+    }
+    else {
+        self.title = @"My GemBox";
+    }
+}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -470,29 +500,6 @@
     // dismiss the composer
     [self dismissViewControllerAnimated:YES completion:^{
     }];
-}
-
-#pragma mark AlbumsViewController
--(void)selectAlbum:(Album *)album {
-    if (album && album.parseID) {
-        NSArray *results = [[Album where:@{@"parseID":album.parseID}] all];
-        if (results)
-            self.currentAlbum = [results firstObject];
-        else
-            self.currentAlbum = nil;
-    }
-    else {
-        self.currentAlbum = album;
-    }
-
-    if (self.currentAlbum.parseID) {
-        albumPredicate = [NSPredicate predicateWithFormat:@"%K = %@", @"album.parseID", self.currentAlbum.parseID];
-    }
-    else {
-        albumPredicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album.parseID"];
-    }
-    __gemFetcher = nil;
-    [self.collectionView reloadData];
 }
 
 #pragma mark GemDetailDelegate
