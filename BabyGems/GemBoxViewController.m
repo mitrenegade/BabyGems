@@ -308,7 +308,7 @@
     }
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Gem"];
-//    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"%K = %@", @"pfUserID", _currentUser.objectId];
+    fetchRequest.predicate = albumPredicate;
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
     fetchRequest.sortDescriptors = @[descriptor];
     __gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
@@ -489,6 +489,15 @@
     else {
         self.currentAlbum = album;
     }
+
+    if (self.currentAlbum.parseID) {
+        albumPredicate = [NSPredicate predicateWithFormat:@"%K = %@", @"album.parseID", self.currentAlbum.parseID];
+    }
+    else {
+        albumPredicate = nil;
+    }
+    __gemFetcher = nil;
+    [self.collectionView reloadData];
 }
 
 #pragma mark Admin settings

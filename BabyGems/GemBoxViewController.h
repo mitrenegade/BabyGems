@@ -16,6 +16,8 @@
 @interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AlbumsViewDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
+    NSPredicate *albumPredicate;
+
     CameraViewController *cameraController;
     IBOutlet UIView *viewBG;
 
