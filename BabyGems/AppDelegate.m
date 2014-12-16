@@ -192,7 +192,8 @@
     NSError *error;
     NSURL *storeURL = [self storeURL];
     NSPersistentStore *store = [self.persistentStoreCoordinator persistentStoreForURL:storeURL];
-    [self.persistentStoreCoordinator removePersistentStore:store error:&error];
+    if (store)
+        [self.persistentStoreCoordinator removePersistentStore:store error:&error];
     [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
 
     [self.managedObjectContext unlock];
