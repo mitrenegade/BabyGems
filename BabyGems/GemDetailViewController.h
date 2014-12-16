@@ -8,10 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
+#import "AlbumsViewController.h"
 
+@class Album;
 @class Gem;
 @class AsyncImageView;
-@interface GemDetailViewController : UIViewController <UITextViewDelegate>
+
+@protocol GemDetailDelegate <NSObject>
+
+-(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album;
+
+@end
+
+@interface GemDetailViewController : UIViewController <UITextViewDelegate, AlbumsViewDelegate>
 {
     GemCellStyle cellStyle;
     GemBorderStyle borderStyle;
@@ -24,6 +33,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
+@property (weak, nonatomic) IBOutlet UILabel *labelDate;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDateWidth;
+
 
 @property (nonatomic, assign) GemBorderStyle borderStyle;
 @property (strong, nonatomic) UITextView *inputQuote;

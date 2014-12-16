@@ -12,6 +12,7 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 #import "Gem+Info.h"
+#import "Album+Info.h"
 #import "Util.h"
 
 @implementation AppDelegate
@@ -49,7 +50,7 @@
     }
 #endif
 
-    [self printAll];
+    [self printAllGems];
 
     return YES;
 }
@@ -260,12 +261,17 @@
     return object;
 }
 
--(void)printAll {
+-(void)printAllGems {
     NSArray *all = [[Gem where:@{}] all];
     NSLog(@"%lu gems found", (unsigned long)[all count]);
     for (Gem *gem in all) {
         NSLog(@"Gem: quote: %@ createdAt: %@", gem.quote, gem.createdAt);
     }
+}
+
+-(void)printAllAlbums {
+    NSArray *all = [[Album where:@{}] all];
+    NSLog(@"%lu albums found", (unsigned long)[all count]);
 }
 
 @end

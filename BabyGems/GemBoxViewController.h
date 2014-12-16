@@ -10,10 +10,15 @@
 #import "CameraViewController.h"
 #import "NewGemViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import "AlbumsViewController.h"
+#import "GemDetailViewController.h"
 
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
+@class Album;
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AlbumsViewDelegate, GemDetailDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
+    NSPredicate *albumPredicate;
+
     CameraViewController *cameraController;
     IBOutlet UIView *viewBG;
 
@@ -26,6 +31,8 @@
 
     UIView *tutorialView;
 }
+
+@property (strong, nonatomic) Album *currentAlbum;
 
 -(NSFetchedResultsController *)gemFetcher;
 

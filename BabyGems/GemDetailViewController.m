@@ -10,6 +10,8 @@
 #import "Gem.h"
 #import <AsyncImageView/AsyncImageView.h>
 #import "Gem+Parse.h"
+#import "Util.h"
+#import "AlbumsViewController.h"
 
 @interface GemDetailViewController ()
 
@@ -30,7 +32,7 @@
         }
 
         NSString *text = self.gem.quote;
-        UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+        UIFont *font = CHALK(16);
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
         self.constraintQuoteDistanceFromTop.priority = 900;
@@ -56,13 +58,17 @@
             self.constraintQuoteHeight.priority = 900;
             [self setupTextBorder];
         }
+
+        self.labelDate.text = [Util timeAgo:self.gem.createdAt];
+        rect = [self.labelDate.text boundingRectWithSize:self.labelDate.superview.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.labelDate.font} context:nil];
+        self.constraintDateWidth.constant = rect.size.width + 20;
     }
 
     // input
     self.inputQuote = [[UITextView alloc] init];
     self.inputQuote.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150);
     self.inputQuote.backgroundColor = [UIColor lightGrayColor];
-    self.inputQuote.font = [UIFont fontWithName:@"Chalkduster" size:14];
+    self.inputQuote.font = CHALK(14);
     self.inputQuote.textColor = [UIColor whiteColor];
     self.inputQuote.textAlignment = NSTextAlignmentCenter;
     self.inputQuote.delegate = self;
@@ -245,14 +251,29 @@
     return YES;
 }
 
-/*
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"GemDetailToAlbums"]) {
+        AlbumsViewController *controller = [segue destinationViewController];
+        controller.delegate = self;
+        controller.currentAlbum = self.gem.album;
+        controller.mode = AlbumsViewModeSelect;
+    }
 }
-*/
+
+#pragma mark AlbumsViewDelegate
+-(void)didSelectAlbum:(Album *)album {
+    self.gem.album = album;
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Gem saved!");
+
+        [self.delegate didMoveGem:self.gem toAlbum:album];
+    }];
+}
 
 @end

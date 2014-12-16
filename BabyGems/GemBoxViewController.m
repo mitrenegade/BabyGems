@@ -11,7 +11,6 @@
 #import "GemCell.h"
 #import "NewGemViewController.h"
 #import "Gem+Info.h"
-#import "GemDetailViewController.h"
 #import "UIActionSheet+MKBlockAdditions.h"
 
 @interface GemBoxViewController ()
@@ -48,10 +47,6 @@
     self.navigationItem.rightBarButtonItem = right;
 
 #if TESTING
-    // admin options
-    UIBarButtonItem *left = [[UIBarButtonItem alloc] initWithTitle:@"Admin" style:UIBarButtonItemStyleBordered target:self action:@selector(showAdmin)];
-    self.navigationItem.leftBarButtonItem = left;
-
     cellStyle = CellStyleFirst;
     if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
         cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
@@ -65,6 +60,8 @@
     borderStyle = BorderStyleRound;
 #endif
 
+    // start off with nil selected album
+    [self didSelectAlbum:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -122,12 +119,18 @@
         GemDetailViewController *controller = [segue destinationViewController];
         controller.borderStyle = borderStyle;
         controller.gem = (Gem *)sender;
+        controller.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
         UIViewController *controller = [segue destinationViewController];
         tutorialView = controller.view;
         tutorialView.frame = self.collectionView.frame;
         [self.view insertSubview:tutorialView aboveSubview:self.collectionView];
+    }
+    else if ([segue.identifier isEqualToString:@"GoToAlbums"]) {
+        AlbumsViewController *controller = [segue destinationViewController];
+        controller.currentAlbum = self.currentAlbum;
+        controller.delegate = self;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -248,7 +251,7 @@
     }
     else {
         NSString *text = gem.quote;
-        UIFont *font = [UIFont fontWithName:@"Chalkduster" size:16];
+        UIFont *font = CHALK(16);
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + LABEL_BORDER + COMMENTS_HEIGHT);
     }
@@ -306,7 +309,7 @@
     }
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Gem"];
-//    fetchRequest.predicate = [NSPredicate predicateWithFormat:@"%K = %@", @"pfUserID", _currentUser.objectId];
+    fetchRequest.predicate = albumPredicate;
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
     fetchRequest.sortDescriptors = @[descriptor];
     __gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
@@ -396,7 +399,11 @@
 #pragma mark Settings
 -(void)showSettings {
     NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
-    [UIActionSheet actionSheetWithTitle:message message:nil buttons:@[@"Contact us", @"View website", @"Toggle photo options"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+    NSArray *menuOptions = @[@"Contact us", @"View website", @"Toggle photo options"];
+#if TESTING
+    menuOptions = [menuOptions arrayByAddingObject:@"Admin"];
+#endif
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:menuOptions showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
         if (buttonIndex == 0) {
             [self goToFeedback];
         }
@@ -406,13 +413,19 @@
         else if (buttonIndex == 2) {
             [NewGemViewController toggleSaveToAlbum];
         }
+        else {
+#if TESTING
+            [self showSettings];
+#endif
+        }
     } onCancel:^{
         // do nothing
     }];
 }
 
+#pragma mark Website
 -(void)goToTOS {
-    NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
+    NSString *url = @"http://www.babygems.photos/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
@@ -463,6 +476,36 @@
     // dismiss the composer
     [self dismissViewControllerAnimated:YES completion:^{
     }];
+}
+
+#pragma mark AlbumsViewController
+-(void)didSelectAlbum:(Album *)album {
+    if (album && album.parseID) {
+        NSArray *results = [[Album where:@{@"parseID":album.parseID}] all];
+        if (results)
+            self.currentAlbum = [results firstObject];
+        else
+            self.currentAlbum = nil;
+    }
+    else {
+        self.currentAlbum = album;
+    }
+
+    if (self.currentAlbum.parseID) {
+        albumPredicate = [NSPredicate predicateWithFormat:@"%K = %@", @"album.parseID", self.currentAlbum.parseID];
+    }
+    else {
+        albumPredicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album.parseID"];
+    }
+    __gemFetcher = nil;
+    [self.collectionView reloadData];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark GemDetailDelegate
+-(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
+    [self didSelectAlbum:album];
 }
 
 #pragma mark Admin settings

@@ -19,5 +19,6 @@
 -(void)goToLoginSignup;
 -(void)goToMainView;
 - (void)saveContext;
--(void)printAll;
+-(void)printAllGems;
+-(void)printAllAlbums;
 @end

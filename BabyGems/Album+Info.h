@@ -1,20 +1,16 @@
 //
-//  Gem.m
+//  Album+Info.h
 //  BabyGems
 //
 //  Created by Bobby Ren on 12/11/14.
 //  Copyright (c) 2014 BobbyRenTech. All rights reserved.
 //
 
-#import "Gem.h"
 #import "Album.h"
+@class Gem;
+@interface Album (Info)
 
-
-@implementation Gem
-
-@dynamic imageURL;
-@dynamic offlineImage;
-@dynamic quote;
-@dynamic album;
+-(NSString *)dateString;
+-(Gem *)coverGem;
 
 @end
