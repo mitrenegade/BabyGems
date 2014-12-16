@@ -62,12 +62,16 @@
 
 -(void)setupBorder {
     self.viewBG.layer.borderWidth = 2;
-    self.viewBG.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    self.viewBG.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.viewBG.layer.cornerRadius = 5;
     // todo: if current album, different border color
 
     self.viewCountBG.layer.borderColor = [[UIColor darkGrayColor] CGColor];
     self.viewCountBG.layer.borderWidth = 1;
     self.viewCountBG.layer.cornerRadius = self.viewCountBG.frame.size.width / 2;
+}
+
+-(void)isCurrentAlbum {
+    self.viewBG.layer.borderColor = [[UIColor darkGrayColor] CGColor];
 }
 @end

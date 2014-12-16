@@ -11,7 +11,7 @@
 
 @protocol AlbumsViewDelegate <NSObject>
 
--(void)didSelectAlbum;
+-(void)didSelectAlbum:(Album *)album;
 
 @end
 @interface AlbumsViewController : UICollectionViewController <UIAlertViewDelegate>
@@ -23,5 +23,4 @@
 @property (nonatomic, assign) int mode;
 @property (weak, nonatomic) id<AlbumsViewDelegate> delegate;
 @property (weak, nonatomic) Album *currentAlbum;
-
 @end

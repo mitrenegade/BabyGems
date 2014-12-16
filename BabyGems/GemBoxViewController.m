@@ -61,6 +61,7 @@
     borderStyle = BorderStyleRound;
 #endif
 
+    self.currentAlbum = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,6 +125,11 @@
         tutorialView = controller.view;
         tutorialView.frame = self.collectionView.frame;
         [self.view insertSubview:tutorialView aboveSubview:self.collectionView];
+    }
+    else if ([segue.identifier isEqualToString:@"GoToAlbums"]) {
+        AlbumsViewController *controller = [segue destinationViewController];
+        controller.currentAlbum = self.currentAlbum;
+        controller.delegate = self;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -416,9 +422,9 @@
     }];
 }
 
-#pragma mark Albums
+#pragma mark Website
 -(void)goToTOS {
-    NSString *url = @"http://www.babygems.photos/BabyGems_Site_HTML/";
+    NSString *url = @"http://www.babygems.photos/";
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
@@ -469,6 +475,20 @@
     // dismiss the composer
     [self dismissViewControllerAnimated:YES completion:^{
     }];
+}
+
+#pragma mark AlbumsViewController
+-(void)didSelectAlbum:(Album *)album {
+    if (album && album.parseID) {
+        NSArray *results = [[Album where:@{@"parseID":album.parseID}] all];
+        if (results)
+            self.currentAlbum = [results firstObject];
+        else
+            self.currentAlbum = nil;
+    }
+    else {
+        self.currentAlbum = album;
+    }
 }
 
 #pragma mark Admin settings

@@ -65,14 +65,20 @@
     
     // Configure the cell
     if (indexPath.section == 0) {
-        if (indexPath.row == 0)
+        if (indexPath.row == 0) {
             [cell setupForDefaultAlbumWithGems:self.gemFetcher.fetchedObjects];
+            if (!self.currentAlbum)
+                [cell isCurrentAlbum];
+        }
         else if (indexPath.row == 1)
             [cell setupForNewAlbum];
     }
     else {
         Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
         [cell setupWithAlbum:album];
+        if (album == self.currentAlbum || (album.parseID && [album.parseID isEqualToString:self.currentAlbum.parseID])) {
+            [cell isCurrentAlbum];
+        }
     }
 
     return cell;
@@ -87,6 +93,20 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enter album name" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"OK", nil];
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             [alert show];
+        }
+        else {
+            // view default album
+            [self.delegate didSelectAlbum:nil];
+            self.currentAlbum = nil;
+            [self.collectionView reloadData];
+        }
+    }
+    else {
+        if (indexPath.row < [[self.albumFetcher fetchedObjects] count]) {
+            Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+            [self.delegate didSelectAlbum:album];
+            self.currentAlbum = album;
+            [self.collectionView reloadData];
         }
     }
 }
