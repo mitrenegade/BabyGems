@@ -81,8 +81,12 @@
         NSLog(@"Querying for %@ for user %@", className, _currentUser.objectId);
 
         if ([className isEqualToString:@"Album"]) {
-            NSLog(@"Before sync:");
+            NSLog(@"Albums before sync:");
             [_appDelegate printAllAlbums];
+        }
+        if ([className isEqualToString:@"Gem"]) {
+            NSLog(@"Gems before sync:");
+            [_appDelegate printAllGems];
         }
         [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
             if (error) {
@@ -95,8 +99,12 @@
                     [self notify:@"gems:updated"];
 
                     if ([className isEqualToString:@"Album"]) {
-                        NSLog(@"After sync:");
+                        NSLog(@"Albums after sync:");
                         [_appDelegate printAllAlbums];
+                    }
+                    if ([className isEqualToString:@"Gem"]) {
+                        NSLog(@"Gems after sync:");
+                        [_appDelegate printAllGems];
                     }
                 }];
             }

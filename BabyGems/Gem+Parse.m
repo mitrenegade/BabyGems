@@ -28,7 +28,11 @@
     self.pfUserID = [self.pfObject objectForKey:@"pfUserID"];
 
     // relationships
-    self.album = [self.pfObject objectForKey:@"album"];
+    PFObject *object = [self.pfObject objectForKey:@"album"];
+    if (object.objectId)
+        self.album = [[[Album where:@{@"parseID":object.objectId}] all] firstObject];
+
+    NSLog(@"yay");
 }
 
 -(void)saveOrUpdateToParseWithCompletion:(void (^)(BOOL))completion {

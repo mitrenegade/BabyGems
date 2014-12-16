@@ -61,7 +61,7 @@
 
         self.labelDate.text = [Util timeAgo:self.gem.createdAt];
         rect = [self.labelDate.text boundingRectWithSize:self.labelDate.superview.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.labelDate.font} context:nil];
-        self.constraintDateWidth.constant = rect.size.width;
+        self.constraintDateWidth.constant = rect.size.width + 20;
     }
 
     // input
@@ -258,7 +258,22 @@
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
     if ([segue.identifier isEqualToString:@"GemDetailToAlbums"]) {
+        AlbumsViewController *controller = [segue destinationViewController];
+        controller.delegate = self;
+        controller.currentAlbum = self.gem.album;
+        controller.mode = AlbumsViewModeSelect;
     }
+}
+
+#pragma mark AlbumsViewDelegate
+-(void)didSelectAlbum:(Album *)album {
+    self.gem.album = album;
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Gem saved!");
+
+        [self.delegate didMoveGem:self.gem toAlbum:album];
+    }];
 }
 
 @end

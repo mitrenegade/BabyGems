@@ -11,7 +11,6 @@
 #import "GemCell.h"
 #import "NewGemViewController.h"
 #import "Gem+Info.h"
-#import "GemDetailViewController.h"
 #import "UIActionSheet+MKBlockAdditions.h"
 
 @interface GemBoxViewController ()
@@ -61,7 +60,8 @@
     borderStyle = BorderStyleRound;
 #endif
 
-    self.currentAlbum = nil;
+    // start off with nil selected album
+    [self didSelectAlbum:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -119,6 +119,7 @@
         GemDetailViewController *controller = [segue destinationViewController];
         controller.borderStyle = borderStyle;
         controller.gem = (Gem *)sender;
+        controller.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
         UIViewController *controller = [segue destinationViewController];
@@ -494,10 +495,17 @@
         albumPredicate = [NSPredicate predicateWithFormat:@"%K = %@", @"album.parseID", self.currentAlbum.parseID];
     }
     else {
-        albumPredicate = nil;
+        albumPredicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album.parseID"];
     }
     __gemFetcher = nil;
     [self.collectionView reloadData];
+
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+#pragma mark GemDetailDelegate
+-(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
+    [self didSelectAlbum:album];
 }
 
 #pragma mark Admin settings

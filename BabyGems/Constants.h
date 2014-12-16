@@ -35,5 +35,11 @@ typedef enum GemBorderStyleEnum {
     BorderStyleMax
 } GemBorderStyle;
 
+typedef enum AlbumsViewModeEnum {
+    AlbumsViewModeFirst = 0,
+    AlbumsViewModeNormal = AlbumsViewModeFirst,
+    AlbumsViewModeSelect,
+    AlbumsViewModeMax
+} AlbumsViewMode;
 
 #endif

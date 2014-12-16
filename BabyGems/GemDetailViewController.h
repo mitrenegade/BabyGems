@@ -10,8 +10,16 @@
 #import "Constants.h"
 #import "AlbumsViewController.h"
 
+@class Album;
 @class Gem;
 @class AsyncImageView;
+
+@protocol GemDetailDelegate <NSObject>
+
+-(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album;
+
+@end
+
 @interface GemDetailViewController : UIViewController <UITextViewDelegate, AlbumsViewDelegate>
 {
     GemCellStyle cellStyle;

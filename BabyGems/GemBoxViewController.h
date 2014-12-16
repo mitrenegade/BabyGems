@@ -11,9 +11,10 @@
 #import "NewGemViewController.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "AlbumsViewController.h"
+#import "GemDetailViewController.h"
 
 @class Album;
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AlbumsViewDelegate>
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate, AlbumsViewDelegate, GemDetailDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
     NSPredicate *albumPredicate;

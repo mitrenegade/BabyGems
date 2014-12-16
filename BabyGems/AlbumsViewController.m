@@ -29,6 +29,12 @@
     // set section insets:
     //http://www.appcoda.com/supplementary-view-uicollectionview-flow-layout/
 
+    if (self.mode == AlbumsViewModeNormal) {
+        self.title = @"View Album";
+    }
+    else {
+        self.title = @"Move to Album";
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -199,6 +205,9 @@
         [UIAlertView alertViewWithTitle:@"Album created" message:@"Please add images to the album"];
         [self.albumFetcher performFetch:nil];
         [self.collectionView reloadData];
+
+        // select album and pop
+        [self.delegate didSelectAlbum:album];
     }];
 #endif
 }
