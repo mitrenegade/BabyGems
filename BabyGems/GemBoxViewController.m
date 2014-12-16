@@ -9,7 +9,6 @@
 #import "GemBoxViewController.h"
 #import "Gem+Parse.h"
 #import "GemCell.h"
-#import "NewGemViewController.h"
 #import "Gem+Info.h"
 #import "UIActionSheet+MKBlockAdditions.h"
 
@@ -46,21 +45,9 @@
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = right;
 
-#if TESTING
-    cellStyle = CellStyleFirst;
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
-        cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
-    }
-    borderStyle = BorderStyleFirst;
-    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
-        borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"];
-    }
-#else
-    cellStyle = CellStyleBottom;
-    borderStyle = BorderStyleRound;
-#endif
-
     [self selectAlbum:self.currentAlbum];
+
+    [self listenFor:@"style:changed" action:@selector(reloadData)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -151,7 +138,6 @@
     }
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
         GemDetailViewController *controller = [segue destinationViewController];
-        controller.borderStyle = borderStyle;
         controller.gem = (Gem *)sender;
         controller.delegate = self;
     }
@@ -180,7 +166,7 @@
     NSString *cellIdentifier;
     NSString *photoCellIdentifier;
 
-    if (CellStyleFull == cellStyle) {
+    if (CellStyleFull == _appDelegate.cellStyle) {
         cellIdentifier = @"GemFullCell";
         photoCellIdentifier = @"GemFullPhotoCell";
     }
@@ -202,7 +188,7 @@
         else {
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         }
-        cell.borderStyle = borderStyle;
+        cell.borderStyle = _appDelegate.borderStyle;
         [cell setupForGem:gem];
     }
     else {
@@ -218,11 +204,11 @@
     NSInteger COMMENTS_HEIGHT = 0;
     NSInteger LABEL_BORDER = 60;
 
-    if (cellStyle == CellStyleBottom) {
+    if (_appDelegate.cellStyle == CellStyleBottom) {
         COMMENTS_HEIGHT = 50;
         LABEL_BORDER = 40;
     }
-    else if (cellStyle == CellStyleFull) {
+    else if (_appDelegate.cellStyle == CellStyleFull) {
         COMMENTS_HEIGHT = 0;
         LABEL_BORDER = 60;
     }
@@ -425,86 +411,8 @@
     }
 }
 
-#pragma mark Settings
 -(void)showSettings {
-    NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
-    NSArray *menuOptions = @[@"Contact us", @"View website", @"Toggle photo options"];
-#if TESTING
-    menuOptions = [menuOptions arrayByAddingObject:@"Admin"];
-#endif
-    [UIActionSheet actionSheetWithTitle:message message:nil buttons:menuOptions showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
-        if (buttonIndex == 0) {
-            [self goToFeedback];
-        }
-        else if (buttonIndex == 1) {
-            [self goToTOS];
-        }
-        else if (buttonIndex == 2) {
-            [NewGemViewController toggleSaveToAlbum];
-        }
-        else {
-#if TESTING
-            [self showSettings];
-#endif
-        }
-    } onCancel:^{
-        // do nothing
-    }];
-}
-
-#pragma mark Website
--(void)goToTOS {
-    NSString *url = @"http://www.babygems.photos/";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
-}
-
-
-#pragma mark Mail composer
--(void)goToFeedback {
-    if ([MFMailComposeViewController canSendMail]){
-        NSString *title = @"BabyGems feedback";
-        NSString *message = [NSString stringWithFormat:@"Version %@", VERSION];
-        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
-        composer.mailComposeDelegate = self;
-        [composer setSubject:title];
-        [composer setToRecipients:@[@"bobbyren+babygems@gmail.com"]];
-        [composer setMessageBody:message isHTML:NO];
-
-        [self presentViewController:composer animated:YES completion:nil];
-    }
-    else {
-        [UIAlertView alertViewWithTitle:@"Currently unable to send email" message:@"Please make sure email is available"];
-    }
-}
-
-#pragma mark MessageController delegate
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-
-    // Notifies users about errors associated with the interface
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-            //feedbackMsg.text = @"Result: Mail sending canceled";
-            break;
-        case MFMailComposeResultSaved:
-            //feedbackMsg.text = @"Result: Mail saved";
-            break;
-        case MFMailComposeResultSent:
-            //feedbackMsg.text = @"Result: Mail sent";
-            [UIAlertView alertViewWithTitle:@"Thanks for your feedback" message:nil];
-            break;
-        case MFMailComposeResultFailed:
-            //feedbackMsg.text = @"Result: Mail sending failed";
-            [UIAlertView alertViewWithTitle:@"There was an error sending feedback" message:nil];
-            break;
-        default:
-            //feedbackMsg.text = @"Result: Mail not sent";
-            break;
-    }
-    // dismiss the composer
-    [self dismissViewControllerAnimated:YES completion:^{
-    }];
+    [_appDelegate showSettings];
 }
 
 #pragma mark GemDetailDelegate
@@ -514,39 +422,4 @@
     [self notify:@"album:changed" object:nil userInfo:@{@"album":album}];
 }
 
-#pragma mark Admin settings
--(void)showAdmin {
-    [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle cell style", @"Toggle cell border"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
-        if (buttonIndex == 0) {
-            [self toggleCellStyle];
-        }
-        else if (buttonIndex == 1) {
-            [self toggleCellBorder];
-        }
-    } onCancel:^{
-        // do nothing
-    }];
-}
-
--(void)toggleCellStyle {
-    cellStyle += 1;
-    if (cellStyle == CellStyleMax)
-        cellStyle = CellStyleFirst;
-
-    [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:cellstyle"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
-    [self reloadData];
-}
-
--(void)toggleCellBorder {
-    borderStyle += 1;
-    if (borderStyle == BorderStyleMax)
-        borderStyle = BorderStyleFirst;
-
-    [[NSUserDefaults standardUserDefaults] setInteger:cellStyle forKey:@"defaults:borderstyle"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
-    [self reloadData];
-}
 @end

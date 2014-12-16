@@ -94,7 +94,7 @@
 
 -(void)setupImageBorder {
     self.imageView.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    if (self.borderStyle == BorderStyleRound) {
+    if (_appDelegate.borderStyle == BorderStyleRound) {
         self.imageView.layer.borderWidth = 1;
         self.imageView.layer.cornerRadius = 5;
     }
@@ -106,7 +106,7 @@
 
 -(void)setupTextBorder {
     self.labelQuote.layer.borderColor = [[UIColor lightGrayColor] CGColor];
-    if (self.borderStyle == BorderStyleRound) {
+    if (_appDelegate.borderStyle == BorderStyleRound) {
         self.labelQuote.layer.borderWidth = 1;
         self.labelQuote.layer.cornerRadius = 5;
     }

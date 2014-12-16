@@ -21,10 +21,7 @@
 @end
 
 @interface GemDetailViewController : UIViewController <UITextViewDelegate, AlbumsViewDelegate>
-{
-    GemCellStyle cellStyle;
-    GemBorderStyle borderStyle;
-}
+
 @property (nonatomic, weak) Gem *gem;
 @property (weak, nonatomic) id delegate;
 @property (weak, nonatomic) IBOutlet AsyncImageView *imageView;
@@ -37,7 +34,6 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDateWidth;
 
 
-@property (nonatomic, assign) GemBorderStyle borderStyle;
 @property (strong, nonatomic) UITextView *inputQuote;
 
 -(IBAction)didClickShare:(id)sender;

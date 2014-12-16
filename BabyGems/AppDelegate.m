@@ -14,6 +14,8 @@
 #import "Gem+Info.h"
 #import "Album+Info.h"
 #import "Util.h"
+#import "NewGemViewController.h"
+#import "UIActionSheet+MKBlockAdditions.h"
 
 @implementation AppDelegate
 
@@ -52,6 +54,7 @@
 
     [self printAllGems];
 
+    [self loadCellStyle];
     return YES;
 }
 							
@@ -269,6 +272,22 @@
 
  */
 
+-(void)loadCellStyle {
+#if TESTING
+    self.cellStyle = CellStyleFirst;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"]) {
+        self.cellStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:cellstyle"];
+    }
+    self.borderStyle = BorderStyleFirst;
+    if ([[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"]) {
+        self.borderStyle = [[NSUserDefaults standardUserDefaults] integerForKey:@"defaults:borderstyle"];
+    }
+#else
+    self.cellStyle = CellStyleBottom;
+    self.borderStyle = BorderStyleRound;
+#endif
+}
+
 #pragma mark navigation
 -(void)goToLoginSignup {
     UINavigationController *nav = [_storyboard(@"LoginSignup") instantiateInitialViewController];
@@ -305,4 +324,122 @@
     NSLog(@"%lu albums found", (unsigned long)[all count]);
 }
 
+#pragma mark Reused calls
+#pragma mark Settings
+-(void)showSettings {
+    NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
+    NSArray *menuOptions = @[@"Contact us", @"View website", @"Toggle photo options"];
+#if TESTING
+    menuOptions = [menuOptions arrayByAddingObject:@"Admin"];
+#endif
+    [UIActionSheet actionSheetWithTitle:message message:nil buttons:menuOptions showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            [self goToFeedback];
+        }
+        else if (buttonIndex == 1) {
+            [self goToTOS];
+        }
+        else if (buttonIndex == 2) {
+            [NewGemViewController toggleSaveToAlbum];
+        }
+        else {
+#if TESTING
+            [self showAdmin];
+#endif
+        }
+    } onCancel:^{
+        // do nothing
+    }];
+}
+
+#pragma mark Website
+-(void)goToTOS {
+    NSString *url = @"http://www.babygems.photos/";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+
+
+#pragma mark Mail composer
+-(void)goToFeedback {
+    if ([MFMailComposeViewController canSendMail]){
+        NSString *title = @"BabyGems feedback";
+        NSString *message = [NSString stringWithFormat:@"Version %@", VERSION];
+        MFMailComposeViewController *composer = [[MFMailComposeViewController alloc] init];
+        composer.mailComposeDelegate = self;
+        [composer setSubject:title];
+        [composer setToRecipients:@[@"bobbyren+babygems@gmail.com"]];
+        [composer setMessageBody:message isHTML:NO];
+
+        [_appDelegate.topViewController presentViewController:composer animated:YES completion:nil];
+    }
+    else {
+        [UIAlertView alertViewWithTitle:@"Currently unable to send email" message:@"Please make sure email is available"];
+    }
+}
+
+#pragma mark MessageController delegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+
+    // Notifies users about errors associated with the interface
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            //feedbackMsg.text = @"Result: Mail sending canceled";
+            break;
+        case MFMailComposeResultSaved:
+            //feedbackMsg.text = @"Result: Mail saved";
+            break;
+        case MFMailComposeResultSent:
+            //feedbackMsg.text = @"Result: Mail sent";
+            [UIAlertView alertViewWithTitle:@"Thanks for your feedback" message:nil];
+            break;
+        case MFMailComposeResultFailed:
+            //feedbackMsg.text = @"Result: Mail sending failed";
+            [UIAlertView alertViewWithTitle:@"There was an error sending feedback" message:nil];
+            break;
+        default:
+            //feedbackMsg.text = @"Result: Mail not sent";
+            break;
+    }
+    // dismiss the composer
+    [_appDelegate.topViewController dismissViewControllerAnimated:YES completion:^{
+    }];
+}
+
+#pragma mark Admin settings
+-(void)showAdmin {
+    [UIActionSheet actionSheetWithTitle:@"Please select an option to toggle (in test mode)" message:nil buttons:@[@"Toggle cell style", @"Toggle cell border"] showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            [self toggleCellStyle];
+        }
+        else if (buttonIndex == 1) {
+            [self toggleCellBorder];
+        }
+    } onCancel:^{
+        // do nothing
+    }];
+}
+
+-(void)toggleCellStyle {
+    self.cellStyle += 1;
+    if (self.cellStyle == CellStyleMax)
+        self.cellStyle = CellStyleFirst;
+
+    [[NSUserDefaults standardUserDefaults] setInteger:self.cellStyle forKey:@"defaults:cellstyle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self notify:@"style:changed"];
+}
+
+-(void)toggleCellBorder {
+    self.borderStyle += 1;
+    if (self.borderStyle == BorderStyleMax)
+        self.borderStyle = BorderStyleFirst;
+
+    [[NSUserDefaults standardUserDefaults] setInteger:self.borderStyle forKey:@"defaults:borderstyle"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+
+    [self notify:@"style:changed"];
+}
 @end

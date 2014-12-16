@@ -79,12 +79,13 @@
 
 #define CELLS_PER_ROW 3
 #define BORDER_PADDING 5
+#define HEADER_HEIGHT 5
 -(CGSize)itemSize {
     return CGSizeMake((_appDelegate.window.bounds.size.width - [self sectionInset].left - [self sectionInset].right - (CELLS_PER_ROW-1)*[self minimumInteritemSpacing]) /CELLS_PER_ROW, 160);
 }
 
 -(int)headerHeight {
-    return 40;
+    return HEADER_HEIGHT;
 }
 
 -(CGFloat)minimumInteritemSpacing {

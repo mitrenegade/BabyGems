@@ -49,6 +49,15 @@
             }
         }
     }
+
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+    [button addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
+    self.navigationItem.rightBarButtonItem = right;
+}
+
+-(void)showSettings {
+    [_appDelegate showSettings];
 }
 
 - (void)didReceiveMemoryWarning {
