@@ -36,6 +36,19 @@
     else {
         self.title = @"Move to album";
     }
+
+    [self listenFor:@"album:changed" action:@selector(changeAlbum:)];
+
+    if (self.mode == AlbumsViewModeNormal) {
+        NSString *lastAlbumID = [[NSUserDefaults standardUserDefaults] objectForKey:@"album:last:opened"];
+        if (lastAlbumID) {
+            NSArray *results = [[Album where:@{@"parseID":lastAlbumID}] all];
+            if ([results count]) {
+                self.currentAlbum = [results firstObject];
+                [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
+            }
+        }
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -234,4 +247,10 @@
 #endif
 }
 
+-(void)changeAlbum:(NSNotification *)n {
+    // if gemDetail moves a photo to an album, that changes this album
+    Album *album = [n.userInfo valueForKey:@"album"];
+    self.currentAlbum = album;
+    [self.collectionView reloadData];
+}
 @end

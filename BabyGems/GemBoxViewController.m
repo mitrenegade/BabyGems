@@ -107,13 +107,18 @@
 -(void)selectAlbum:(Album *)album {
     if (album && album.parseID) {
         NSArray *results = [[Album where:@{@"parseID":album.parseID}] all];
-        if (results)
+        if (results) {
             self.currentAlbum = [results firstObject];
-        else
+            [[NSUserDefaults standardUserDefaults] setObject:album.parseID forKey:@"album:last:opened"];
+        }
+        else {
             self.currentAlbum = nil;
+            [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"album:last:opened"];
+        }
     }
     else {
         self.currentAlbum = album;
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"album:last:opened"];
     }
 
     if (self.currentAlbum.parseID) {
@@ -505,6 +510,8 @@
 #pragma mark GemDetailDelegate
 -(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
     [self selectAlbum:album];
+
+    [self notify:@"album:changed" object:nil userInfo:@{@"album":album}];
 }
 
 #pragma mark Admin settings
