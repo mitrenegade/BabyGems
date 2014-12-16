@@ -102,6 +102,11 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+- (NSURL *)storeURL {
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"BabyGems.sqlite"];
+    return storeURL;
+}
+
 - (NSManagedObjectModel *)managedObjectModel {
     // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
     if (_managedObjectModel != nil) {
@@ -121,7 +126,7 @@
     // Create the coordinator and store
 
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"BabyGems.sqlite"];
+    NSURL *storeURL = [self storeURL];
     NSError *error = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
     NSPersistentStore *store = [_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error];
@@ -142,7 +147,7 @@
         NSError *error;
 
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
+        [self resetCoreData];
     }
 
     return _persistentStoreCoordinator;
@@ -179,6 +184,23 @@
     }
 }
 
+-(void)resetCoreData {
+    NSLog(@"Resetting core data");
+    [self.managedObjectContext lock];
+    [self.managedObjectContext reset];
+
+    NSError *error;
+    NSURL *storeURL = [self storeURL];
+    NSPersistentStore *store = [self.persistentStoreCoordinator persistentStoreForURL:storeURL];
+    [self.persistentStoreCoordinator removePersistentStore:store error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
+
+    [self.managedObjectContext unlock];
+
+    _persistentStoreCoordinator = nil;
+    _managedObjectContext = nil;
+    _managedObjectModel = nil;
+}
 
 #pragma mark CoreData - old
 /*
