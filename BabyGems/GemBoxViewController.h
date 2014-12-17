@@ -10,7 +10,7 @@
 #import "CameraViewController.h"
 #import "NewGemViewController.h"
 #import "AlbumsViewController.h"
-#import "GemDetailViewController.h"
+#import "GemDetailProtocol.h"
 
 @class Album;
 @interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, GemDetailDelegate>

@@ -1,29 +1,24 @@
 //
-//  GemDetailViewController.h
+//  GemDetailCell.h
 //  BabyGems
 //
-//  Created by Bobby Ren on 11/27/14.
+//  Created by Bobby Ren on 12/16/14.
 //  Copyright (c) 2014 BobbyRenTech. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "AlbumsViewController.h"
+#import "GemDetailProtocol.h"
 
 @class Album;
 @class Gem;
 @class AsyncImageView;
 
-@protocol GemDetailDelegate <NSObject>
-
--(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album;
-
-@end
-
-@interface GemDetailViewController : UIViewController <UITextViewDelegate, AlbumsViewDelegate>
+@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate, AlbumsViewDelegate>
 
 @property (nonatomic, weak) Gem *gem;
-@property (weak, nonatomic) id delegate;
+@property (weak, nonatomic) id<GemDetailDelegate> delegate;
 @property (weak, nonatomic) IBOutlet AsyncImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIView *viewQuote;
 @property (weak, nonatomic) IBOutlet UILabel *labelQuote;
@@ -33,9 +28,10 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDateWidth;
 
-
 @property (strong, nonatomic) UITextView *inputQuote;
 
 -(IBAction)didClickShare:(id)sender;
 -(IBAction)didClickTrash:(id)sender;
+-(void)setupWithGem:(Gem *)gem;
+
 @end

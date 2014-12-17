@@ -11,6 +11,7 @@
 #import "GemCell.h"
 #import "Gem+Info.h"
 #import "UIActionSheet+MKBlockAdditions.h"
+#import "GemDetailCollectionViewController.h"
 
 @interface GemBoxViewController ()
 
@@ -137,9 +138,9 @@
         controller.meta = savedMeta;
     }
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
-        GemDetailViewController *controller = [segue destinationViewController];
-        controller.gem = (Gem *)sender;
-        controller.delegate = self;
+        GemDetailCollectionViewController *controller = [segue destinationViewController];
+        controller.currentGem = (Gem *)sender;
+//        controller.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
         UIViewController *controller = [segue destinationViewController];
