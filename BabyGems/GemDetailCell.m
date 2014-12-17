@@ -1,28 +1,22 @@
 //
-//  GemDetailViewController.m
+//  GemDetailCell.m
 //  BabyGems
 //
-//  Created by Bobby Ren on 11/27/14.
+//  Created by Bobby Ren on 12/16/14.
 //  Copyright (c) 2014 BobbyRenTech. All rights reserved.
 //
 
-#import "GemDetailViewController.h"
+#import "GemDetailCell.h"
 #import "Gem.h"
 #import <AsyncImageView/AsyncImageView.h>
 #import "Gem+Parse.h"
 #import "Util.h"
 #import "AlbumsViewController.h"
 
-@interface GemDetailViewController ()
+@implementation GemDetailCell
 
-@end
-
-@implementation GemDetailViewController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-
+-(void)setupWithGem:(Gem *)gem {
+    self.gem = gem;
     if (self.gem) {
         if (self.gem.quote.length) {
             self.labelQuote.text = [NSString stringWithFormat:@"“%@”", self.gem.quote];
@@ -33,10 +27,10 @@
 
         NSString *text = self.gem.quote;
         UIFont *font = CHALK(16);
-        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.view.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
         self.constraintQuoteDistanceFromTop.priority = 900;
-        self.constraintQuoteHeight.priority = 1000;
+        self.constraintQuoteHeight.priority = 999;
         NSData *data = self.gem.offlineImage;
         if (data) {
             UIImage *image = [UIImage imageWithData:data];
@@ -54,7 +48,7 @@
             self.labelQuote.textColor = [UIColor darkGrayColor];
             self.constraintQuoteDistanceFromTop.constant = 0;
             self.constraintQuoteDistanceFromBottom.constant = 0;
-            self.constraintQuoteDistanceFromTop.priority = 1000;
+            self.constraintQuoteDistanceFromTop.priority = 999;
             self.constraintQuoteHeight.priority = 900;
             [self setupTextBorder];
         }
@@ -64,15 +58,17 @@
         self.constraintDateWidth.constant = rect.size.width + 20;
     }
 
+    self.imageView.crossfadeDuration = 0;
+
     // input
     self.inputQuote = [[UITextView alloc] init];
-    self.inputQuote.frame = CGRectMake(0, self.view.frame.size.height, self.view.frame.size.width, 150);
+    self.inputQuote.frame = CGRectMake(0, self.frame.size.height, self.frame.size.width, 150);
     self.inputQuote.backgroundColor = [UIColor lightGrayColor];
     self.inputQuote.font = CHALK(14);
     self.inputQuote.textColor = [UIColor whiteColor];
     self.inputQuote.textAlignment = NSTextAlignmentCenter;
     self.inputQuote.delegate = self;
-    [self.view addSubview:self.inputQuote];
+    [self addSubview:self.inputQuote];
 
     UIToolbar* keyboardDoneButtonView = [[UIToolbar alloc] init];
     keyboardDoneButtonView.barStyle = UIBarStyleBlack;
@@ -86,7 +82,7 @@
     self.inputQuote.inputAccessoryView = keyboardDoneButtonView;
 
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
-    [self.view addGestureRecognizer:tap];
+    [self addGestureRecognizer:tap];
 
     [self listenFor:UIKeyboardWillShowNotification action:@selector(keyboardWillShow:)];
     [self listenFor:UIKeyboardWillHideNotification action:@selector(keyboardWillHide:)];
@@ -116,74 +112,20 @@
     }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 -(IBAction)didClickShare:(id)sender {
-    NSLog(@"Share!");
-    // use action sheet
-    /*
-     Activity types:
-     NSString *const UIActivityTypePostToFacebook;
-     NSString *const UIActivityTypePostToTwitter;
-     NSString *const UIActivityTypePostToWeibo;
-     NSString *const UIActivityTypeMessage;
-     NSString *const UIActivityTypeMail;
-     NSString *const UIActivityTypePrint;
-     NSString *const UIActivityTypeCopyToPasteboard;
-     NSString *const UIActivityTypeAssignToContact;
-     NSString *const UIActivityTypeSaveToCameraRoll;
-     NSString *const UIActivityTypeAddToReadingList;
-     NSString *const UIActivityTypePostToFlickr;
-     NSString *const UIActivityTypePostToVimeo;
-     NSString *const UIActivityTypePostToTencentWeibo;
-     NSString *const UIActivityTypeAirDrop;
-     */
-    NSString *textToShare = self.gem.quote.length?self.labelQuote.text:nil;
-    UIImage *image;
-    if (self.imageView.image)
-        image = self.imageView.image;
-    else if (self.gem.offlineImage)
-        image = [UIImage imageWithData:self.gem.offlineImage];
-    UIImage *imageToShare = image;
-    NSMutableArray *itemsToShare = [NSMutableArray array];
-    if (textToShare)
-        [itemsToShare addObject:textToShare];
-    if (imageToShare)
-        [itemsToShare addObject:imageToShare];
-
-    UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-    activityVC.excludedActivityTypes = @[UIActivityTypePrint, UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePostToFacebook, UIActivityTypePostToTwitter, UIActivityTypePostToWeibo, UIActivityTypePostToFlickr, UIActivityTypePostToVimeo]; //or whichever you don't need
-    activityVC.completionHandler = ^(NSString *activityType, BOOL completed) {
-        if (!activityType)
-            return;
-        NSLog(@"shared with activity: %@ completed: %d", activityType, completed);
-    };
-    [self.navigationController presentViewController:activityVC animated:YES completion:nil];
+    [self.delegate shareGem:self.gem];
 }
 
 -(IBAction)didClickTrash:(id)sender {
     [UIAlertView alertViewWithTitle:@"Delete gem?" message:@"Are you sure you want to permanently delete this gem?" cancelButtonTitle:@"No" otherButtonTitles:@[@"Delete Gem"] onDismiss:^(int buttonIndex) {
-        [self.gem.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            if (succeeded) {
-                [_appDelegate.managedObjectContext deleteObject:self.gem];
-                [self.navigationController popViewControllerAnimated:YES];
-                [self notify:@"gems:updated"];
-            }
-            else {
-                NSLog(@"Failed!");
-                [UIAlertView alertViewWithTitle:@"Error" message:@"Could not delete gem, please try again"];
-            }
-        }];
+        [self.delegate deleteGem:self.gem];
     } onCancel:nil];
 }
 
 #pragma mark input
 -(void)handleGesture:(UIGestureRecognizer *)gesture {
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
-        CGPoint touch = [gesture locationInView:self.view];
+        CGPoint touch = [gesture locationInView:self];
         if (CGRectContainsPoint(self.viewQuote.frame, touch)) {
             [self updateInputWithText:self.gem.quote.length?self.gem.quote:@""];
             [self.inputQuote becomeFirstResponder];
@@ -217,7 +159,7 @@
 
 -(void)keyboardWillShow:(NSNotification *)n {
     CGSize keyboardSize = [[n.userInfo objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    float y =  (self.view.frame.size.height - keyboardSize.height - self.inputQuote.frame.size.height);
+    float y =  (self.frame.size.height - keyboardSize.height - self.inputQuote.frame.size.height);
 
     CGRect viewFrame = self.inputQuote.frame;
     viewFrame.origin.y = y;
@@ -230,7 +172,7 @@
 
 -(void)keyboardWillHide:(NSNotification *)n {
     CGRect viewFrame = self.inputQuote.frame;
-    viewFrame.origin.y = self.view.frame.size.height;
+    viewFrame.origin.y = self.frame.size.height;
     [UIView animateWithDuration:.3 animations:^{
         self.inputQuote.frame = viewFrame;
     } completion:nil];
@@ -238,21 +180,20 @@
 
 -(void)updateInputWithText:(NSString *)text {
     UIFont *font = self.inputQuote.font;
-    CGRect rect = [text boundingRectWithSize:CGSizeMake(self.inputQuote.frame.size.width, self.view.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
+    CGRect rect = [text boundingRectWithSize:CGSizeMake(self.inputQuote.frame.size.width, self.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
     CGRect viewFrame = self.inputQuote.frame;
     viewFrame.size.height = rect.size.height + 40;
     self.inputQuote.frame = viewFrame;
     self.inputQuote.text = text;
 }
 
-#pragma mark TextViewDelegate 
+#pragma mark TextViewDelegate
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView {
     [self.inputQuote resignFirstResponder];
     return YES;
 }
 
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
@@ -268,7 +209,6 @@
 #pragma mark AlbumsViewDelegate
 -(void)didSelectAlbum:(Album *)album {
     self.gem.album = album;
-    [self.navigationController popViewControllerAnimated:YES];
     [self.gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Gem saved!");
 

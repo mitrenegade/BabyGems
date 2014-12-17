@@ -38,6 +38,8 @@
     }
 
     [self listenFor:@"album:changed" action:@selector(changeAlbum:)];
+    [self listenFor:@"gems:updated" action:@selector(reloadGems)];
+    [self listenFor:@"sync:complete" action:@selector(reloadAlbums)];
 
     if (self.mode == AlbumsViewModeNormal) {
         NSString *lastAlbumID = [[NSUserDefaults standardUserDefaults] objectForKey:@"album:last:opened"];
@@ -93,7 +95,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     AlbumCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"AlbumCell" forIndexPath:indexPath];
-    
+
     // Configure the cell
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
@@ -254,6 +256,21 @@
             [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
     }];
 #endif
+}
+
+#pragma mark notifications
+-(void)reloadGems {
+    // when a gem gets deleted from the default gembox
+    gemFetcher = nil;
+    [self.gemFetcher performFetch:nil];
+    [self.collectionView reloadData];
+}
+
+-(void)reloadAlbums {
+    gemFetcher = nil;
+    [self.gemFetcher performFetch:nil];
+    [self.albumFetcher performFetch:nil];
+    [self.collectionView reloadData];
 }
 
 -(void)changeAlbum:(NSNotification *)n {

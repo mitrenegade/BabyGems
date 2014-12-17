@@ -69,46 +69,61 @@
 
 #pragma mark Parse
 -(void)synchronizeWithParse {
+
+#if TESTING && 0
+    // force clean start
+    for (Album *album in [[Album where:@{}] all])
+        [_appDelegate.managedObjectContext deleteObject:album];
+    for (Gem *gem in [[Gem where:@{}] all])
+        [_appDelegate.managedObjectContext deleteObject:gem];
+#endif
+
     // make sure all parse objects are in core data
-    NSArray *classes = @[@"Gem", @"Album"];
+//    NSArray *classes = @[@"Gem", @"Album"];
 
-    for (NSString *className in classes) {
-        PFQuery *query = [PFQuery queryWithClassName:className];
-        PFUser *user = _currentUser;
-        [user fetchIfNeeded];
-        [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
-        NSLog(@"Querying for %@ for user %@", className, _currentUser.objectId);
+    [self synchronizeClass:@"Album" completion:^(BOOL success) {
+        // first get all albums
+        NSLog(@"Albums after sync:");
+        [_appDelegate printAllAlbums];
 
-        if ([className isEqualToString:@"Album"]) {
-            NSLog(@"Albums before sync:");
-            [_appDelegate printAllAlbums];
-        }
-        if ([className isEqualToString:@"Gem"]) {
-            NSLog(@"Gems before sync:");
+        [self synchronizeClass:@"Gem" completion:^(BOOL success) {
+            NSLog(@"Gems after sync:");
             [_appDelegate printAllGems];
-        }
-        [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-            if (error) {
-                NSLog(@"Error: %@", error);
-            }
-            else {
-                NSLog(@"Synchronizing class %@", className);
-                [ParseBase synchronizeClass:className fromObjects:objects replaceExisting:YES completion:^{
-                    // reload
-                    [self notify:@"gems:updated"];
 
-                    if ([className isEqualToString:@"Album"]) {
-                        NSLog(@"Albums after sync:");
-                        [_appDelegate printAllAlbums];
-                    }
-                    if ([className isEqualToString:@"Gem"]) {
-                        NSLog(@"Gems after sync:");
-                        [_appDelegate printAllGems];
-                    }
-                }];
-            }
+            [self notify:@"gems:updated"];
+            [self notify:@"sync:complete"];
         }];
+    }];
+}
+
+-(void)synchronizeClass:(NSString *)className completion:(void(^)(BOOL success))completion {
+    PFQuery *query = [PFQuery queryWithClassName:className];
+    PFUser *user = _currentUser;
+    [user fetchIfNeeded];
+    [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
+    NSLog(@"Querying for %@ for user %@", className, _currentUser.objectId);
+
+    if ([className isEqualToString:@"Album"]) {
+        NSLog(@"Albums before sync:");
+        [_appDelegate printAllAlbums];
     }
+    if ([className isEqualToString:@"Gem"]) {
+        NSLog(@"Gems before sync:");
+        [_appDelegate printAllGems];
+    }
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        else {
+            NSLog(@"Synchronizing class %@", className);
+            [ParseBase synchronizeClass:className fromObjects:objects replaceExisting:YES completion:^{
+                if (completion) {
+                    completion(YES);
+                }
+            }];
+        }
+    }];
 }
 
 @end

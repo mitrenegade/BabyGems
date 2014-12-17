@@ -13,4 +13,5 @@
 -(BOOL)isPhotoGem {
     return self.imageURL || self.offlineImage;
 }
+
 @end
