@@ -15,6 +15,6 @@
 
 -(void)showAlbumSelectorForGem:(Gem *)gem;
 -(void)deleteGem:(Gem *)gem;
--(void)shareGem:(Gem *)gem;
+-(void)shareGem:(Gem *)gem image:(UIImage *)image;
 
 @end

@@ -114,7 +114,12 @@
 
 #pragma mark cell buttons
 -(IBAction)didClickShare:(id)sender {
-    [self.delegate shareGem:self.gem];
+    UIImage *image = self.imageView.image;
+    if (!image) {
+        if (self.gem.offlineImage)
+            image = [UIImage imageWithData:self.gem.offlineImage];
+    }
+    [self.delegate shareGem:self.gem image:image];
 }
 
 -(IBAction)didClickTrash:(id)sender {

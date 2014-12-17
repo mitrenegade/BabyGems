@@ -169,8 +169,7 @@
     }];
 }
 
--(void)shareGem:(id)gem {
-    NSLog(@"Share!");
+-(void)shareGem:(Gem *)gem image:(UIImage *)image {
     // use action sheet
     /*
      Activity types:
@@ -190,14 +189,7 @@
      NSString *const UIActivityTypeAirDrop;
      */
 
-    /*
-
-    NSString *textToShare = gem.quote.length?self.labelQuote.text:nil;
-    UIImage *image;
-    if (self.imageView.image)
-        image = self.imageView.image;
-    else if (self.gem.offlineImage)
-        image = [UIImage imageWithData:self.gem.offlineImage];
+    NSString *textToShare = gem.quote.length?gem.quote:nil;
     UIImage *imageToShare = image;
     NSMutableArray *itemsToShare = [NSMutableArray array];
     if (textToShare)
@@ -213,6 +205,5 @@
         NSLog(@"shared with activity: %@ completed: %d", activityType, completed);
     };
     [self.navigationController presentViewController:activityVC animated:YES completion:nil];
-     */
 }
 @end
