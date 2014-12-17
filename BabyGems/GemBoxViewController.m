@@ -50,7 +50,7 @@
     [self selectAlbum:self.currentAlbum];
 
     [self listenFor:@"style:changed" action:@selector(reloadData)];
-    [self listenFor:@"album:changed" action:@selector(udpateAlbums:)];
+    [self listenFor:@"album:changed" action:@selector(updateAlbum:)];
 }
 
 - (void)didReceiveMemoryWarning {

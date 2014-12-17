@@ -14,7 +14,7 @@
 @protocol GemDetailDelegate <NSObject>
 
 -(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album;
--(void)didDeleteGem:(Gem *)gem;
+-(void)deleteGem:(Gem *)gem;
 -(void)shareGem:(Gem *)gem;
 
 @end

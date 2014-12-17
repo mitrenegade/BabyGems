@@ -9,7 +9,7 @@
 #import "GemDetailCollectionViewController.h"
 #import "GemDetailCell.h"
 #import "Album+Info.h"
-#import "Gem.h"
+#import "Gem+Parse.h"
 
 @interface GemDetailCollectionViewController ()
 
@@ -127,9 +127,25 @@
 }
 
 #pragma mark GemDetailDelegate
--(void)didDeleteGem:(Gem *)gem {
-    [self notify:@"album:changed" object:nil userInfo:@{@"album":gem.album}];
-    [self.collectionView reloadData];
+-(void)deleteGem:(Gem *)gem {
+    Album *album = gem.album;
+    [gem.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            [_appDelegate.managedObjectContext deleteObject:gem];
+            if (gem.album) {
+                NSDictionary *userInfo = gem.album?@{@"album":gem.album}:nil;
+                [self notify:@"album:changed" object:nil userInfo:userInfo];
+            }
+            
+            [self notify:@"gems:updated"];
+
+            [self.collectionView reloadData];
+        }
+        else {
+            NSLog(@"Failed!");
+            [UIAlertView alertViewWithTitle:@"Error" message:@"Could not delete gem, please try again"];
+        }
+    }];
 }
 
 -(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {

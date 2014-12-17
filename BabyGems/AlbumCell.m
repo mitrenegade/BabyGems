@@ -61,6 +61,8 @@
 }
 
 -(void)setupBorder {
+    self.imageView.crossfadeDuration = 0;
+
     self.viewBG.layer.borderWidth = 2;
     self.viewBG.layer.borderColor = [[UIColor lightGrayColor] CGColor];
     self.viewBG.layer.cornerRadius = 5;
