@@ -315,7 +315,7 @@
     NSArray *all = [[Gem where:@{}] all];
     NSLog(@"%lu gems found", (unsigned long)[all count]);
     for (Gem *gem in all) {
-        NSLog(@"Gem: quote: %@ createdAt: %@", gem.quote, gem.createdAt);
+        NSLog(@"Gem: quote: %@ createdAt: %@ album: %@", gem.quote, gem.createdAt, gem.album.parseID);
     }
 }
 

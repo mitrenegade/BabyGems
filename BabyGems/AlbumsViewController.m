@@ -39,6 +39,7 @@
 
     [self listenFor:@"album:changed" action:@selector(changeAlbum:)];
     [self listenFor:@"gems:updated" action:@selector(reloadGems)];
+    [self listenFor:@"sync:complete" action:@selector(reloadAlbums)];
 
     if (self.mode == AlbumsViewModeNormal) {
         NSString *lastAlbumID = [[NSUserDefaults standardUserDefaults] objectForKey:@"album:last:opened"];
@@ -262,6 +263,13 @@
     // when a gem gets deleted from the default gembox
     gemFetcher = nil;
     [self.gemFetcher performFetch:nil];
+    [self.collectionView reloadData];
+}
+
+-(void)reloadAlbums {
+    gemFetcher = nil;
+    [self.gemFetcher performFetch:nil];
+    [self.albumFetcher performFetch:nil];
     [self.collectionView reloadData];
 }
 
