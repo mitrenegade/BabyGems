@@ -112,14 +112,24 @@
     }
 }
 
+#pragma mark cell buttons
 -(IBAction)didClickShare:(id)sender {
-    [self.delegate shareGem:self.gem];
+    UIImage *image = self.imageView.image;
+    if (!image) {
+        if (self.gem.offlineImage)
+            image = [UIImage imageWithData:self.gem.offlineImage];
+    }
+    [self.delegate shareGem:self.gem image:image];
 }
 
 -(IBAction)didClickTrash:(id)sender {
     [UIAlertView alertViewWithTitle:@"Delete gem?" message:@"Are you sure you want to permanently delete this gem?" cancelButtonTitle:@"No" otherButtonTitles:@[@"Delete Gem"] onDismiss:^(int buttonIndex) {
         [self.delegate deleteGem:self.gem];
     } onCancel:nil];
+}
+
+-(IBAction)didClickAlbum:(id)sender {
+    [self.delegate showAlbumSelectorForGem:self.gem];
 }
 
 #pragma mark input
@@ -191,29 +201,6 @@
 -(BOOL)textViewShouldEndEditing:(UITextView *)textView {
     [self.inputQuote resignFirstResponder];
     return YES;
-}
-
-#pragma mark - Navigation
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    if ([segue.identifier isEqualToString:@"GemDetailToAlbums"]) {
-        AlbumsViewController *controller = [segue destinationViewController];
-        controller.delegate = self;
-        controller.currentAlbum = self.gem.album;
-        controller.mode = AlbumsViewModeSelect;
-    }
-}
-
-#pragma mark AlbumsViewDelegate
--(void)didSelectAlbum:(Album *)album {
-    self.gem.album = album;
-    [self.gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
-        NSLog(@"Gem saved!");
-
-        [self.delegate didMoveGem:self.gem toAlbum:album];
-    }];
 }
 
 @end

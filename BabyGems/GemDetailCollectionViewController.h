@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "GemDetailProtocol.h"
+#import "AlbumsViewController.h"
 
 @protocol GemDetailCollectionDelegate <NSObject>
 
@@ -17,8 +18,10 @@
 @end
 
 @class Gem;
-@interface GemDetailCollectionViewController : UICollectionViewController <GemDetailDelegate>
-
+@interface GemDetailCollectionViewController : UICollectionViewController <GemDetailDelegate, AlbumsViewDelegate>
+{
+    Gem *movingGem;
+}
 @property (nonatomic, weak) id delegate;
 @property (nonatomic, assign) NSInteger initialPage;
 @end
