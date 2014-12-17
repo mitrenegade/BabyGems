@@ -331,7 +331,11 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Gem"];
     fetchRequest.predicate = albumPredicate;
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
-    fetchRequest.sortDescriptors = @[descriptor];
+    NSSortDescriptor *descriptor0 = nil;
+    if (self.currentAlbum && [self.currentAlbum.customOrder boolValue]) {
+        descriptor0 = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    }
+    fetchRequest.sortDescriptors = descriptor0?@[descriptor0, descriptor]:@[descriptor];
     __gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     [__gemFetcher performFetch:nil];
 
@@ -339,6 +343,7 @@
 }
 
 -(void)reloadData {
+    __gemFetcher = nil;
     [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
 

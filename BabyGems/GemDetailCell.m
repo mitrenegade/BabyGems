@@ -132,6 +132,16 @@
     [self.delegate showAlbumSelectorForGem:self.gem];
 }
 
+-(IBAction)didClickReorder:(id)sender {
+    NSInteger currentOrder = [self.delegate currentOrderForGem:self.gem] + 1;
+    NSInteger total = [self.delegate totalGemsInAlbum];
+    NSString *message = [NSString stringWithFormat:@"This gem is currently in position %ld of %ld total. Where would you like to move it? (1 - %ld)", (long)currentOrder, (long)total, (long)total];
+
+    UIAlertView *alertview = [[UIAlertView alloc] initWithTitle:@"Move gem to position" message:message delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Move", nil];
+    [alertview show];
+    alertview.alertViewStyle = UIAlertViewStylePlainTextInput;
+}
+
 #pragma mark input
 -(void)handleGesture:(UIGestureRecognizer *)gesture {
     if ([gesture isKindOfClass:[UITapGestureRecognizer class]]) {
@@ -203,4 +213,19 @@
     return YES;
 }
 
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        NSInteger maxPos = [self.delegate totalGemsInAlbum];
+        NSString *text = [[alertView textFieldAtIndex:0] text];
+        NSInteger pos = [text integerValue];
+        if (pos > 0 && pos <= maxPos) {
+            NSInteger newPos = pos - 1;
+            [self.delegate didMoveGem:self.gem toPosition:newPos];
+        }
+        else {
+            [UIAlertView alertViewWithTitle:@"Invalid position" message:[NSString stringWithFormat:@"Cannot move the gem to position %ld.", (long)pos]];
+        }
+    }
+}
 @end

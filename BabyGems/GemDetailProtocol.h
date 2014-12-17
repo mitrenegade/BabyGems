@@ -13,6 +13,10 @@
 
 @protocol GemDetailDelegate <NSObject>
 
+-(NSInteger)currentOrderForGem:(Gem *)gem;
+-(NSInteger)totalGemsInAlbum;
+-(void)didMoveGem:(Gem *)gem toPosition:(NSInteger)newPos;
+
 -(void)showAlbumSelectorForGem:(Gem *)gem;
 -(void)deleteGem:(Gem *)gem;
 -(void)shareGem:(Gem *)gem image:(UIImage *)image;

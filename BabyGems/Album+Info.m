@@ -36,11 +36,4 @@
     return [sorted count]?sorted[0]:nil;
 }
 
--(void)updateGemOrder {
-    NSArray *sorted = [self sortedGems];
-    for (int i=0; i<[sorted count]; i++) {
-        Gem *gem = sorted[i];
-        gem.order = @(i);
-    }
-}
 @end
