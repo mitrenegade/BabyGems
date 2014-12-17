@@ -10,6 +10,7 @@
 #import "GemDetailCell.h"
 #import "Album+Info.h"
 #import "Gem+Parse.h"
+#import "Gem+Info.h"
 
 @interface GemDetailCollectionViewController ()
 
@@ -39,15 +40,18 @@
     }
 }
 
-/*
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"GemDetailToAlbums"]) {
+        AlbumsViewController *controller = [segue destinationViewController];
+        controller.delegate = self;
+        controller.currentAlbum = movingGem.album;
+        controller.mode = AlbumsViewModeSelect;
+    }
 }
-*/
 
 #pragma mark <UICollectionViewDataSource>
 
@@ -128,7 +132,6 @@
 
 #pragma mark GemDetailDelegate
 -(void)deleteGem:(Gem *)gem {
-    Album *album = gem.album;
     [gem.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [_appDelegate.managedObjectContext deleteObject:gem];
@@ -148,9 +151,22 @@
     }];
 }
 
--(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
-    [self.collectionView reloadData];
-    [self notify:@"album:changed" object:nil userInfo:@{@"album":album}];
+-(void)showAlbumSelectorForGem:(Gem *)gem {
+    movingGem = gem;
+    [self performSegueWithIdentifier:@"GemDetailToAlbums" sender:self];
+}
+
+#pragma mark AlbumsViewDelegate
+-(void)didSelectAlbum:(Album *)album {
+    movingGem.album = album;
+    [movingGem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Gem saved!");
+
+        [self.collectionView reloadData];
+        [self notify:@"album:changed" object:nil userInfo:@{@"album":album}];
+
+        [self.navigationController popToViewController:self animated:YES];
+    }];
 }
 
 -(void)shareGem:(id)gem {

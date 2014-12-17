@@ -254,6 +254,9 @@
                                                             <state key="normal" image="albumIcon">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
+                                                            <connections>
+                                                                <action selector="didClickAlbum:" destination="nvn-KO-EVh" eventType="touchUpInside" id="rmZ-Qg-uJn"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -320,12 +323,12 @@
                         </connections>
                     </collectionView>
                     <connections>
-                        <segue destination="1zg-CB-AfD" kind="show" identifier="GemDetailToAlbums" id="bY6-bD-v3t"/>
+                        <segue destination="1zg-CB-AfD" kind="show" identifier="GemDetailToAlbums" id="xfA-eg-hP1"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wH-S5-QCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2664" y="1373"/>
+            <point key="canvasLocation" x="2659" y="1344"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AaW-eM-oj8">
@@ -979,6 +982,6 @@
         <image name="trashcan" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bY6-bD-v3t"/>
+        <segue reference="xfA-eg-hP1"/>
     </inferredMetricsTieBreakers>
 </document>

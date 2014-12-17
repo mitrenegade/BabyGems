@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Constants.h"
-#import "AlbumsViewController.h"
 #import "GemDetailProtocol.h"
 
 @class Album;
 @class Gem;
 @class AsyncImageView;
 
-@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate, AlbumsViewDelegate>
+@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate>
 
 @property (nonatomic, weak) Gem *gem;
 @property (weak, nonatomic) id<GemDetailDelegate> delegate;
@@ -32,6 +31,7 @@
 
 -(IBAction)didClickShare:(id)sender;
 -(IBAction)didClickTrash:(id)sender;
+-(IBAction)didClickAlbum:(id)sender;
 -(void)setupWithGem:(Gem *)gem;
 
 @end
