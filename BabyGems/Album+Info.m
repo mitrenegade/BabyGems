@@ -19,7 +19,10 @@
 
 -(NSArray *)sortedGems {
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
-    NSArray *gems = [self.gems sortedArrayUsingDescriptors:@[descriptor]];
+    NSSortDescriptor *descriptor0 = nil;
+    if ([self.customOrder boolValue])
+        descriptor0 = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *gems = [self.gems sortedArrayUsingDescriptors:[self.customOrder boolValue]?@[descriptor0, descriptor]:@[descriptor]];
     return gems;
 }
 
@@ -32,4 +35,10 @@
     }
     return [sorted count]?sorted[0]:nil;
 }
+
++(Album *)defaultAlbum {
+    Album *defaultAlbum = [[[Album where:@{@"isDefault":@YES}] all] firstObject];
+    return defaultAlbum;
+}
+
 @end

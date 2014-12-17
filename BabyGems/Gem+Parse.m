@@ -26,6 +26,7 @@
     self.quote = [self.pfObject objectForKey:@"quote"];
     self.imageURL = [self.pfObject objectForKey:@"imageURL"];
     self.pfUserID = [self.pfObject objectForKey:@"pfUserID"];
+    self.order = [self.pfObject objectForKey:@"order"];
 
     // relationships
     PFObject *object = [self.pfObject objectForKey:@"album"];
@@ -41,6 +42,8 @@
         if (self.imageURL) {
             self.pfObject[@"imageURL"] = self.imageURL;
         }
+        if (self.order)
+            self.pfObject[@"order"] = self.order;
 
         if (_currentUser) {
             self.pfObject[@"user"] = _currentUser;

@@ -258,12 +258,26 @@
                                                                 <action selector="didClickAlbum:" destination="nvn-KO-EVh" eventType="touchUpInside" id="rmZ-Qg-uJn"/>
                                                             </connections>
                                                         </button>
+                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QfN-qc-mPC">
+                                                            <rect key="frame" x="193" y="5" width="30" height="30"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="hq3-w5-GXb"/>
+                                                                <constraint firstAttribute="width" constant="30" id="omY-ZP-FBv"/>
+                                                            </constraints>
+                                                            <state key="normal" image="reorder">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                            <connections>
+                                                                <action selector="didClickReorder:" destination="nvn-KO-EVh" eventType="touchUpInside" id="snD-cr-hdz"/>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
                                                         <constraint firstItem="Dog-oJ-33p" firstAttribute="leading" secondItem="W2p-hJ-ALN" secondAttribute="trailing" constant="8" id="6GJ-Nw-CcQ"/>
                                                         <constraint firstItem="dVc-sf-f8M" firstAttribute="leading" secondItem="zi5-G3-fX2" secondAttribute="trailing" constant="8" id="9cM-pD-vOX"/>
                                                         <constraint firstAttribute="height" constant="40" id="FQN-ja-vs6"/>
+                                                        <constraint firstAttribute="centerY" secondItem="QfN-qc-mPC" secondAttribute="centerY" id="W0e-IZ-TEo"/>
                                                         <constraint firstAttribute="centerY" secondItem="W2p-hJ-ALN" secondAttribute="centerY" id="YCt-xd-UxZ"/>
                                                         <constraint firstItem="dVc-sf-f8M" firstAttribute="leading" secondItem="zi5-G3-fX2" secondAttribute="trailing" constant="8" id="e9t-aF-me3"/>
                                                         <constraint firstAttribute="centerY" secondItem="dVc-sf-f8M" secondAttribute="centerY" id="juq-uZ-u0t"/>
@@ -271,6 +285,7 @@
                                                         <constraint firstAttribute="trailing" secondItem="dVc-sf-f8M" secondAttribute="trailing" constant="29" id="kcr-EW-7Mj"/>
                                                         <constraint firstAttribute="centerY" secondItem="zi5-G3-fX2" secondAttribute="centerY" id="kxr-tf-rYA"/>
                                                         <constraint firstAttribute="centerY" secondItem="Dog-oJ-33p" secondAttribute="centerY" id="oy3-7j-Dma"/>
+                                                        <constraint firstItem="QfN-qc-mPC" firstAttribute="leading" secondItem="Dog-oJ-33p" secondAttribute="trailing" constant="8" id="wwX-JD-zXC"/>
                                                     </constraints>
                                                 </view>
                                             </subviews>
@@ -978,6 +993,7 @@
         <image name="arrowRightChalk" width="60" height="33"/>
         <image name="bubble" width="128" height="128"/>
         <image name="camera-icon" width="137" height="102"/>
+        <image name="reorder" width="51" height="51"/>
         <image name="share" width="64" height="64"/>
         <image name="trashcan" width="256" height="256"/>
     </resources>

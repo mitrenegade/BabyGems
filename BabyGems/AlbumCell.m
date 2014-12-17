@@ -26,24 +26,6 @@
     self.viewCountBG.hidden = NO;
 }
 
--(void)setupForDefaultAlbumWithGems:(NSArray *)gems {
-    [self setupBorder];
-    [self setupName:@"All photos"];
-    self.labelCount.text = [NSString stringWithFormat:@"%lu", (unsigned long)[gems count]];
-
-    Gem *gem = nil;
-    for (int i=0; i<[gems count]; i++) {
-        if ([gems[i] imageURL]) {
-            gem = gems[i];
-            break;
-        }
-    }
-    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.imageView.image = gem.offlineImage?[UIImage imageWithData:gem.offlineImage]:nil;
-    self.imageView.imageURL = [NSURL URLWithString:gem.imageURL];
-    self.viewCountBG.hidden = NO;
-}
-
 -(void)setupForNewAlbum {
     [self setupBorder];
     self.imageView.contentMode = UIViewContentModeCenter;

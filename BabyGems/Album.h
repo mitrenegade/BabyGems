@@ -2,7 +2,7 @@
 //  Album.h
 //  BabyGems
 //
-//  Created by Bobby Ren on 12/11/14.
+//  Created by Bobby Ren on 12/17/14.
 //  Copyright (c) 2014 BobbyRenTech. All rights reserved.
 //
 
@@ -14,10 +14,12 @@
 
 @interface Album : ParseBase
 
-@property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * longDescription;
-@property (nonatomic, retain) NSDate * startDate;
+@property (nonatomic, retain) NSNumber * customOrder;
 @property (nonatomic, retain) NSDate * endDate;
+@property (nonatomic, retain) NSString * longDescription;
+@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSDate * startDate;
+@property (nonatomic, retain) NSNumber * isDefault;
 @property (nonatomic, retain) NSSet *gems;
 @end
 

@@ -23,7 +23,6 @@
 @property (weak, nonatomic) Album *album;
 
 -(void)setupWithAlbum:(Album *)album;
--(void)setupForDefaultAlbumWithGems:(NSArray *)gems;
 -(void)setupForNewAlbum;
 -(void)isCurrentAlbum;
 @end

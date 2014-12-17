@@ -26,6 +26,8 @@
     self.longDescription = [self.pfObject objectForKey:@"longDescription"];
     self.startDate = [self.pfObject objectForKey:@"startDate"];
     self.endDate = [self.pfObject objectForKey:@"endDate"];
+    self.isDefault = [self.pfObject objectForKey:@"isDefault"];
+    self.customOrder = [self.pfObject objectForKey:@"customOrder"];
 }
 
 -(void)saveOrUpdateToParseWithCompletion:(void (^)(BOOL))completion {
@@ -39,6 +41,10 @@
             self.pfObject[@"startDate"] = self.startDate;
         if (self.endDate)
             self.pfObject[@"endDate"] = self.endDate;
+        if (self.isDefault)
+            self.pfObject[@"isDefault"] = self.isDefault;
+        if (self.customOrder)
+            self.pfObject[@"customOrder"] = self.customOrder;
 
         if (_currentUser) {
             self.pfObject[@"user"] = _currentUser;

@@ -14,7 +14,7 @@
 @class Gem;
 @class AsyncImageView;
 
-@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate>
+@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate, UIAlertViewDelegate>
 
 @property (nonatomic, weak) Gem *gem;
 @property (weak, nonatomic) id<GemDetailDelegate> delegate;
@@ -32,6 +32,7 @@
 -(IBAction)didClickShare:(id)sender;
 -(IBAction)didClickTrash:(id)sender;
 -(IBAction)didClickAlbum:(id)sender;
+-(IBAction)didClickReorder:(id)sender;
 -(void)setupWithGem:(Gem *)gem;
 
 @end
