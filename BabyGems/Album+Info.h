@@ -12,5 +12,6 @@
 
 -(NSString *)dateString;
 -(Gem *)coverGem;
+-(NSArray *)sortedGems;
 
 @end

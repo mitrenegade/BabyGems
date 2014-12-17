@@ -10,10 +10,10 @@
 #import "CameraViewController.h"
 #import "NewGemViewController.h"
 #import "AlbumsViewController.h"
-#import "GemDetailProtocol.h"
+#import "GemDetailCollectionViewController.h"
 
 @class Album;
-@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, GemDetailDelegate>
+@interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, GemDetailCollectionDelegate>
 {
     NSFetchedResultsController *__gemFetcher;
     NSPredicate *albumPredicate;

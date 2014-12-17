@@ -8,6 +8,8 @@
 
 #import "GemDetailCollectionViewController.h"
 #import "GemDetailCell.h"
+#import "Album+Info.h"
+#import "Gem.h"
 
 @interface GemDetailCollectionViewController ()
 
@@ -42,19 +44,20 @@
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return self.currentGem?1:0;
+    return 1;
 }
 
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.currentGem?1:0;
+    return [[self.delegate sortedGems] count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     GemDetailCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"GemDetailCell" forIndexPath:indexPath];
-    
+    cell.delegate = self;
+
     // Configure the cell
-    [cell setupWithGem:self.currentGem];
+    [cell setupWithGem:[self.delegate gemAtIndexPath:indexPath]];
     return cell;
 }
 
@@ -95,6 +98,17 @@
 	
 }
 */
+
+#pragma mark GemDetailDelegate
+-(void)didDeleteGem:(Gem *)gem {
+    [self notify:@"album:changed" object:nil userInfo:@{@"album":gem.album}];
+    [self.collectionView reloadData];
+}
+
+-(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
+    [self.collectionView reloadData];
+    [self notify:@"album:changed" object:nil userInfo:@{@"album":album}];
+}
 
 -(void)shareGem:(id)gem {
     NSLog(@"Share!");

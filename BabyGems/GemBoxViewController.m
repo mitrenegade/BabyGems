@@ -12,6 +12,7 @@
 #import "Gem+Info.h"
 #import "UIActionSheet+MKBlockAdditions.h"
 #import "GemDetailCollectionViewController.h"
+#import "Album+Info.h"
 
 @interface GemBoxViewController ()
 
@@ -49,6 +50,7 @@
     [self selectAlbum:self.currentAlbum];
 
     [self listenFor:@"style:changed" action:@selector(reloadData)];
+    [self listenFor:@"album:changed" action:@selector(udpateAlbums:)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -139,8 +141,7 @@
     }
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
         GemDetailCollectionViewController *controller = [segue destinationViewController];
-        controller.currentGem = (Gem *)sender;
-//        controller.delegate = self;
+        controller.delegate = self;
     }
     else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
         UIViewController *controller = [segue destinationViewController];
@@ -416,11 +417,25 @@
     [_appDelegate showSettings];
 }
 
-#pragma mark GemDetailDelegate
--(void)didMoveGem:(Gem *)gem toAlbum:(Album *)album {
+-(void)updateAlbum:(NSNotification *)n {
+    // if gemDetail moves a photo to an album, that changes this album
+    Album *album = [n.userInfo valueForKey:@"album"];
     [self selectAlbum:album];
-
-    [self notify:@"album:changed" object:nil userInfo:@{@"album":album}];
 }
 
+#pragma mark GemDetailCollectionDelegate
+// uses all the same album structures
+-(NSArray *)sortedGems {
+    if (self.currentAlbum)
+        return [self.currentAlbum sortedGems];
+    else
+        return [self.gemFetcher fetchedObjects];
+}
+
+-(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.currentAlbum)
+        return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
+    else
+        return [self.gemFetcher objectAtIndexPath:indexPath];
+}
 @end

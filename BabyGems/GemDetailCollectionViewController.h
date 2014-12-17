@@ -9,8 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "GemDetailProtocol.h"
 
+@protocol GemDetailCollectionDelegate <NSObject>
+
+-(NSArray *)sortedGems;
+-(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath;
+
+@end
+
 @class Gem;
 @interface GemDetailCollectionViewController : UICollectionViewController <GemDetailDelegate>
 
-@property (nonatomic, weak) Gem *currentGem;
+@property (nonatomic, weak) id delegate;
 @end

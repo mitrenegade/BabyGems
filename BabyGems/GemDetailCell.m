@@ -30,7 +30,7 @@
         CGRect rect = [text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
         self.constraintQuoteHeight.constant = rect.size.height + 40;
         self.constraintQuoteDistanceFromTop.priority = 900;
-        self.constraintQuoteHeight.priority = 1000;
+        self.constraintQuoteHeight.priority = 999;
         NSData *data = self.gem.offlineImage;
         if (data) {
             UIImage *image = [UIImage imageWithData:data];
@@ -48,7 +48,7 @@
             self.labelQuote.textColor = [UIColor darkGrayColor];
             self.constraintQuoteDistanceFromTop.constant = 0;
             self.constraintQuoteDistanceFromBottom.constant = 0;
-            self.constraintQuoteDistanceFromTop.priority = 1000;
+            self.constraintQuoteDistanceFromTop.priority = 999;
             self.constraintQuoteHeight.priority = 900;
             [self setupTextBorder];
         }
@@ -57,6 +57,8 @@
         rect = [self.labelDate.text boundingRectWithSize:self.labelDate.superview.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.labelDate.font} context:nil];
         self.constraintDateWidth.constant = rect.size.width + 20;
     }
+
+    self.imageView.crossfadeDuration = 0;
 
     // input
     self.inputQuote = [[UITextView alloc] init];
@@ -203,7 +205,6 @@
 
 #pragma mark - Navigation
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-/*
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
@@ -214,12 +215,10 @@
         controller.mode = AlbumsViewModeSelect;
     }
 }
- */
 
 #pragma mark AlbumsViewDelegate
 -(void)didSelectAlbum:(Album *)album {
     self.gem.album = album;
-//    [self.navigationController popViewControllerAnimated:YES];
     [self.gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Gem saved!");
 
