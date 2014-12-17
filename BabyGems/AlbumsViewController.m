@@ -10,6 +10,7 @@
 #import "AlbumCell.h"
 #import "Album+Parse.h"
 #import "GemBoxViewController.h"
+#import "Album+Info.h"
 
 @interface AlbumsViewController ()
 
@@ -38,7 +39,7 @@
     }
 
     [self listenFor:@"album:changed" action:@selector(changeAlbum:)];
-    [self listenFor:@"gems:updated" action:@selector(reloadGems)];
+    [self listenFor:@"gems:updated" action:@selector(reloadAlbums)];
     [self listenFor:@"sync:complete" action:@selector(reloadAlbums)];
     [self listenFor:@"album:deleted" action:@selector(reloadAlbums)];
 
@@ -100,7 +101,7 @@
     // Configure the cell
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            [cell setupForDefaultAlbumWithGems:self.gemFetcher.fetchedObjects];
+            [cell setupWithAlbum:[Album defaultAlbum]];
             if (!self.currentAlbum)
                 [cell isCurrentAlbum];
         }
@@ -189,27 +190,13 @@
         return albumFetcher;
 
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Album"];
-    //NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = %@", @"pfUserID", _currentUser.objectId];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = nil OR %K = 0", @"isDefault", @"isDefault"];
+    request.predicate = predicate;
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
     request.sortDescriptors = @[sortDescriptor];
     albumFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     [albumFetcher performFetch:nil];
     return albumFetcher;
-}
-
--(NSFetchedResultsController *) gemFetcher {
-    // returns gems without an album
-    if (gemFetcher)
-        return gemFetcher;
-
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Gem"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album"];
-    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
-    request.predicate = predicate;
-    request.sortDescriptors = @[sortDescriptor];
-    gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [gemFetcher performFetch:nil];
-    return gemFetcher;
 }
 
 #pragma mark UIAlertViewDelegate
@@ -260,18 +247,9 @@
 }
 
 #pragma mark notifications
--(void)reloadGems {
-    // when a gem gets deleted from the default gembox
-    gemFetcher = nil;
-    [self.gemFetcher performFetch:nil];
-    [self.collectionView reloadData];
-}
-
 -(void)reloadAlbums {
-    gemFetcher = nil;
     albumFetcher = nil;
     self.currentAlbum = nil;
-    [self.gemFetcher performFetch:nil];
     [self.albumFetcher performFetch:nil];
     [self.collectionView reloadData];
 }

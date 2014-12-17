@@ -17,7 +17,6 @@
 @interface AlbumsViewController : UICollectionViewController <UIAlertViewDelegate>
 {
     NSFetchedResultsController *albumFetcher;
-    NSFetchedResultsController *gemFetcher;
 }
 
 @property (nonatomic, assign) int mode;
