@@ -19,7 +19,10 @@
 
 -(NSArray *)sortedGems {
     NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
-    NSArray *gems = [self.gems sortedArrayUsingDescriptors:@[descriptor]];
+    NSSortDescriptor *descriptor0 = nil;
+    if ([self.customOrder boolValue])
+        descriptor0 = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *gems = [self.gems sortedArrayUsingDescriptors:[self.customOrder boolValue]?@[descriptor0, descriptor]:@[descriptor]];
     return gems;
 }
 
@@ -31,5 +34,13 @@
             return sorted[i];
     }
     return [sorted count]?sorted[0]:nil;
+}
+
+-(void)updateGemOrder {
+    NSArray *sorted = [self sortedGems];
+    for (int i=0; i<[sorted count]; i++) {
+        Gem *gem = sorted[i];
+        gem.order = @(i);
+    }
 }
 @end

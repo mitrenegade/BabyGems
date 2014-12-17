@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14B25" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Album" representedClassName="Album" parentEntity="ParseBase" syncable="YES">
+        <attribute name="customOrder" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="longDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -10,6 +11,7 @@
     <entity name="Gem" representedClassName="Gem" parentEntity="ParseBase" syncable="YES">
         <attribute name="imageURL" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="offlineImage" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="quote" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="gems" inverseEntity="Album" syncable="YES"/>
     </entity>
@@ -20,8 +22,8 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Gem" positionX="-63" positionY="-18" width="128" height="103"/>
+        <element name="Album" positionX="-54" positionY="27" width="128" height="135"/>
+        <element name="Gem" positionX="-63" positionY="-18" width="128" height="118"/>
         <element name="ParseBase" positionX="-54" positionY="9" width="128" height="103"/>
-        <element name="Album" positionX="-54" positionY="27" width="128" height="118"/>
     </elements>
 </model>

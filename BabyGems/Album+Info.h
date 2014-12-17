@@ -13,5 +13,5 @@
 -(NSString *)dateString;
 -(Gem *)coverGem;
 -(NSArray *)sortedGems;
-
+-(void)updateGemOrder;
 @end
