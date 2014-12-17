@@ -142,6 +142,9 @@
     else if ([segue.identifier isEqualToString:@"GoToGemDetail"]) {
         GemDetailCollectionViewController *controller = [segue destinationViewController];
         controller.delegate = self;
+        Gem *gem = (Gem *)sender;
+        NSIndexPath *selectedIndexPath = [[self gemFetcher] indexPathForObject:gem];
+        [controller setInitialPage:selectedIndexPath.row];
     }
     else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
         UIViewController *controller = [segue destinationViewController];
@@ -426,16 +429,13 @@
 #pragma mark GemDetailCollectionDelegate
 // uses all the same album structures
 -(NSArray *)sortedGems {
-    if (self.currentAlbum)
-        return [self.currentAlbum sortedGems];
-    else
-        return [self.gemFetcher fetchedObjects];
+    return [self.gemFetcher fetchedObjects];
 }
 
 -(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.currentAlbum)
-        return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
-    else
-        return [self.gemFetcher objectAtIndexPath:indexPath];
+    return [self.gemFetcher objectAtIndexPath:indexPath];
 }
+
+// todo:
+// start the scrollview at the gem that the user collected
 @end

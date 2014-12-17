@@ -20,4 +20,5 @@
 @interface GemDetailCollectionViewController : UICollectionViewController <GemDetailDelegate>
 
 @property (nonatomic, weak) id delegate;
+@property (nonatomic, assign) NSInteger initialPage;
 @end

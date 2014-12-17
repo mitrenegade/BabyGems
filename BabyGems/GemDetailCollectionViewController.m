@@ -31,6 +31,14 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    if (self.initialPage >= 0) {
+        [self goToPage:self.initialPage animated:NO];
+        self.initialPage = -1;
+    }
+}
+
 /*
 #pragma mark - Navigation
 
@@ -57,7 +65,14 @@
     cell.delegate = self;
 
     // Configure the cell
-    [cell setupWithGem:[self.delegate gemAtIndexPath:indexPath]];
+    if (indexPath.row == 0 && self.initialPage >= 0) {
+        // hack to make it look like we start on the selected page. cell 0 loads the selected page, then the collectionview
+        // jumps to that actual page, and cell 0 is allowed to load its actual image.
+        [cell setupWithGem:[self.delegate gemAtIndexPath:[NSIndexPath indexPathForRow:self.initialPage inSection:0]]];
+    }
+    else {
+        [cell setupWithGem:[self.delegate gemAtIndexPath:indexPath]];
+    }
     return cell;
 }
 
@@ -98,6 +113,18 @@
 	
 }
 */
+
+-(void)goToPage:(NSInteger)page animated:(BOOL)animated {
+    CGPoint offset = CGPointMake(page * self.collectionView.frame.size.width, 0);
+    if (animated) {
+        [UIView animateWithDuration:1 animations:^{
+            [self.collectionView setContentOffset:offset];
+        }];
+    }
+    else {
+        [self.collectionView setContentOffset:offset];
+    }
+}
 
 #pragma mark GemDetailDelegate
 -(void)didDeleteGem:(Gem *)gem {
