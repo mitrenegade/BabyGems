@@ -131,10 +131,11 @@
         }
         else {
             // view default album
-            self.currentAlbum = nil;
+            Album *album = [Album defaultAlbum];
+            self.currentAlbum = album;
 
             if (self.mode == AlbumsViewModeSelect && self.delegate)
-                [self.delegate didSelectAlbum:nil];
+                [self.delegate didSelectAlbum:self.currentAlbum];
             else
                 [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
             [self.collectionView reloadData];
@@ -146,7 +147,7 @@
             self.currentAlbum = album;
 
             if (self.mode == AlbumsViewModeSelect && self.delegate)
-                [self.delegate didSelectAlbum:album];
+                [self.delegate didSelectAlbum:self.currentAlbum];
             else
                 [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
             [self.collectionView reloadData];

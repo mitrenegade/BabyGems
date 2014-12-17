@@ -117,7 +117,7 @@
     else {
         albumPredicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album.parseID"];
     }
-    __gemFetcher = nil;
+    //__gemFetcher = nil;
     [self.collectionView reloadData];
 
     if (self.currentAlbum.name) {
@@ -143,8 +143,8 @@
         GemDetailCollectionViewController *controller = [segue destinationViewController];
         controller.delegate = self;
         Gem *gem = (Gem *)sender;
-        NSIndexPath *selectedIndexPath = [[self gemFetcher] indexPathForObject:gem];
-        [controller setInitialPage:selectedIndexPath.row];
+        NSInteger index = [[self.currentAlbum sortedGems] indexOfObject:gem];
+        [controller setInitialPage:index];
     }
     else if ([segue.identifier isEqualToString:@"EmbedTutorial"]) {
         UIViewController *controller = [segue destinationViewController];
@@ -163,7 +163,7 @@
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    NSInteger objects = [[[self gemFetcher] fetchedObjects] count];
+    NSInteger objects = [self.currentAlbum.gems count]; //[[[self gemFetcher] fetchedObjects] count];
     return  objects;
 }
 
@@ -184,8 +184,8 @@
     cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
 
     // Configure the cell
-    if (indexPath.row < [self gemFetcher].fetchedObjects.count) {
-        Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+    if (indexPath.row < [self currentAlbum].gems.count) {
+        Gem *gem = [self.currentAlbum.sortedGems objectAtIndex:indexPath.row]; //[[self gemFetcher] objectAtIndexPath:indexPath];
 
         if (gem.imageURL || gem.offlineImage) {
             cell = [collectionView dequeueReusableCellWithReuseIdentifier:photoCellIdentifier forIndexPath:indexPath];
@@ -218,7 +218,7 @@
         LABEL_BORDER = 60;
     }
 
-    Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+    Gem *gem = [self.currentAlbum.sortedGems objectAtIndex:indexPath.row]; //[[self gemFetcher] objectAtIndexPath:indexPath];
 
     // photo gem
     if ([gem isPhotoGem]) {
@@ -231,7 +231,7 @@
         float scale = 4.0/3.0;
 
         // this is the only gem
-        if (self.gemFetcher.fetchedObjects.count == 1) {
+        if (self.currentAlbum.gems.count == 1) {
             width = self.collectionView.frame.size.width;
             height = width * scale;
         }
@@ -242,24 +242,24 @@
 
             if (indexPath.row == 0) {
                 // there is a next gem
-                Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
+                Gem *nextGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row+1];
                 if (![nextGem isPhotoGem]) {
                     width = self.collectionView.frame.size.width;
                     height = width * scale;
                 }
             }
             // this is the last gem
-            else if (indexPath.row == self.gemFetcher.fetchedObjects.count - 1) {
+            else if (indexPath.row == self.currentAlbum.gems.count - 1) {
                 // there is a previous gem
-                Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+                Gem *prevGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row-1];
                 if (![prevGem isPhotoGem]) {
                     width = self.collectionView.frame.size.width;
                     height = width * scale;
                 }
             }
             else {
-                Gem *nextGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0]];
-                Gem *prevGem = [[self gemFetcher] objectAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row-1 inSection:0]];
+                Gem *nextGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row+1];
+                Gem *prevGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row-1];
                 if (![nextGem isPhotoGem] && ![prevGem isPhotoGem]) {
                     width = self.collectionView.frame.size.width;
                     height = width * scale;
@@ -279,7 +279,7 @@
 
 #pragma mark <UICollectionViewDelegate>
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    Gem *gem = [[self gemFetcher] objectAtIndexPath:indexPath];
+    Gem *gem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"GoToGemDetail" sender:gem];
 }
 
@@ -323,6 +323,7 @@
 }
 
 #pragma mark Core Data
+/*
 -(NSFetchedResultsController *)gemFetcher {
     if (__gemFetcher) {
         return __gemFetcher;
@@ -341,13 +342,14 @@
 
     return __gemFetcher;
 }
+*/
 
 -(void)reloadData {
-    __gemFetcher = nil;
-    [[self gemFetcher] performFetch:nil];
+//    __gemFetcher = nil;
+//    [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
 
-    if ([self.gemFetcher.fetchedObjects count] == 0) {
+    if ([self.currentAlbum.gems count] == 0) {
         [self performSegueWithIdentifier:@"EmbedTutorial" sender:self];
         [tutorialView setHidden:NO];
     }
@@ -434,11 +436,13 @@
 #pragma mark GemDetailCollectionDelegate
 // uses all the same album structures
 -(NSArray *)sortedGems {
-    return [self.gemFetcher fetchedObjects];
+//    return [self.gemFetcher fetchedObjects];
+    return [self.currentAlbum sortedGems];
 }
 
 -(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
-    return [self.gemFetcher objectAtIndexPath:indexPath];
+//    return [self.gemFetcher objectAtIndexPath:indexPath];
+    return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
 }
 
 // todo:
