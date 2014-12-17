@@ -10,6 +10,7 @@
 #import "GemBoxViewController.h"
 #import "ParseBase+Parse.h"
 #import "Gem+Parse.h"
+#import "Album+Info.h"
 
 @interface InitialViewController ()
 
@@ -87,11 +88,13 @@
         [_appDelegate printAllAlbums];
 
         [self synchronizeClass:@"Gem" completion:^(BOOL success) {
-            NSLog(@"Gems after sync:");
-            [_appDelegate printAllGems];
+            [self createOrUpdateDefaultAlbumWithCompletion:^(BOOL success) {
+                NSLog(@"Gems after sync:");
+                [_appDelegate printAllGems];
 
-            [self notify:@"gems:updated"];
-            [self notify:@"sync:complete"];
+                [self notify:@"gems:updated"];
+                [self notify:@"sync:complete"];
+            }];
         }];
     }];
 }
@@ -124,6 +127,32 @@
             }];
         }
     }];
+}
+
+#pragma mark Default album
+-(void)createOrUpdateDefaultAlbumWithCompletion:(void(^)(BOOL success))completion {
+    Album *defaultAlbum = [Album defaultAlbum];
+    if (!defaultAlbum) {
+        NSLog(@"No default album");
+        defaultAlbum = (Album *)[Album createEntityInContext:_appDelegate.managedObjectContext];
+        defaultAlbum.startDate = [NSDate date];
+        defaultAlbum.name = @"Default album";
+        defaultAlbum.isDefault = @YES;
+    }
+
+    NSArray *gems = [[Gem where:@{@"album":[NSNull null]}] all];
+    for (Gem *gem in gems) {
+        gem.album = defaultAlbum;
+        [gem saveOrUpdateToParseWithCompletion:nil];
+    }
+
+    [defaultAlbum saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Success %d id %@", success, defaultAlbum.parseID);
+    }];
+
+    [_appDelegate saveContext];
+    if (completion)
+        completion(YES);
 }
 
 @end

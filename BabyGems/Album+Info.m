@@ -36,4 +36,9 @@
     return [sorted count]?sorted[0]:nil;
 }
 
++(Album *)defaultAlbum {
+    Album *defaultAlbum = [[[Album where:@{@"isDefault":@YES}] all] firstObject];
+    return defaultAlbum;
+}
+
 @end

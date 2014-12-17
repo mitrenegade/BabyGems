@@ -40,6 +40,7 @@
     [self listenFor:@"album:changed" action:@selector(changeAlbum:)];
     [self listenFor:@"gems:updated" action:@selector(reloadGems)];
     [self listenFor:@"sync:complete" action:@selector(reloadAlbums)];
+    [self listenFor:@"album:deleted" action:@selector(reloadAlbums)];
 
     if (self.mode == AlbumsViewModeNormal) {
         NSString *lastAlbumID = [[NSUserDefaults standardUserDefaults] objectForKey:@"album:last:opened"];
@@ -268,6 +269,8 @@
 
 -(void)reloadAlbums {
     gemFetcher = nil;
+    albumFetcher = nil;
+    self.currentAlbum = nil;
     [self.gemFetcher performFetch:nil];
     [self.albumFetcher performFetch:nil];
     [self.collectionView reloadData];

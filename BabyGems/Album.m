@@ -12,11 +12,12 @@
 
 @implementation Album
 
+@dynamic customOrder;
 @dynamic endDate;
 @dynamic longDescription;
 @dynamic name;
 @dynamic startDate;
-@dynamic customOrder;
+@dynamic isDefault;
 @dynamic gems;
 
 @end

@@ -14,11 +14,12 @@
 
 @interface Album : ParseBase
 
+@property (nonatomic, retain) NSNumber * customOrder;
 @property (nonatomic, retain) NSDate * endDate;
 @property (nonatomic, retain) NSString * longDescription;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSDate * startDate;
-@property (nonatomic, retain) NSNumber * customOrder;
+@property (nonatomic, retain) NSNumber * isDefault;
 @property (nonatomic, retain) NSSet *gems;
 @end
 

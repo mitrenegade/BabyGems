@@ -13,4 +13,6 @@
 -(NSString *)dateString;
 -(Gem *)coverGem;
 -(NSArray *)sortedGems;
+
++(Album *)defaultAlbum;
 @end

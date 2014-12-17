@@ -3,6 +3,7 @@
     <entity name="Album" representedClassName="Album" parentEntity="ParseBase" syncable="YES">
         <attribute name="customOrder" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="endDate" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="isDefault" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="longDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -22,7 +23,7 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-54" positionY="27" width="128" height="135"/>
+        <element name="Album" positionX="-54" positionY="27" width="128" height="150"/>
         <element name="Gem" positionX="-63" positionY="-18" width="128" height="118"/>
         <element name="ParseBase" positionX="-54" positionY="9" width="128" height="103"/>
     </elements>
