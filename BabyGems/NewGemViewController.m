@@ -166,11 +166,10 @@
         }
     }
 
-    [self saveGemWithQuote:self.quote image:self.image];
-    [self.delegate didSaveNewGem];
+    [self saveGemWithQuote:self.quote image:self.image album:[self.delegate currentAlbum]];
 }
 
--(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image {
+-(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image album:(Album *)album {
     [self enableButtons:NO];
 
     if (!gem) {
@@ -182,6 +181,7 @@
     // allow offline image storage
     NSData *data = UIImageJPEGRepresentation(self.image, .8);
     gem.offlineImage = data;
+    gem.album = album;
 
     [BackgroundHelper keepTaskInBackgroundForPhotoUpload];
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
@@ -199,6 +199,8 @@
                 [BackgroundHelper stopTaskInBackgroundForPhotoUpload];
             }];
         }];
+
+        [self.delegate didSaveNewGem];
     }];
 
     // offline storage

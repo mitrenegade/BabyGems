@@ -9,13 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "CameraViewController.h"
 
+@class Gem;
+@class Album;
+
 @protocol NewGemDelegate <NSObject>
 
+-(Album *)currentAlbum;
 -(void)didSaveNewGem;
 -(void)dismissNewGem;
 @end
 
-@class Gem;
 @interface NewGemViewController : UIViewController <UITextViewDelegate>
 {
     Gem *gem;
@@ -35,7 +38,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
 
 -(IBAction)didClickGemBox:(id)sender;
--(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image;
+-(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image album:(Album *)album;
 
 +(BOOL)toggleSaveToAlbum;
 @end
