@@ -401,7 +401,8 @@
         // save quote only
         if ([savedQuote length]) {
             NewGemViewController *controller = [[NewGemViewController alloc] init];
-            [controller saveGemWithQuote:savedQuote image:nil];
+            controller.delegate = self;
+            [controller saveGemWithQuote:savedQuote image:nil album:self.currentAlbum];
         }
     }
 }

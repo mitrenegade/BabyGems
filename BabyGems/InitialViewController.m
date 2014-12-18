@@ -58,16 +58,6 @@
     }
 }
 
-#pragma mark NewGemDelegate
--(void)dismissNewGem {
-    [self.navigationController dismissViewControllerAnimated:NO completion:^{
-        [self performSegueWithIdentifier:@"InitialGemBox" sender:self];
-    }];
-}
--(void)didSaveNewGem {
-    [self dismissNewGem];
-}
-
 #pragma mark Parse
 -(void)synchronizeWithParse {
 

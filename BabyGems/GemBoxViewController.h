@@ -15,7 +15,6 @@
 @class Album;
 @interface GemBoxViewController : UICollectionViewController <NewGemDelegate, CameraDelegate, UIAlertViewDelegate, GemDetailCollectionDelegate>
 {
-//    NSFetchedResultsController *__gemFetcher;
     NSPredicate *albumPredicate;
 
     CameraViewController *cameraController;
