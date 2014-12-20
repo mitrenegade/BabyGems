@@ -12,6 +12,9 @@
 #import "GemBoxViewController.h"
 #import "Album+Info.h"
 
+#define ALERT_TAG_NEW_ALBUM 1
+#define ALERT_TAG_RENAME_ALBUM 2
+
 @interface AlbumsViewController ()
 
 @end
@@ -58,6 +61,8 @@
     [button addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
     self.navigationItem.rightBarButtonItem = right;
+
+    [self.collectionView setDraggable:YES]; // don't allow drag, but use all other functionality of LSCollectionViewHelper
 }
 
 -(void)showSettings {
@@ -127,6 +132,7 @@
             // create a new album
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enter album name" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"OK", nil];
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = ALERT_TAG_NEW_ALBUM;
             [alert show];
         }
         else {
@@ -157,6 +163,33 @@
     }
 }
 
+#pragma mark DraggableCollectionView stuff
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
+    // don't allow drag, but do a side behavior
+    Album *album;
+    if (indexPath.section == 0) {
+        return NO;
+    }
+    else {
+        album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+    }
+
+    [UIAlertView alertViewWithTitle:@"Album options" message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Rename album", @"Delete album"] onDismiss:^(int buttonIndex) {
+        if (buttonIndex == 0) {
+            renameAlbum = album;
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter a new album name" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = ALERT_TAG_RENAME_ALBUM;
+            [alert show];
+        }
+        else if (buttonIndex == 1) {
+            [UIAlertView alertViewWithTitle:@"Delete album?" message:[NSString stringWithFormat:@"Are you sure you want to delete the album %@?", album.name] cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Delete"] onDismiss:^(int buttonIndex) {
+                [self deleteAlbum:album];
+            } onCancel:nil];
+        }
+    } onCancel:nil];
+    return NO;
+}
 /*
 // Uncomment this method to specify if the specified item should be highlighted during tracking
 - (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -209,8 +242,11 @@
     }
     else if (buttonIndex == 1) {
         NSString *title = [alertView textFieldAtIndex:0].text;
-        NSLog(@"Create an album with title %@", title);
-        [self createAlbum:title];
+        NSLog(@"Alert input: %@", title);
+        if (alertView.tag == ALERT_TAG_NEW_ALBUM)
+            [self createAlbum:title];
+        else if (alertView.tag == ALERT_TAG_RENAME_ALBUM)
+            [self renameAlbum:title];
     }
 }
 
@@ -247,6 +283,24 @@
             [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
     }];
 #endif
+}
+
+-(void)renameAlbum:(NSString *)title {
+    renameAlbum.name = title;
+    [renameAlbum saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Success %d id %@", success, renameAlbum.parseID);
+        [_appDelegate saveContext];
+        [self.albumFetcher performFetch:nil];
+        [self.collectionView reloadData];
+    }];
+}
+
+-(void)deleteAlbum:(Album *)album {
+    [album.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [_appDelegate.managedObjectContext deleteObject:album];
+        [self.albumFetcher performFetch:nil];
+        [self.collectionView reloadData];
+    }];
 }
 
 #pragma mark notifications
