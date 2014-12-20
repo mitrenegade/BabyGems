@@ -7,8 +7,25 @@
 //
 
 #import "AlbumFlowLayout.h"
+#import "LSCollectionViewLayoutHelper.h"
 
 @implementation AlbumFlowLayout
+{
+    LSCollectionViewLayoutHelper *_layoutHelper;
+}
+
+- (LSCollectionViewLayoutHelper *)layoutHelper
+{
+    if(_layoutHelper == nil) {
+        _layoutHelper = [[LSCollectionViewLayoutHelper alloc] initWithCollectionViewLayout:self];
+    }
+    return _layoutHelper;
+}
+
+- (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect
+{
+    return [self.layoutHelper modifiedLayoutAttributesForElements:[super layoutAttributesForElementsInRect:rect]];
+}
 
 - (CGSize)collectionViewContentSize
 {
@@ -22,6 +39,7 @@
     return contentSize;
 }
 
+#if 0
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewLayoutAttributes * attr = [super layoutAttributesForItemAtIndexPath:indexPath];
@@ -76,6 +94,7 @@
 
     return cellFrame;
 }
+#endif
 
 #define CELLS_PER_ROW 3
 #define BORDER_PADDING 5

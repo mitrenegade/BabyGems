@@ -272,6 +272,7 @@
 		9E11BB791A1260CB0001090B /* BabyGems */ = {
 			isa = PBXGroup;
 			children = (
+				9E92A0AA1A45183700D7C42B /* Draggable Flow layout */,
 				9E59DB741A18252F00ABCAEA /* Core Data */,
 				9E59DB951A18397D00ABCAEA /* Constants.h */,
 				9E11BB7A1A1260CB0001090B /* AppDelegate.h */,
@@ -360,7 +361,6 @@
 		9E59DB8E1A182F6800ABCAEA /* GemBox */ = {
 			isa = PBXGroup;
 			children = (
-				9E92A0AA1A45183700D7C42B /* Layout */,
 				9ECFA61C1A2948770049BB5E /* Cells */,
 				9E92A0B91A451DA700D7C42B /* GemBoxViewController.h */,
 				9E92A0BA1A451DA700D7C42B /* GemBoxViewController.m */,
@@ -427,7 +427,7 @@
 			name = Albums;
 			sourceTree = "<group>";
 		};
-		9E92A0AA1A45183700D7C42B /* Layout */ = {
+		9E92A0AA1A45183700D7C42B /* Draggable Flow layout */ = {
 			isa = PBXGroup;
 			children = (
 				9E92A0B41A45193300D7C42B /* UICollectionView+Draggable.h */,
@@ -441,7 +441,7 @@
 				9E92A0AD1A45184600D7C42B /* LSCollectionViewLayoutHelper.h */,
 				9E92A0AE1A45184600D7C42B /* LSCollectionViewLayoutHelper.m */,
 			);
-			name = Layout;
+			name = "Draggable Flow layout";
 			sourceTree = "<group>";
 		};
 		9ECFA61C1A2948770049BB5E /* Cells */ = {
