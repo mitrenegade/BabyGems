@@ -40,6 +40,7 @@
 }
 
 #if 0
+// not used - use LSCollectionViewHelper
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewLayoutAttributes * attr = [super layoutAttributesForItemAtIndexPath:indexPath];

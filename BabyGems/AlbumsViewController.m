@@ -183,7 +183,9 @@
             [alert show];
         }
         else if (buttonIndex == 1) {
-            [self deleteAlbum:album];
+            [UIAlertView alertViewWithTitle:@"Delete album?" message:[NSString stringWithFormat:@"Are you sure you want to delete the album %@?", album.name] cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Delete"] onDismiss:^(int buttonIndex) {
+                [self deleteAlbum:album];
+            } onCancel:nil];
         }
     } onCancel:nil];
     return NO;
@@ -294,7 +296,11 @@
 }
 
 -(void)deleteAlbum:(Album *)album {
-
+    [album.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [_appDelegate.managedObjectContext deleteObject:album];
+        [self.albumFetcher performFetch:nil];
+        [self.collectionView reloadData];
+    }];
 }
 
 #pragma mark notifications
