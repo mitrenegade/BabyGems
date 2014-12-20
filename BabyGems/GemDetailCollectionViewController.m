@@ -203,30 +203,6 @@
     return [[self.delegate sortedGems] count];
 }
 
--(void)didMoveGem:(Gem *)gem toPosition:(NSInteger)newPos {
-    NSMutableArray *gems = [[self.delegate sortedGems] mutableCopy];
-    NSInteger currPos = [gems indexOfObject:gem];
-    if (currPos == newPos)
-        return;
-    [gems removeObject:gem];
-    [gems insertObject:gem atIndex:MIN(newPos, [gems count])];
-
-    // updateGemOrder
-    for (int i=0; i<[gems count]; i++) {
-        Gem *gem = gems[i];
-        gem.order = @(i);
-        [gem saveOrUpdateToParseWithCompletion:nil];
-    }
-    gem.album.customOrder = @YES;
-    [gem.album saveOrUpdateToParseWithCompletion:nil];
-    [_appDelegate saveContext];
-
-    if (gem.album)
-        [self notify:@"album:changed" object:nil userInfo:@{@"album":gem.album}];
-    [self notify:@"gems:updated"];
-    [self.collectionView reloadData];
-}
-
 #pragma mark AlbumsViewDelegate
 -(void)didSelectAlbum:(Album *)album {
     movingGem.album = album;
