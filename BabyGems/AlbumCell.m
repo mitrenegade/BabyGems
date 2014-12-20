@@ -57,5 +57,6 @@
 
 -(void)isCurrentAlbum {
     self.viewBG.layer.borderColor = [[UIColor darkGrayColor] CGColor];
+    self.viewBG.layer.borderWidth = 3;
 }
 @end

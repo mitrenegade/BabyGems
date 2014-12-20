@@ -106,9 +106,11 @@
     // Configure the cell
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            [cell setupWithAlbum:[Album defaultAlbum]];
-            if (!self.currentAlbum)
+            Album *album = [Album defaultAlbum];
+            [cell setupWithAlbum:album];
+            if (album == self.currentAlbum || (album.parseID && [album.parseID isEqualToString:self.currentAlbum.parseID])) {
                 [cell isCurrentAlbum];
+            }
         }
         else if (indexPath.row == 1)
             [cell setupForNewAlbum];
@@ -163,11 +165,19 @@
     }
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    return CGSizeMake(1, 5);
+}
+
 #pragma mark DraggableCollectionView stuff
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {
     // don't allow drag, but do a side behavior
     Album *album;
     if (indexPath.section == 0) {
+        NSString *title = indexPath.row == 0? @"Go to default album":@"Create new album";
+        [UIAlertView alertViewWithTitle:title message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
+            [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+        } onCancel:nil];
         return NO;
     }
     else {
@@ -306,7 +316,6 @@
 #pragma mark notifications
 -(void)reloadAlbums {
     albumFetcher = nil;
-    self.currentAlbum = nil;
     [self.albumFetcher performFetch:nil];
     [self.collectionView reloadData];
 }
