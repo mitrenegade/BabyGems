@@ -136,8 +136,10 @@
 
             if (self.mode == AlbumsViewModeSelect && self.delegate)
                 [self.delegate didSelectAlbum:self.currentAlbum];
-            else
+            else {
+//                [self performSegueWithIdentifier:@"AlbumsToGemBoxCollection" sender:nil];
                 [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
+            }
             [self.collectionView reloadData];
         }
     }

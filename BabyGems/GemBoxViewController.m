@@ -1,31 +1,29 @@
 //
-//  GemBoxViewController.m
-//  BabyGems
-//
-//  Created by Bobby Ren on 11/15/14.
-//  Copyright (c) 2014 BobbyRenTech. All rights reserved.
+//  Copyright (c) 2013 Luke Scott
+//  https://github.com/lukescott/DraggableCollectionView
+//  Distributed under MIT license
 //
 
 #import "GemBoxViewController.h"
+#import "GemPhotoCell.h"
 #import "Gem+Parse.h"
 #import "GemCell.h"
 #import "Gem+Info.h"
 #import "UIActionSheet+MKBlockAdditions.h"
 #import "GemDetailCollectionViewController.h"
 #import "Album+Info.h"
+#import "UICollectionView+Draggable.h"
 
 @interface GemBoxViewController ()
-
 @end
 
 @implementation GemBoxViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-
+- (void)viewDidLoad
+{
     // Uncomment the following line to preserve selection between presentations
     // self.clearsSelectionOnViewWillAppear = NO;
-    
+
     // Do any additional setup after loading the view.
     [self listenFor:@"gems:updated" action:@selector(reloadData)];
 
@@ -51,11 +49,6 @@
 
     [self listenFor:@"style:changed" action:@selector(reloadData)];
     [self listenFor:@"album:changed" action:@selector(updateAlbum:)];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 -(void)setupCamera {
@@ -218,63 +211,59 @@
         LABEL_BORDER = 60;
     }
 
-    Gem *gem = [self.currentAlbum.sortedGems objectAtIndex:indexPath.row]; //[[self gemFetcher] objectAtIndexPath:indexPath];
+    NSInteger width;
+    NSInteger height;
 
-    // photo gem
-    if ([gem isPhotoGem]) {
-        // check to see if surrounding gems are wide
+    // todo: scale according to actual image dimensions
+    // this is the only gem
+    // default is half column width
+    width = self.collectionView.frame.size.width/2 - 5;
+    height = width;
 
-        NSInteger width;
-        NSInteger height;
+    return CGSizeMake(width, height + COMMENTS_HEIGHT);
 
-        // todo: scale according to actual image dimensions
-        float scale = 4.0/3.0;
+}
 
-        // this is the only gem
-        if (self.currentAlbum.gems.count == 1) {
-            width = self.collectionView.frame.size.width;
-            height = width * scale;
-        }
-        else {
-            // default is half column width
-            width = self.collectionView.frame.size.width/2;
-            height = width * scale;
+- (BOOL)collectionView:(LSCollectionViewHelper *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return YES;
+}
 
-            if (indexPath.row == 0) {
-                // there is a next gem
-                Gem *nextGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row+1];
-                if (![nextGem isPhotoGem]) {
-                    width = self.collectionView.frame.size.width;
-                    height = width * scale;
-                }
-            }
-            // this is the last gem
-            else if (indexPath.row == self.currentAlbum.gems.count - 1) {
-                // there is a previous gem
-                Gem *prevGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row-1];
-                if (![prevGem isPhotoGem]) {
-                    width = self.collectionView.frame.size.width;
-                    height = width * scale;
-                }
-            }
-            else {
-                Gem *nextGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row+1];
-                Gem *prevGem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row-1];
-                if (![nextGem isPhotoGem] && ![prevGem isPhotoGem]) {
-                    width = self.collectionView.frame.size.width;
-                    height = width * scale;
-                }
-            }
-        }
+- (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+// Prevent item from being moved to index 0
+//    if (toIndexPath.item == 0) {
+//        return NO;
+//    }
+    return YES;
+}
 
-        return CGSizeMake(width, height + COMMENTS_HEIGHT);
+- (void)collectionView:(LSCollectionViewHelper *)collectionView moveItemAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
+{
+    NSMutableArray *gems = [[self sortedGems] mutableCopy];
+    NSInteger currPos = fromIndexPath.row;
+    NSInteger newPos = toIndexPath.row;
+    if (currPos == newPos)
+        return;
+    Gem *gem = [gems objectAtIndex:currPos];
+    [gems removeObjectAtIndex:currPos];
+    [gems insertObject:gem atIndex:MIN(newPos, [gems count])];
+
+    // updateGemOrder
+    for (int i=0; i<[gems count]; i++) {
+        Gem *gem = gems[i];
+        gem.order = @(i);
+        [gem saveOrUpdateToParseWithCompletion:nil];
     }
-    else {
-        NSString *text = gem.quote;
-        UIFont *font = CHALK(16);
-        CGRect rect = [text boundingRectWithSize:CGSizeMake(self.collectionView.frame.size.width, self.collectionView.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil];
-        return CGSizeMake(self.collectionView.frame.size.width, rect.size.height + LABEL_BORDER + COMMENTS_HEIGHT);
-    }
+    gem.album.customOrder = @YES;
+    [gem.album saveOrUpdateToParseWithCompletion:nil];
+    [_appDelegate saveContext];
+
+    if (gem.album)
+        [self notify:@"album:changed" object:nil userInfo:@{@"album":gem.album}];
+    [self notify:@"gems:updated"];
+
+    [self.collectionView reloadData];
 }
 
 #pragma mark <UICollectionViewDelegate>
@@ -282,35 +271,6 @@
     Gem *gem = [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
     [self performSegueWithIdentifier:@"GoToGemDetail" sender:gem];
 }
-
-/*
-// Uncomment this method to specify if the specified item should be highlighted during tracking
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldHighlightItemAtIndexPath:(NSIndexPath *)indexPath {
-	return YES;
-}
-*/
-
-/*
-// Uncomment this method to specify if the specified item should be selected
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-*/
-
-/*
-// Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-- (BOOL)collectionView:(UICollectionView *)collectionView shouldShowMenuForItemAtIndexPath:(NSIndexPath *)indexPath {
-	return NO;
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canPerformAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	return NO;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView performAction:(SEL)action forItemAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender {
-	
-}
-*/
 
 #pragma mark NewGemDelegate
 -(void)didSaveNewGem {
@@ -323,30 +283,9 @@
 }
 
 #pragma mark Core Data
-/*
--(NSFetchedResultsController *)gemFetcher {
-    if (__gemFetcher) {
-        return __gemFetcher;
-    }
-
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"Gem"];
-    fetchRequest.predicate = albumPredicate;
-    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"createdAt" ascending:NO];
-    NSSortDescriptor *descriptor0 = nil;
-    if (self.currentAlbum && [self.currentAlbum.customOrder boolValue]) {
-        descriptor0 = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
-    }
-    fetchRequest.sortDescriptors = descriptor0?@[descriptor0, descriptor]:@[descriptor];
-    __gemFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    [__gemFetcher performFetch:nil];
-
-    return __gemFetcher;
-}
-*/
-
 -(void)reloadData {
-//    __gemFetcher = nil;
-//    [[self gemFetcher] performFetch:nil];
+    //    __gemFetcher = nil;
+    //    [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
 
     if ([self.currentAlbum.gems count] == 0) {
@@ -437,15 +376,13 @@
 #pragma mark GemDetailCollectionDelegate
 // uses all the same album structures
 -(NSArray *)sortedGems {
-//    return [self.gemFetcher fetchedObjects];
+    //    return [self.gemFetcher fetchedObjects];
     return [self.currentAlbum sortedGems];
 }
 
 -(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
-//    return [self.gemFetcher objectAtIndexPath:indexPath];
+    //    return [self.gemFetcher objectAtIndexPath:indexPath];
     return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
 }
 
-// todo:
-// start the scrollview at the gem that the user collected
 @end
