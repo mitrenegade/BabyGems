@@ -106,9 +106,11 @@
     // Configure the cell
     if (indexPath.section == 0) {
         if (indexPath.row == 0) {
-            [cell setupWithAlbum:[Album defaultAlbum]];
-            if (!self.currentAlbum)
+            Album *album = [Album defaultAlbum];
+            [cell setupWithAlbum:album];
+            if (album == self.currentAlbum || (album.parseID && [album.parseID isEqualToString:self.currentAlbum.parseID])) {
                 [cell isCurrentAlbum];
+            }
         }
         else if (indexPath.row == 1)
             [cell setupForNewAlbum];
@@ -310,7 +312,6 @@
 #pragma mark notifications
 -(void)reloadAlbums {
     albumFetcher = nil;
-    self.currentAlbum = nil;
     [self.albumFetcher performFetch:nil];
     [self.collectionView reloadData];
 }
