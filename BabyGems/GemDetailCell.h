@@ -32,7 +32,6 @@
 -(IBAction)didClickShare:(id)sender;
 -(IBAction)didClickTrash:(id)sender;
 -(IBAction)didClickAlbum:(id)sender;
--(IBAction)didClickReorder:(id)sender;
 -(void)setupWithGem:(Gem *)gem;
 
 @end

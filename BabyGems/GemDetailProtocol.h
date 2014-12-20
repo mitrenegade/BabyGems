@@ -15,7 +15,6 @@
 
 -(NSInteger)currentOrderForGem:(Gem *)gem;
 -(NSInteger)totalGemsInAlbum;
--(void)didMoveGem:(Gem *)gem toPosition:(NSInteger)newPos;
 
 -(void)showAlbumSelectorForGem:(Gem *)gem;
 -(void)deleteGem:(Gem *)gem;
