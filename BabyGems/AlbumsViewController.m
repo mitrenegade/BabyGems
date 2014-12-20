@@ -168,6 +168,10 @@
     // don't allow drag, but do a side behavior
     Album *album;
     if (indexPath.section == 0) {
+        NSString *title = indexPath.row == 0? @"Go to default album":@"Create new album";
+        [UIAlertView alertViewWithTitle:title message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
+            [self collectionView:collectionView didSelectItemAtIndexPath:indexPath];
+        } onCancel:nil];
         return NO;
     }
     else {

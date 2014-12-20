@@ -101,7 +101,7 @@
 #define BORDER_PADDING 5
 #define HEADER_HEIGHT 5
 -(CGSize)itemSize {
-    return CGSizeMake((_appDelegate.window.bounds.size.width - [self sectionInset].left - [self sectionInset].right - (CELLS_PER_ROW-1)*[self minimumInteritemSpacing]) /CELLS_PER_ROW, 160);
+    return CGSizeMake((_appDelegate.window.bounds.size.width - [self sectionInset].left - [self sectionInset].right - (CELLS_PER_ROW-1)*[self minimumInteritemSpacing]) /CELLS_PER_ROW, 165);
 }
 
 -(int)headerHeight {
@@ -113,7 +113,7 @@
 }
 
 -(CGFloat)minimumLineSpacing {
-    return 1;
+    return 10;
 }
 
 -(UIEdgeInsets)sectionInset {
