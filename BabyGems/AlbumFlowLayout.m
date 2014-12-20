@@ -99,9 +99,9 @@
 
 #define CELLS_PER_ROW 3
 #define BORDER_PADDING 5
-#define HEADER_HEIGHT 5
+#define HEADER_HEIGHT 50
 -(CGSize)itemSize {
-    return CGSizeMake((_appDelegate.window.bounds.size.width - [self sectionInset].left - [self sectionInset].right - (CELLS_PER_ROW-1)*[self minimumInteritemSpacing]) /CELLS_PER_ROW, 165);
+    return CGSizeMake((_appDelegate.window.bounds.size.width - [self sectionInset].left - [self sectionInset].right - (CELLS_PER_ROW-1)*[self minimumInteritemSpacing]) /CELLS_PER_ROW, 160);
 }
 
 -(int)headerHeight {
@@ -113,11 +113,11 @@
 }
 
 -(CGFloat)minimumLineSpacing {
-    return 10;
+    return 5;
 }
 
 -(UIEdgeInsets)sectionInset {
-    float top = 0;
+    float top = 10;
     float bottom = 0;
     float left = BORDER_PADDING;
     float right = left;
