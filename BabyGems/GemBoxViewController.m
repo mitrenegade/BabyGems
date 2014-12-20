@@ -104,13 +104,6 @@
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"album:last:opened"];
     }
 
-    if (self.currentAlbum.parseID) {
-        albumPredicate = [NSPredicate predicateWithFormat:@"%K = %@", @"album.parseID", self.currentAlbum.parseID];
-    }
-    else {
-        albumPredicate = [NSPredicate predicateWithFormat:@"%K = nil", @"album.parseID"];
-    }
-    //__gemFetcher = nil;
     [self.collectionView reloadData];
 
     if (self.currentAlbum.name) {
@@ -118,6 +111,13 @@
     }
     else {
         self.title = @"My GemBox";
+    }
+}
+
+-(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (albumCoverNeedsUpdate) {
+        [self notify:@"album:changed" object:nil userInfo:@{@"album":self.currentAlbum}];
     }
 }
 
@@ -192,6 +192,8 @@
     else {
         cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     }
+    NSLog(@"Row %d %@", indexPath.row, cell.labelQuote.text);
+
     return cell;
 }
 
@@ -259,11 +261,7 @@
     [gem.album saveOrUpdateToParseWithCompletion:nil];
     [_appDelegate saveContext];
 
-    if (gem.album)
-        [self notify:@"album:changed" object:nil userInfo:@{@"album":gem.album}];
-    [self notify:@"gems:updated"];
-
-    [self.collectionView reloadData];
+    albumCoverNeedsUpdate = YES;
 }
 
 #pragma mark <UICollectionViewDelegate>

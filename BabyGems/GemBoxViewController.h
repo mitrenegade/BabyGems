@@ -14,8 +14,6 @@
 @class Album;
 @interface GemBoxViewController : UIViewController <UICollectionViewDataSource_Draggable, UICollectionViewDelegate, NewGemDelegate, CameraDelegate, UIAlertViewDelegate, GemDetailCollectionDelegate>
 {
-    NSPredicate *albumPredicate;
-
     CameraViewController *cameraController;
     IBOutlet UIView *viewBG;
 
@@ -24,6 +22,7 @@
     NSDictionary *savedMeta;
 
     UIView *tutorialView;
+    BOOL albumCoverNeedsUpdate;
 }
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (strong, nonatomic) Album *currentAlbum;
