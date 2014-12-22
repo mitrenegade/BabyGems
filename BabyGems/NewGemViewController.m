@@ -59,6 +59,13 @@
         self.inputQuote.text = self.quote;
 
     [self updateTextSize];
+
+    // gestures
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.viewBG addGestureRecognizer:pan];
+
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(handlePinch:)];
+    [self.viewBG addGestureRecognizer:pinch];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,7 +151,6 @@
 -(void)updateGemImage {
     if (!self.image)
         return;
-
     self.imageView.image = self.image;
 }
 
@@ -299,6 +305,124 @@
     });
 
     return YES;
+}
+
+#pragma mark gestures
+#pragma mark Gesture recognizers
+-(void)handlePan:(UIGestureRecognizer *)gesture {
+    if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+        if ([gesture state] == UIGestureRecognizerStateBegan) {
+            if (!dragging) {
+                [self.inputQuote resignFirstResponder];
+                dragging = YES;
+                CGPoint point = [gesture locationInView:self.viewBG];
+                initialTouch = point;
+                if (CGRectContainsPoint(self.textCanvas.frame, point)) {
+                    viewDragging = self.textCanvas;
+                    initialFrame = viewDragging.frame;
+
+                    [self.inputQuote resignFirstResponder];
+                }
+                else if (CGRectContainsPoint(self.viewCanvas.frame, point)) {
+                    point = [gesture locationInView:self.viewCanvas];
+                    viewDragging = self.imageView;
+                    initialFrame = viewDragging.frame;
+                }
+                else {
+                    dragging = NO;
+                }
+            }
+        }
+        else if ([gesture state] == UIGestureRecognizerStateChanged) {
+            if (dragging) {
+                // update frame of viewDragging
+                if (viewDragging == self.textCanvas) {
+                    // change both x and y position
+                    CGPoint point = [gesture locationInView:self.viewBG];
+                    int dx = point.x - initialTouch.x;
+                    int dy = point.y - initialTouch.y;
+                    CGRect frame = initialFrame;
+                    frame.origin.x += dx;
+                    frame.origin.y += dy;
+
+                    if (frame.origin.x >= self.viewCanvas.frame.size.width - self.textCanvas.frame.size.width)
+                        frame.origin.x = self.viewCanvas.frame.size.width - self.textCanvas.frame.size.width;
+                    if (frame.origin.x <= 0)
+                        frame.origin.x = 0;
+                    if (frame.origin.y >= self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height)
+                        frame.origin.y = self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height;
+                    if (frame.origin.y <= 0)
+                        frame.origin.y = 0;
+                    viewDragging.frame = frame;
+                }
+                else if (viewDragging == self.imageView) {
+                    CGPoint point = [gesture locationInView:self.viewBG];
+                    // change x and y
+                    int dx = point.x - initialTouch.x;
+                    int dy = point.y - initialTouch.y;
+                    CGRect frame = initialFrame;
+                    frame.origin.y += dy;
+                    frame.origin.x += dx;
+                    NSLog(@"New frame: %f %f %f %f imageSize %f %f", frame.origin.x, frame.origin.y, frame.origin.x + frame.size.width, frame.origin.y + frame.size.height, self.image.size.width, self.image.size.height);
+                    if (frame.origin.x > 0)
+                        frame.origin.x = 0;
+                    if (frame.origin.x + frame.size.width < self.viewCanvas.frame.size.width)
+                        frame.origin.x = self.viewCanvas.frame.size.width - frame.size.width;
+                    if (frame.origin.y > 0)
+                        frame.origin.y = 0;
+                    if (frame.origin.y + frame.size.height < self.viewCanvas.frame.size.height)
+                        frame.origin.y = self.viewCanvas.frame.size.height - frame.size.height;
+                    viewDragging.frame = frame;
+                }
+            }
+        }
+        else if ([gesture state] == UIGestureRecognizerStateEnded) {
+            if (dragging) {
+                dragging = NO;
+                viewDragging = nil;
+            }
+        }
+    }
+}
+
+-(void)handlePinch:(UIGestureRecognizer *)gesture {
+    if ([gesture isKindOfClass:[UIPinchGestureRecognizer class]]) {
+        UIPinchGestureRecognizer *pinch = (UIPinchGestureRecognizer *)gesture;
+        if ([gesture state] == UIGestureRecognizerStateBegan) {
+            [self.inputQuote resignFirstResponder];
+            initialFrame = self.imageView.frame;
+            NSLog(@"Initial: %f %f %f %f", initialFrame.origin.x, initialFrame.origin.y, initialFrame.size.width, initialFrame.size.height);
+        }
+        else if ([gesture state] == UIGestureRecognizerStateChanged) {
+            float scale = pinch.scale;
+            NSLog(@"Scale: %f", scale);
+            CGRect frame;
+            frame.size.width = initialFrame.size.width * scale;
+            frame.size.height = initialFrame.size.height * scale;
+            frame.origin.x = initialFrame.origin.x + initialFrame.size.width / 2 - frame.size.width / 2;
+            frame.origin.y = initialFrame.origin.y + initialFrame.size.height / 2 - frame.size.height / 2;
+
+            self.imageView.frame = frame;
+        }
+        else if ([gesture state] == UIGestureRecognizerStateEnded) {
+            CGRect frame = self.imageView.frame;
+            if (frame.origin.x > 0)
+                frame.origin.x = 0;
+            if (frame.origin.y > 0)
+                frame.origin.y = 0;
+            if (frame.size.width < self.viewBG.frame.size.width) {
+                frame.size.width = self.viewBG.frame.size.width;
+                frame.size.height = frame.size.width / self.image.size.width * self.image.size.height;
+            }
+            if (frame.size.height < self.viewBG.frame.size.height)
+                frame.size.height = self.viewBG.frame.size.height;
+            if (frame.origin.x + frame.size.width < self.viewBG.frame.size.width)
+                frame.origin.x = self.viewBG.frame.size.width - frame.size.width;
+            if (frame.origin.y + frame.size.height < self.viewBG.frame.size.height)
+                frame.origin.y = self.viewBG.frame.size.height - frame.size.height;
+            self.imageView.frame = frame;
+        }
+    }
 }
 
 @end

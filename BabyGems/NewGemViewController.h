@@ -24,6 +24,12 @@
     Gem *gem;
     BOOL imageFileReady;
     PFFile *imageFile;
+
+    BOOL dragging;
+    UIView *viewDragging;
+    CGPoint initialTouch;
+    CGRect initialFrame;
+
 }
 @property (weak, nonatomic) id delegate;
 @property (nonatomic) UIImage *image;
@@ -32,7 +38,11 @@
 @property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UILabel *labelTitle;
 @property (weak, nonatomic) IBOutlet UIImageView *imageViewCamera;
+
+@property (weak, nonatomic) IBOutlet UIView *viewCanvas;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
+
+@property (weak, nonatomic) IBOutlet UIView *textCanvas;
 @property (weak, nonatomic) IBOutlet UITextView *inputQuote;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
