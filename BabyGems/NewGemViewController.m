@@ -11,6 +11,7 @@
 #import "Gem+Parse.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "BackgroundHelper.h"
+#import "Gem+Info.h"
 
 @interface NewGemViewController ()
 
@@ -59,6 +60,15 @@
         self.inputQuote.text = self.quote;
 
     [self updateTextSize];
+
+    // gestures
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePan:)];
+    [self.viewBG addGestureRecognizer:pan];
+
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(handlePinch:)];
+    [self.viewBG addGestureRecognizer:pinch];
+
+    [self showTutorialIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,12 +154,12 @@
 -(void)updateGemImage {
     if (!self.image)
         return;
-
     self.imageView.image = self.image;
 }
 
 #pragma mark Parse
 -(void)saveGem {
+    UIImage *image;
     if (self.image) {
         NSNumber *permission = [[NSUserDefaults standardUserDefaults] valueForKey:@"camera:saveToAlbum"];
         if (!permission) {
@@ -164,9 +174,11 @@
             }];
             return;
         }
+
+        image = [self screenshot];
     }
 
-    [self saveGemWithQuote:self.quote image:self.image album:[self.delegate currentAlbum]];
+    [self saveGemWithQuote:self.quote image:image album:[self.delegate currentAlbum]];
 }
 
 -(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image album:(Album *)album {
@@ -179,9 +191,11 @@
     gem.createdAt = [NSDate date];
 
     // allow offline image storage
-    NSData *data = UIImageJPEGRepresentation(self.image, .8);
+    NSData *data = UIImageJPEGRepresentation(image, .8);
     gem.offlineImage = data;
     gem.album = album;
+
+    [gem updateTextPosition:self.textCanvas.frame.origin inFrame:self.viewBG.frame];
 
     [BackgroundHelper keepTaskInBackgroundForPhotoUpload];
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
@@ -206,7 +220,7 @@
     // offline storage
     [_appDelegate.managedObjectContext save:nil];
 
-    if (self.image && [NewGemViewController canSaveToAlbum]) {
+    if (image && [NewGemViewController canSaveToAlbum]) {
         [NewGemViewController saveToAlbum:image meta:self.meta];
     }
 }
@@ -237,25 +251,26 @@
 }
 
 #pragma mark saveToAlbum
--(void)saveScreenshot {
+-(UIImage *)screenshot {
     // Create the screenshot. draw image in viewBounds
-    if ([self.quote length] == 0)
-        [self.inputQuote setHidden:YES];
+    [self.textCanvas setHidden:YES];
 
-    CGSize size = self.view.frame.size;
+    CGSize size = self.viewBG.frame.size;
     UIGraphicsBeginImageContext(size);
 
     // Put everything in the current view into the screenshot
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
-    [self.view.layer renderInContext:ctx];
+    [self.viewBG.layer renderInContext:ctx];
 
     CGContextRestoreGState(ctx);
     // Save the current image context info into a UIImage
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    [NewGemViewController saveToAlbum:newImage meta:nil];
+    [self.textCanvas setHidden:NO];
+
+    return newImage;
 }
 
 +(BOOL)canSaveToAlbum {
@@ -301,4 +316,147 @@
     return YES;
 }
 
+#pragma mark gestures
+#pragma mark Gesture recognizers
+-(void)handlePan:(UIGestureRecognizer *)gesture {
+    if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+        if ([gesture state] == UIGestureRecognizerStateBegan) {
+            if (!dragging) {
+                [self.inputQuote resignFirstResponder];
+                dragging = YES;
+                CGPoint point = [gesture locationInView:self.viewBG];
+                initialTouch = point;
+                if (CGRectContainsPoint(self.textCanvas.frame, point)) {
+                    viewDragging = self.textCanvas;
+                    initialFrame = viewDragging.frame;
+
+                    [self.inputQuote resignFirstResponder];
+                }
+                else if (CGRectContainsPoint(self.viewCanvas.frame, point)) {
+                    point = [gesture locationInView:self.viewCanvas];
+                    viewDragging = self.imageView;
+                    initialFrame = viewDragging.frame;
+                }
+                else {
+                    dragging = NO;
+                }
+            }
+        }
+        else if ([gesture state] == UIGestureRecognizerStateChanged) {
+            if (dragging) {
+                // update frame of viewDragging
+                if (viewDragging == self.textCanvas) {
+                    // change both x and y position
+                    CGPoint point = [gesture locationInView:self.viewBG];
+                    int dx = point.x - initialTouch.x;
+                    int dy = point.y - initialTouch.y;
+                    CGRect frame = initialFrame;
+                    frame.origin.x += dx;
+                    frame.origin.y += dy;
+
+                    if (frame.origin.x >= self.viewCanvas.frame.size.width - self.textCanvas.frame.size.width)
+                        frame.origin.x = self.viewCanvas.frame.size.width - self.textCanvas.frame.size.width;
+                    if (frame.origin.x <= 0)
+                        frame.origin.x = 0;
+                    if (frame.origin.y >= self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height - QUOTE_INSET_FROM_BOTTOM)
+                        frame.origin.y = self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height - QUOTE_INSET_FROM_BOTTOM;
+                    if (frame.origin.y <= QUOTE_INSET_FROM_TOP)
+                        frame.origin.y = QUOTE_INSET_FROM_TOP;
+                    viewDragging.frame = frame;
+                }
+                else if (viewDragging == self.imageView) {
+                    CGPoint point = [gesture locationInView:self.viewBG];
+                    // change x and y
+                    int dx = point.x - initialTouch.x;
+                    int dy = point.y - initialTouch.y;
+                    CGRect frame = initialFrame;
+                    frame.origin.y += dy;
+                    frame.origin.x += dx;
+                    NSLog(@"New frame: %f %f %f %f imageSize %f %f", frame.origin.x, frame.origin.y, frame.origin.x + frame.size.width, frame.origin.y + frame.size.height, self.image.size.width, self.image.size.height);
+                    if (frame.origin.x > 0)
+                        frame.origin.x = 0;
+                    if (frame.origin.x + frame.size.width < self.viewCanvas.frame.size.width)
+                        frame.origin.x = self.viewCanvas.frame.size.width - frame.size.width;
+                    if (frame.origin.y > 0)
+                        frame.origin.y = 0;
+                    if (frame.origin.y + frame.size.height < self.viewCanvas.frame.size.height)
+                        frame.origin.y = self.viewCanvas.frame.size.height - frame.size.height;
+                    viewDragging.frame = frame;
+                }
+            }
+        }
+        else if ([gesture state] == UIGestureRecognizerStateEnded) {
+            if (dragging) {
+                dragging = NO;
+                viewDragging = nil;
+            }
+        }
+    }
+}
+
+-(void)handlePinch:(UIGestureRecognizer *)gesture {
+    if ([gesture isKindOfClass:[UIPinchGestureRecognizer class]]) {
+        UIPinchGestureRecognizer *pinch = (UIPinchGestureRecognizer *)gesture;
+        if ([gesture state] == UIGestureRecognizerStateBegan) {
+            [self.inputQuote resignFirstResponder];
+            initialFrame = self.imageView.frame;
+            NSLog(@"Initial: %f %f %f %f", initialFrame.origin.x, initialFrame.origin.y, initialFrame.size.width, initialFrame.size.height);
+        }
+        else if ([gesture state] == UIGestureRecognizerStateChanged) {
+            float scale = pinch.scale;
+            NSLog(@"Scale: %f", scale);
+            CGRect frame;
+            frame.size.width = initialFrame.size.width * scale;
+            frame.size.height = initialFrame.size.height * scale;
+            frame.origin.x = initialFrame.origin.x + initialFrame.size.width / 2 - frame.size.width / 2;
+            frame.origin.y = initialFrame.origin.y + initialFrame.size.height / 2 - frame.size.height / 2;
+
+            self.imageView.frame = frame;
+        }
+        else if ([gesture state] == UIGestureRecognizerStateEnded) {
+            CGRect frame = self.imageView.frame;
+            if (frame.origin.x > 0)
+                frame.origin.x = 0;
+            if (frame.origin.y > 0)
+                frame.origin.y = 0;
+            if (frame.size.width < self.viewBG.frame.size.width) {
+                frame.size.width = self.viewBG.frame.size.width;
+                frame.size.height = frame.size.width / self.image.size.width * self.image.size.height;
+            }
+            if (frame.size.height < self.viewBG.frame.size.height)
+                frame.size.height = self.viewBG.frame.size.height;
+            if (frame.origin.x + frame.size.width < self.viewBG.frame.size.width)
+                frame.origin.x = self.viewBG.frame.size.width - frame.size.width;
+            if (frame.origin.y + frame.size.height < self.viewBG.frame.size.height)
+                frame.origin.y = self.viewBG.frame.size.height - frame.size.height;
+            self.imageView.frame = frame;
+        }
+    }
+}
+
+
+-(void)showTutorialIfNeeded {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tutorial:gemResize:shown"]) {
+        return;
+    }
+
+    [self performSelector:@selector(showTutorial) withObject:nil afterDelay:1];
+}
+
+-(void)showTutorial {
+    [UIView animateWithDuration:.5 animations:^{
+        [self.viewTutorial setAlpha:1];
+    } completion:^(BOOL finished) {
+        [self performSelector:@selector(hideTutorial) withObject:nil afterDelay:5];
+    }];
+}
+
+-(void)hideTutorial {
+    [UIView animateWithDuration:.5 animations:^{
+        [self.viewTutorial setAlpha:0];
+    } completion:^(BOOL finished) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutorial:gemResize:shown"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }];
+}
 @end

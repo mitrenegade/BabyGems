@@ -7,7 +7,7 @@
 //
 
 #import "GemDetailCell.h"
-#import "Gem.h"
+#import "Gem+Info.h"
 #import <AsyncImageView/AsyncImageView.h>
 #import "Gem+Parse.h"
 #import "Util.h"
@@ -31,6 +31,7 @@
         self.constraintQuoteHeight.constant = rect.size.height + 40;
         self.constraintQuoteDistanceFromTop.priority = 900;
         self.constraintQuoteHeight.priority = 999;
+
         NSData *data = self.gem.offlineImage;
         if (data) {
             UIImage *image = [UIImage imageWithData:data];
@@ -84,8 +85,31 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self addGestureRecognizer:tap];
 
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
+    pan.delegate = self;
+    [self.viewBG addGestureRecognizer:pan];
+
     [self listenFor:UIKeyboardWillShowNotification action:@selector(keyboardWillShow:)];
     [self listenFor:UIKeyboardWillHideNotification action:@selector(keyboardWillHide:)];
+
+    [self.viewBG addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
+}
+
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSLog(@"Change: %@ keypath: %@", keyPath, change);
+
+    if ([keyPath isEqualToString:@"bounds"] && [self.gem.textPositionByPercent floatValue] > 0) {
+        // percent is 0 - 1, indicates the ratio of self.constraintQuoteHeight to the detailview's height
+        float height = self.viewBG.frame.size.height;
+        float offset = height * self.gem.textPositionByPercent.floatValue;
+        self.constraintQuoteDistanceFromTop.priority = 998;
+        self.constraintQuoteDistanceFromBottom.priority = 997;
+        self.constraintQuoteDistanceFromTop.constant = offset;
+    }
+}
+
+-(void)dealloc {
+    [self.viewBG removeObserver:self forKeyPath:@"bounds"];
 }
 
 -(void)setupImageBorder {
@@ -141,6 +165,67 @@
             [self.inputQuote becomeFirstResponder];
         }
     }
+    else if ([gesture isKindOfClass:[UIPanGestureRecognizer class]]) {
+        if ([gesture state] == UIGestureRecognizerStateBegan) {
+            if (!dragging) {
+                [self.inputQuote resignFirstResponder];
+                dragging = YES;
+                CGPoint point = [gesture locationInView:self.viewBG];
+                initialTouch = point;
+                if (CGRectContainsPoint(self.viewQuote.frame, point)) {
+                    viewDragging = self.viewQuote;
+                    initialFrame = viewDragging.frame;
+
+                    [self.inputQuote resignFirstResponder];
+                }
+                else {
+                    dragging = NO;
+                }
+            }
+        }
+        else if ([gesture state] == UIGestureRecognizerStateChanged) {
+            if (dragging) {
+                // update frame of viewDragging
+                if (viewDragging == self.viewQuote) {
+                    // change both x and y position
+                    CGPoint point = [gesture locationInView:self.viewBG];
+                    int dx = point.x - initialTouch.x;
+                    int dy = point.y - initialTouch.y;
+                    CGRect frame = initialFrame;
+                    frame.origin.x += dx;
+                    frame.origin.y += dy;
+
+                    if (frame.origin.x >= self.viewBG.frame.size.width - self.viewQuote.frame.size.width)
+                        frame.origin.x = self.viewBG.frame.size.width - self.viewQuote.frame.size.width;
+                    if (frame.origin.x <= 0)
+                        frame.origin.x = 0;
+                    if (frame.origin.y >= self.viewBG.frame.size.height - self.viewQuote.frame.size.height - QUOTE_INSET_FROM_BOTTOM)
+                        frame.origin.y = self.viewBG.frame.size.height - self.viewQuote.frame.size.height - QUOTE_INSET_FROM_BOTTOM;
+                    if (frame.origin.y <= QUOTE_INSET_FROM_TOP)
+                        frame.origin.y = QUOTE_INSET_FROM_TOP;
+                    viewDragging.frame = frame;
+                }
+            }
+        }
+        else if ([gesture state] == UIGestureRecognizerStateEnded) {
+            if (dragging) {
+                dragging = NO;
+                if (viewDragging == self.viewQuote) {
+                    [self.gem updateTextPosition:self.viewQuote.frame.origin inFrame:self.viewBG.frame];
+                    [self.gem saveOrUpdateToParseWithCompletion:nil];
+                }
+                viewDragging = nil;
+            }
+        }
+    }
+}
+
+-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+    CGPoint point = [touch locationInView:self];
+    if (CGRectContainsPoint(self.viewQuote.frame, point) && (self.gem.imageURL || self.gem.offlineImage)) {
+        return YES;
+    }
+    return NO;
 }
 
 -(void)updateQuote:(id)sender {

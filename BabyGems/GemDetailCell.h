@@ -14,11 +14,18 @@
 @class Gem;
 @class AsyncImageView;
 
-@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate, UIAlertViewDelegate>
+@interface GemDetailCell : UICollectionViewCell <UITextViewDelegate, UIAlertViewDelegate, UIGestureRecognizerDelegate>
+{
+    BOOL dragging;
+    UIView *viewDragging;
+    CGPoint initialTouch;
+    CGRect initialFrame;
+}
 
 @property (nonatomic, weak) Gem *gem;
 @property (weak, nonatomic) id<GemDetailDelegate> delegate;
 @property (weak, nonatomic) IBOutlet AsyncImageView *imageView;
+@property (weak, nonatomic) IBOutlet UIView *viewBG;
 @property (weak, nonatomic) IBOutlet UIView *viewQuote;
 @property (weak, nonatomic) IBOutlet UILabel *labelQuote;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromTop;
