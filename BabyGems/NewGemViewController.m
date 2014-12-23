@@ -156,6 +156,7 @@
 
 #pragma mark Parse
 -(void)saveGem {
+    UIImage *image;
     if (self.image) {
         NSNumber *permission = [[NSUserDefaults standardUserDefaults] valueForKey:@"camera:saveToAlbum"];
         if (!permission) {
@@ -170,9 +171,11 @@
             }];
             return;
         }
+
+        image = [self screenshot];
     }
 
-    [self saveGemWithQuote:self.quote image:self.image album:[self.delegate currentAlbum]];
+    [self saveGemWithQuote:self.quote image:image album:[self.delegate currentAlbum]];
 }
 
 -(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image album:(Album *)album {
@@ -185,7 +188,7 @@
     gem.createdAt = [NSDate date];
 
     // allow offline image storage
-    NSData *data = UIImageJPEGRepresentation(self.image, .8);
+    NSData *data = UIImageJPEGRepresentation(image, .8);
     gem.offlineImage = data;
     gem.album = album;
 
@@ -212,7 +215,7 @@
     // offline storage
     [_appDelegate.managedObjectContext save:nil];
 
-    if (self.image && [NewGemViewController canSaveToAlbum]) {
+    if (image && [NewGemViewController canSaveToAlbum]) {
         [NewGemViewController saveToAlbum:image meta:self.meta];
     }
 }
@@ -243,25 +246,25 @@
 }
 
 #pragma mark saveToAlbum
--(void)saveScreenshot {
+-(UIImage *)screenshot {
     // Create the screenshot. draw image in viewBounds
     if ([self.quote length] == 0)
         [self.inputQuote setHidden:YES];
 
-    CGSize size = self.view.frame.size;
+    CGSize size = self.viewBG.frame.size;
     UIGraphicsBeginImageContext(size);
 
     // Put everything in the current view into the screenshot
     CGContextRef ctx = UIGraphicsGetCurrentContext();
     CGContextSaveGState(ctx);
-    [self.view.layer renderInContext:ctx];
+    [self.viewBG.layer renderInContext:ctx];
 
     CGContextRestoreGState(ctx);
     // Save the current image context info into a UIImage
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
 
-    [NewGemViewController saveToAlbum:newImage meta:nil];
+    return newImage;
 }
 
 +(BOOL)canSaveToAlbum {
