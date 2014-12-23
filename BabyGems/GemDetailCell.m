@@ -92,6 +92,7 @@
     [self listenFor:UIKeyboardWillShowNotification action:@selector(keyboardWillShow:)];
     [self listenFor:UIKeyboardWillHideNotification action:@selector(keyboardWillHide:)];
 
+    [self removeObserverForBounds];
     [self.viewBG addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:nil];
 }
 
@@ -108,8 +109,17 @@
     }
 }
 
+-(void)removeObserverForBounds {
+    @try {
+        [self.viewBG removeObserver:self forKeyPath:@"bounds"];
+    }
+    @catch (NSException *exception) {
+        // if there's no observer, ignore
+    }
+}
+
 -(void)dealloc {
-    [self.viewBG removeObserver:self forKeyPath:@"bounds"];
+    [self removeObserverForBounds];
 }
 
 -(void)setupImageBorder {

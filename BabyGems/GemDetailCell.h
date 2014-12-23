@@ -20,6 +20,8 @@
     UIView *viewDragging;
     CGPoint initialTouch;
     CGRect initialFrame;
+
+    BOOL needsObserver; // observe frame change
 }
 
 @property (nonatomic, weak) Gem *gem;
