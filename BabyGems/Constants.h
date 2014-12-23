@@ -15,7 +15,8 @@
 
 // string constants
 #define PLACEHOLDER_TEXT @"Click here to add a quote"
-
+#define QUOTE_INSET_FROM_TOP 30
+#define QUOTE_INSET_FROM_BOTTOM 30
 // fonts
 #define CHALK(x) ([UIFont fontWithName:@"Chalkduster" size:x])
 

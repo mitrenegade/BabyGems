@@ -14,6 +14,7 @@
         <attribute name="offlineImage" optional="YES" attributeType="Binary" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="quote" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="textPositionByPercent" optional="YES" attributeType="Double" defaultValueString="0.0" syncable="YES"/>
         <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="gems" inverseEntity="Album" syncable="YES"/>
     </entity>
     <entity name="ParseBase" representedClassName="ParseBase" isAbstract="YES" syncable="YES">
@@ -24,7 +25,7 @@
     </entity>
     <elements>
         <element name="Album" positionX="-54" positionY="27" width="128" height="150"/>
-        <element name="Gem" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Gem" positionX="-63" positionY="-18" width="128" height="135"/>
         <element name="ParseBase" positionX="-54" positionY="9" width="128" height="103"/>
     </elements>
 </model>

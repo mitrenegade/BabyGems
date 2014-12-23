@@ -276,7 +276,7 @@
                                                 <constraint firstAttribute="trailing" secondItem="PfR-2o-DV1" secondAttribute="trailing" id="crP-Ba-Qsy"/>
                                                 <constraint firstAttribute="bottom" secondItem="Df3-10-KdF" secondAttribute="bottom" id="ga3-yh-7ft"/>
                                                 <constraint firstAttribute="trailing" secondItem="aMc-gt-bmB" secondAttribute="trailing" id="ggU-hk-UQ3"/>
-                                                <constraint firstItem="Df3-10-KdF" firstAttribute="top" secondItem="aMc-gt-bmB" secondAttribute="bottom" constant="8" id="jgz-bs-995"/>
+                                                <constraint firstItem="Df3-10-KdF" firstAttribute="top" secondItem="aMc-gt-bmB" secondAttribute="bottom" priority="999" constant="8" id="jgz-bs-995"/>
                                                 <constraint firstItem="PfR-2o-DV1" firstAttribute="top" secondItem="ZJf-bE-THg" secondAttribute="top" id="pIq-uh-eoe"/>
                                             </constraints>
                                             <variation key="default">
@@ -303,6 +303,7 @@
                                     <outlet property="imageView" destination="PfR-2o-DV1" id="veB-tg-45w"/>
                                     <outlet property="labelDate" destination="W2p-hJ-ALN" id="6th-nR-Sgz"/>
                                     <outlet property="labelQuote" destination="hce-oI-oE0" id="VSQ-yM-y22"/>
+                                    <outlet property="viewBG" destination="ZJf-bE-THg" id="qSj-VQ-KLg"/>
                                     <outlet property="viewQuote" destination="aMc-gt-bmB" id="IFD-UA-jjZ"/>
                                 </connections>
                             </collectionViewCell>

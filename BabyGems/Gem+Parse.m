@@ -27,6 +27,7 @@
     self.imageURL = [self.pfObject objectForKey:@"imageURL"];
     self.pfUserID = [self.pfObject objectForKey:@"pfUserID"];
     self.order = [self.pfObject objectForKey:@"order"];
+    self.textPositionByPercent = [self.pfObject objectForKey:@"textPositionByPercent"];
 
     // relationships
     PFObject *object = [self.pfObject objectForKey:@"album"];
@@ -44,6 +45,8 @@
         }
         if (self.order)
             self.pfObject[@"order"] = self.order;
+        if (self.textPositionByPercent)
+            self.pfObject[@"textPositionByPercent"] = self.textPositionByPercent;
 
         if (_currentUser) {
             self.pfObject[@"user"] = _currentUser;

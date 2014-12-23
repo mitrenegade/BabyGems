@@ -11,4 +11,6 @@
 @interface Gem (Info)
 
 -(BOOL)isPhotoGem;
+-(void)updateTextPosition:(CGPoint)origin inFrame:(CGRect)frameOfEnclosingView;
+
 @end

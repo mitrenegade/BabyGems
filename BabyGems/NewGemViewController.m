@@ -11,6 +11,7 @@
 #import "Gem+Parse.h"
 #import "ALAssetsLibrary+CustomPhotoAlbum.h"
 #import "BackgroundHelper.h"
+#import "Gem+Info.h"
 
 @interface NewGemViewController ()
 
@@ -192,6 +193,8 @@
     gem.offlineImage = data;
     gem.album = album;
 
+    [gem updateTextPosition:self.textCanvas.frame.origin inFrame:self.viewBG.frame];
+
     [BackgroundHelper keepTaskInBackgroundForPhotoUpload];
     [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
         NSLog(@"Success %d", success);
@@ -352,10 +355,10 @@
                         frame.origin.x = self.viewCanvas.frame.size.width - self.textCanvas.frame.size.width;
                     if (frame.origin.x <= 0)
                         frame.origin.x = 0;
-                    if (frame.origin.y >= self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height)
-                        frame.origin.y = self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height;
-                    if (frame.origin.y <= 0)
-                        frame.origin.y = 0;
+                    if (frame.origin.y >= self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height - QUOTE_INSET_FROM_BOTTOM)
+                        frame.origin.y = self.viewCanvas.frame.size.height - self.textCanvas.frame.size.height - QUOTE_INSET_FROM_BOTTOM;
+                    if (frame.origin.y <= QUOTE_INSET_FROM_TOP)
+                        frame.origin.y = QUOTE_INSET_FROM_TOP;
                     viewDragging.frame = frame;
                 }
                 else if (viewDragging == self.imageView) {
