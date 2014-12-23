@@ -67,6 +67,8 @@
 
     UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self  action:@selector(handlePinch:)];
     [self.viewBG addGestureRecognizer:pinch];
+
+    [self showTutorialIfNeeded];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -432,4 +434,29 @@
     }
 }
 
+
+-(void)showTutorialIfNeeded {
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"tutorial:gemResize:shown"]) {
+        return;
+    }
+
+    [self performSelector:@selector(showTutorial) withObject:nil afterDelay:1];
+}
+
+-(void)showTutorial {
+    [UIView animateWithDuration:.5 animations:^{
+        [self.viewTutorial setAlpha:1];
+    } completion:^(BOOL finished) {
+        [self performSelector:@selector(hideTutorial) withObject:nil afterDelay:5];
+    }];
+}
+
+-(void)hideTutorial {
+    [UIView animateWithDuration:.5 animations:^{
+        [self.viewTutorial setAlpha:0];
+    } completion:^(BOOL finished) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"tutorial:gemResize:shown"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }];
+}
 @end

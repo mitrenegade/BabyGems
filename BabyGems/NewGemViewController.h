@@ -47,6 +47,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
 
+@property (weak, nonatomic) IBOutlet UIView *viewTutorial;
+
 -(IBAction)didClickGemBox:(id)sender;
 -(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image album:(Album *)album;
 
