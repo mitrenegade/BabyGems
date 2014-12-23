@@ -251,8 +251,7 @@
 #pragma mark saveToAlbum
 -(UIImage *)screenshot {
     // Create the screenshot. draw image in viewBounds
-    if ([self.quote length] == 0)
-        [self.inputQuote setHidden:YES];
+    [self.textCanvas setHidden:YES];
 
     CGSize size = self.viewBG.frame.size;
     UIGraphicsBeginImageContext(size);
@@ -266,6 +265,8 @@
     // Save the current image context info into a UIImage
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
+
+    [self.textCanvas setHidden:NO];
 
     return newImage;
 }
