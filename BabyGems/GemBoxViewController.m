@@ -13,6 +13,8 @@
 #import "GemDetailCollectionViewController.h"
 #import "Album+Info.h"
 #import "UICollectionView+Draggable.h"
+#import "BackgroundHelper.h"
+#import "NewGemViewController.h"
 
 @interface GemBoxViewController ()
 @end
@@ -322,6 +324,55 @@
     [cameraController showLibraryFromController:self];
 }
 
+-(void)didTakeMultiplePictures:(NSArray *)images meta:(NSArray *)meta {
+
+    [BackgroundHelper keepTaskInBackgroundForPhotoUpload];
+    __block int complete_count = 0;
+    for (int i=0; i<[images count]; i++) {
+        UIImage *image = images[i];
+        NSDictionary *info = meta[i];
+
+        Gem *gem;
+        if (!gem) {
+            gem = (Gem *)[Gem createEntityInContext:_appDelegate.managedObjectContext];
+        }
+        gem.createdAt = [NSDate date];
+
+        // allow offline image storage
+        NSData *data = UIImageJPEGRepresentation(image, .8);
+        gem.offlineImage = data;
+        gem.album = self.currentAlbum;
+
+        [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+            NSLog(@"Success %d", success);
+
+            // online image storage
+            PFFile *imageFile = [PFFile fileWithData:data];
+            [imageFile saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                [gem.pfObject setObject:imageFile forKey:@"imageFile"];
+                gem.imageURL = imageFile.url;
+                [gem saveOrUpdateToParseWithCompletion:^(BOOL success) {
+                    complete_count++;
+                    if (complete_count == [images count]) {
+                        // did save multiple gems
+                        [BackgroundHelper stopTaskInBackgroundForPhotoUpload];
+                        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+                        [self reloadData];
+                        cameraController = nil;
+
+                        // offline storage
+                        [_appDelegate.managedObjectContext save:nil];
+                    }
+                }];
+            }];
+        }];
+
+        if (image && [NewGemViewController canSaveToAlbum]) {
+            [NewGemViewController saveToAlbum:image meta:info];
+        }
+    }
+}
+
 #pragma mark Alertview
 -(void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 0) {
@@ -374,12 +425,10 @@
 #pragma mark GemDetailCollectionDelegate
 // uses all the same album structures
 -(NSArray *)sortedGems {
-    //    return [self.gemFetcher fetchedObjects];
     return [self.currentAlbum sortedGems];
 }
 
 -(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
-    //    return [self.gemFetcher objectAtIndexPath:indexPath];
     return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
 }
 

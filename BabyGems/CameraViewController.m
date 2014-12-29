@@ -9,6 +9,7 @@
 #import "CameraViewController.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <MobileCoreServices/MobileCoreServices.h>
+#import <ELCImagePickerController.h>
 
 @interface CameraViewController ()
 
@@ -37,6 +38,7 @@
 */
 
 -(void)showLibraryFromController:(UIViewController *)controller {
+#if 0
     _picker = [[UIImagePickerController alloc] init];
     _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 
@@ -49,6 +51,20 @@
     [self addOverlayWithFrame:frame];
 
     [controller.navigationController presentViewController:_picker animated:YES completion:nil];
+#else
+    ELCImagePickerController *elcPicker = [[ELCImagePickerController alloc] initImagePicker];
+    elcPicker.maximumImagesCount = 4; //Set the maximum number of images to select, defaults to 4
+    elcPicker.returnsOriginalImage = NO; //Only return the fullScreenImage, not the fullResolutionImage
+    elcPicker.returnsImage = YES; //Return UIimage if YES. If NO, only return asset location information
+    elcPicker.onOrder = YES; //For multiple image selection, display and return selected order of images
+    elcPicker.imagePickerDelegate = self;
+
+    _multiPicker = elcPicker;
+
+    //Present modally
+    [controller.navigationController presentViewController:elcPicker animated:YES completion:nil];
+
+#endif
 }
 
 -(void)showCameraFromController:(UIViewController *)controller {
@@ -141,7 +157,7 @@
 
 +(void)getMetaForInfo:(NSDictionary *)info withCompletion:(void(^)(NSDictionary *meta))completion {
     NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
-    if ([mediaType isEqualToString:(NSString*)kUTTypeImage]) {
+    if ([mediaType isEqualToString:(NSString*)kUTTypeImage] || [mediaType isEqualToString:ALAssetTypePhoto]) {
         NSURL *url = [info objectForKey:UIImagePickerControllerReferenceURL];
         if (url) {
             ALAssetsLibrary *assetsLib = [[ALAssetsLibrary alloc] init];
@@ -200,6 +216,36 @@
         [self.delegate dismissCamera];
     else
         [_picker.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark elcimagepickerDelegate
+-(void)elcImagePickerController:(ELCImagePickerController *)picker didFinishPickingMediaWithInfo:(NSArray *)info {
+    NSLog(@"Finished: %@", info);
+
+    NSMutableArray *imageArray = [NSMutableArray array];
+    NSMutableArray *metaArray = [NSMutableArray array];
+    for (NSDictionary *assetInfo in info) {
+        UIImage *image = [assetInfo objectForKey:UIImagePickerControllerOriginalImage];
+        [CameraViewController getMetaForInfo:assetInfo withCompletion:^(NSDictionary *meta) {
+            NSLog(@"Meta: %@", meta);
+            // for now, no active stripping of metadata is done. When we save the image to parse, the metadata is not saved anyways.
+            [imageArray addObject:image];
+            [metaArray addObject:meta];
+
+            if (imageArray.count == info.count) {
+                [self.delegate didTakeMultiplePictures:imageArray meta:metaArray];
+            }
+        }];
+    }
+}
+
+-(void)elcImagePickerControllerDidCancel:(ELCImagePickerController *)picker {
+    NSLog(@"Cancelled");
+    [_multiPicker.presentingViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)dealloc {
+    NSLog(@"Here");
 }
 
 @end

@@ -52,5 +52,7 @@
 -(IBAction)didClickGemBox:(id)sender;
 -(void)saveGemWithQuote:(NSString *)quote image:(UIImage *)image album:(Album *)album;
 
-+(BOOL)toggleSaveToAlbum;
++(void)toggleSaveToAlbum;
++(BOOL)canSaveToAlbum;
++(BOOL)saveToAlbum:(UIImage *)image meta:(NSDictionary *)meta;
 @end
