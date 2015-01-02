@@ -328,18 +328,21 @@
 #pragma mark Settings
 -(void)showSettings {
     NSString *message = [NSString stringWithFormat:@"About: BabyGems v%@\nCopyright 2014 Bobby Ren", VERSION];
-    NSArray *menuOptions = @[@"Contact us", @"View website", @"Toggle photo options"];
+    NSArray *menuOptions = @[@"Invite a friend", @"Contact us", @"View website", @"Toggle photo options"];
 #if TESTING
     menuOptions = [menuOptions arrayByAddingObject:@"Admin"];
 #endif
     [UIActionSheet actionSheetWithTitle:message message:nil buttons:menuOptions showInView:_appDelegate.window onDismiss:^(int buttonIndex) {
-        if (buttonIndex == 0) {
+        if (buttonIndex == [menuOptions indexOfObject:@"Invite a friend"]) {
+            [self goToInvite];
+        }
+        else if (buttonIndex == [menuOptions indexOfObject:@"Contact us"]) {
             [self goToFeedback];
         }
-        else if (buttonIndex == 1) {
+        else if (buttonIndex == [menuOptions indexOfObject:@"View website"]) {
             [self goToTOS];
         }
-        else if (buttonIndex == 2) {
+        else if (buttonIndex == [menuOptions indexOfObject:@"Toggle photo options"]) {
             [NewGemViewController toggleSaveToAlbum];
         }
         else {
@@ -441,5 +444,10 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 
     [self notify:@"style:changed"];
+}
+
+#pragma mark Invite
+-(void)goToInvite {
+    [UIAlertView alertViewWithTitle:@"To invite someone, share a photo" message:@"For now, babyGems allows you to invite someone to join when you share a photo with them."];
 }
 @end

@@ -215,6 +215,10 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aMc-gt-bmB" userLabel="View - quote">
                                                     <rect key="frame" x="0.0" y="339" width="584" height="141"/>
                                                     <subviews>
+                                                        <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sYr-aV-cNG">
+                                                            <rect key="frame" x="0.0" y="0.0" width="584" height="141"/>
+                                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                        </view>
                                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hce-oI-oE0">
                                                             <rect key="frame" x="8" y="8" width="568" height="125"/>
                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -225,8 +229,12 @@
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <constraints>
+                                                        <constraint firstItem="sYr-aV-cNG" firstAttribute="leading" secondItem="aMc-gt-bmB" secondAttribute="leading" id="BxQ-kW-eOV"/>
                                                         <constraint firstAttribute="height" constant="141" id="CBV-p6-EPc"/>
                                                         <constraint firstAttribute="bottom" secondItem="hce-oI-oE0" secondAttribute="bottom" constant="8" id="ESR-wE-Sca"/>
+                                                        <constraint firstAttribute="bottom" secondItem="sYr-aV-cNG" secondAttribute="bottom" id="Mqc-uV-zNm"/>
+                                                        <constraint firstItem="sYr-aV-cNG" firstAttribute="top" secondItem="aMc-gt-bmB" secondAttribute="top" id="TJc-C9-EeX"/>
+                                                        <constraint firstAttribute="trailing" secondItem="sYr-aV-cNG" secondAttribute="trailing" id="Zaw-j9-AxX"/>
                                                         <constraint firstItem="hce-oI-oE0" firstAttribute="top" secondItem="aMc-gt-bmB" secondAttribute="top" constant="8" id="Zvy-mc-y4D"/>
                                                         <constraint firstItem="hce-oI-oE0" firstAttribute="leading" secondItem="aMc-gt-bmB" secondAttribute="leading" constant="8" id="gRs-3p-yHQ"/>
                                                         <constraint firstAttribute="trailing" secondItem="hce-oI-oE0" secondAttribute="trailing" constant="8" id="zE8-3x-qy2"/>
@@ -516,7 +524,7 @@
                         <viewControllerLayoutGuide type="bottom" id="7f9-IC-Orh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="arN-3P-Upz">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PCY-Wh-GnE">
