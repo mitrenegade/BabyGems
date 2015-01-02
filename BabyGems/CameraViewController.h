@@ -7,16 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <ELCImagePickerController.h>
 @protocol CameraDelegate <NSObject>
 
 -(void)didTakePicture:(UIImage *)image meta:(NSDictionary *)meta;
-
+-(void)didTakeMultiplePictures:(NSArray *)images meta:(NSArray *)meta;
 @end
 
-@interface CameraViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface CameraViewController : UIViewController <UIImagePickerControllerDelegate, UINavigationControllerDelegate, ELCImagePickerControllerDelegate>
 {
     UIImagePickerController *_picker;
+    ELCImagePickerController *_multiPicker;
 
     UIView *overlay;
 
