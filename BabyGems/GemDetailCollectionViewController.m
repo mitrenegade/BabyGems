@@ -176,7 +176,9 @@
      NSString *const UIActivityTypeAirDrop;
      */
 
-    NSString *textToShare = gem.quote.length?gem.quote:nil;
+    static const NSString *INVITE_TEXT = @"Try out babyGems! Go to http://babyGems.photos";
+
+    NSString *textToShare = gem.quote.length?[NSString stringWithFormat:@"%@\n%@", gem.quote, INVITE_TEXT]:INVITE_TEXT;
     UIImage *imageToShare = image;
     NSMutableArray *itemsToShare = [NSMutableArray array];
     if (textToShare)
