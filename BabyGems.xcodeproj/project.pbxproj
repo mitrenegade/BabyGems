@@ -68,6 +68,8 @@
 		9E9B4FDE1A421E8B00E89A60 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9B4FDD1A421E8B00E89A60 /* Album.m */; };
 		9EA629931A5769860064B339 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629921A5769860064B339 /* Notification.m */; };
 		9EA629961A576B020064B339 /* Notification+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629951A576B020064B339 /* Notification+Parse.m */; };
+		9EA6299A1A5772070064B339 /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629991A5772070064B339 /* UsersViewController.m */; };
+		9EA6299D1A57759C0064B339 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6299C1A57759C0064B339 /* UserCell.m */; };
 		9EBA18C01A3F640000B0C48F /* AlbumFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */; };
 		9EBA18C31A41429D00B0C48F /* GemDetailCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C21A41429D00B0C48F /* GemDetailCollectionViewController.m */; };
 		9EBA18C61A41435700B0C48F /* GemDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C51A41435700B0C48F /* GemDetailCell.m */; };
@@ -201,6 +203,10 @@
 		9EA629921A5769860064B339 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		9EA629941A576B020064B339 /* Notification+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Notification+Parse.h"; sourceTree = "<group>"; };
 		9EA629951A576B020064B339 /* Notification+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Notification+Parse.m"; sourceTree = "<group>"; };
+		9EA629981A5772070064B339 /* UsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersViewController.h; sourceTree = "<group>"; };
+		9EA629991A5772070064B339 /* UsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersViewController.m; sourceTree = "<group>"; };
+		9EA6299B1A57759C0064B339 /* UserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
+		9EA6299C1A57759C0064B339 /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		9EBA18BE1A3F640000B0C48F /* AlbumFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumFlowLayout.h; sourceTree = "<group>"; };
 		9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumFlowLayout.m; sourceTree = "<group>"; };
 		9EBA18C11A41429D00B0C48F /* GemDetailCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemDetailCollectionViewController.h; sourceTree = "<group>"; };
@@ -291,6 +297,7 @@
 				9E59DB8E1A182F6800ABCAEA /* GemBox */,
 				9EDF42591A126D1200ABC447 /* Gem Creation */,
 				9ED3EF561A27E899003A4578 /* Gem Detail */,
+				9EA629971A5771AD0064B339 /* Share */,
 				9E11BB901A1260CB0001090B /* Utils */,
 				9EDF42521A12651300ABC447 /* Resources */,
 			);
@@ -452,6 +459,17 @@
 				9E92A0AE1A45184600D7C42B /* LSCollectionViewLayoutHelper.m */,
 			);
 			name = "Draggable Flow layout";
+			sourceTree = "<group>";
+		};
+		9EA629971A5771AD0064B339 /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				9EA629981A5772070064B339 /* UsersViewController.h */,
+				9EA629991A5772070064B339 /* UsersViewController.m */,
+				9EA6299B1A57759C0064B339 /* UserCell.h */,
+				9EA6299C1A57759C0064B339 /* UserCell.m */,
+			);
+			name = Share;
 			sourceTree = "<group>";
 		};
 		9ECFA61C1A2948770049BB5E /* Cells */ = {
@@ -706,12 +724,14 @@
 				9EA629961A576B020064B339 /* Notification+Parse.m in Sources */,
 				9E11BBC51A1260CB0001090B /* Util.m in Sources */,
 				9E92A0B81A45193300D7C42B /* UICollectionView+Draggable.m in Sources */,
+				9EA6299A1A5772070064B339 /* UsersViewController.m in Sources */,
 				9E7E06081A39D4E20052BCEA /* AlbumsViewController.m in Sources */,
 				9E59DB811A1825FF00ABCAEA /* ParseBase.m in Sources */,
 				9E90F7AE1A4919D200FB52CA /* Gem.m in Sources */,
 				9EBA18C31A41429D00B0C48F /* GemDetailCollectionViewController.m in Sources */,
 				9E11BBB91A1260CB0001090B /* SignupViewController.m in Sources */,
 				9E11BBC41A1260CB0001090B /* UIImage+RoundedCorner.m in Sources */,
+				9EA6299D1A57759C0064B339 /* UserCell.m in Sources */,
 				9E9B4FDE1A421E8B00E89A60 /* Album.m in Sources */,
 				9E11BBBC1A1260CB0001090B /* UIActionSheet+MKBlockAdditions.m in Sources */,
 				9E7E06011A39C7040052BCEA /* Album+Parse.m in Sources */,

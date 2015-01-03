@@ -123,7 +123,7 @@
 
 -(void)loadNotifications {
     PFQuery *query = [PFQuery queryWithClassName:@"Notification"];
-    PFUser *user = _currentAction;
+    PFUser *user = _currentUser;
     [user fetchIfNeeded];
     [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
 

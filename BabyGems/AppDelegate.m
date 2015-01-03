@@ -16,6 +16,7 @@
 #import "Util.h"
 #import "NewGemViewController.h"
 #import "UIActionSheet+MKBlockAdditions.h"
+#import "Notification+Parse.h"
 
 @implementation AppDelegate
 

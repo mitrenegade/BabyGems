@@ -28,5 +28,6 @@
 - (void)saveContext;
 -(void)printAllGems;
 -(void)printAllAlbums;
+-(void)printAllNotifications;
 -(void)showSettings;
 @end

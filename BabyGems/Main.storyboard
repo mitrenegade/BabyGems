@@ -182,7 +182,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XCH-Pu-L5i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3130" y="504"/>
+            <point key="canvasLocation" x="3355" y="552"/>
         </scene>
         <!--Gem Detail Collection View Controller-->
         <scene sceneID="FpG-Ew-PqO">
@@ -400,7 +400,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1wH-S5-QCF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2659" y="1344"/>
+            <point key="canvasLocation" x="2505" y="1480"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AaW-eM-oj8">
@@ -509,11 +509,87 @@
                     <navigationItem key="navigationItem" id="EtT-e3-akY"/>
                     <connections>
                         <segue destination="Tj4-ga-VdT" kind="show" identifier="AlbumsToGemBox" id="bYb-bz-DZP"/>
+                        <segue destination="Vyv-br-e00" kind="show" identifier="AlbumsToShare" id="02L-tn-eur"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I56-GR-4xR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1772" y="543"/>
+        </scene>
+        <!--Users View Controller-->
+        <scene sceneID="n9W-va-Wip">
+            <objects>
+                <viewController id="Vyv-br-e00" customClass="UsersViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="hfm-DM-xuN"/>
+                        <viewControllerLayoutGuide type="bottom" id="RTE-oR-rAy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="u1x-LA-GTH">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lv0-uN-suk">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="60" id="3o1-C9-GTE" customClass="UserCell">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3o1-C9-GTE" id="ZId-pT-R4o">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="PXb-hF-GEM">
+                                                    <rect key="frame" x="8" y="10" width="40" height="40"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="40" id="SiX-wg-SF8"/>
+                                                        <constraint firstAttribute="width" constant="40" id="myh-E7-gT4"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vo8-78-pXh">
+                                                    <rect key="frame" x="56" y="12" width="526" height="35"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="35" id="47s-Qs-Spa"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerY" secondItem="PXb-hF-GEM" secondAttribute="centerY" id="45C-DB-tvm"/>
+                                                <constraint firstAttribute="centerY" secondItem="Vo8-78-pXh" secondAttribute="centerY" id="PbO-1x-7Ja"/>
+                                                <constraint firstItem="PXb-hF-GEM" firstAttribute="leading" secondItem="ZId-pT-R4o" secondAttribute="leadingMargin" id="c6C-HU-5KX"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="Vo8-78-pXh" secondAttribute="trailing" constant="10" id="tw3-P4-Zao"/>
+                                                <constraint firstItem="Vo8-78-pXh" firstAttribute="leading" secondItem="PXb-hF-GEM" secondAttribute="trailing" constant="8" id="yPR-VP-f0n"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="icon" destination="PXb-hF-GEM" id="XQV-g6-Lg2"/>
+                                            <outlet property="labelName" destination="Vo8-78-pXh" id="vdI-Qw-PfJ"/>
+                                        </connections>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="Vyv-br-e00" id="IQp-WM-qDY"/>
+                                    <outlet property="delegate" destination="Vyv-br-e00" id="HUt-WU-9sS"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="lv0-uN-suk" firstAttribute="leading" secondItem="u1x-LA-GTH" secondAttribute="leadingMargin" constant="-16" id="3jX-JJ-qjS"/>
+                            <constraint firstItem="lv0-uN-suk" firstAttribute="top" secondItem="u1x-LA-GTH" secondAttribute="topMargin" id="LtG-Ta-F9m"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="lv0-uN-suk" secondAttribute="trailing" constant="-16" id="V1s-pP-3Ze"/>
+                            <constraint firstItem="RTE-oR-rAy" firstAttribute="top" secondItem="lv0-uN-suk" secondAttribute="bottom" id="kac-zx-gnW"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="lv0-uN-suk" id="Tnz-Uf-tdn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TWF-y9-eA3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2499" y="-51"/>
         </scene>
         <!--Gem Box View Controller-->
         <scene sceneID="TuR-Y7-h28">
@@ -954,7 +1030,7 @@
                     </connections>
                 </containerView>
             </objects>
-            <point key="canvasLocation" x="2499" y="571"/>
+            <point key="canvasLocation" x="2524" y="828"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="aVw-0H-ynM">

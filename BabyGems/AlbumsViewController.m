@@ -84,6 +84,9 @@
         GemBoxViewController *controller = [segue destinationViewController];
         controller.currentAlbum = self.currentAlbum;
     }
+    else if ([segue.identifier isEqualToString:@"AlbumsToShare"]) {
+        
+    }
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -184,18 +187,22 @@
         album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
     }
 
-    [UIAlertView alertViewWithTitle:@"Album options" message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Rename album", @"Delete album"] onDismiss:^(int buttonIndex) {
-        if (buttonIndex == 0) {
+    NSArray *options = @[@"Sharing", @"Rename album", @"Delete album"];
+    [UIAlertView alertViewWithTitle:@"Album options" message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:options onDismiss:^(int buttonIndex) {
+        if (buttonIndex == [options indexOfObject:@"Rename album"]) {
             renameAlbum = album;
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter a new album name" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
             alert.alertViewStyle = UIAlertViewStylePlainTextInput;
             alert.tag = ALERT_TAG_RENAME_ALBUM;
             [alert show];
         }
-        else if (buttonIndex == 1) {
+        else if (buttonIndex == [options indexOfObject:@"Delete album"]) {
             [UIAlertView alertViewWithTitle:@"Delete album?" message:[NSString stringWithFormat:@"Are you sure you want to delete the album %@?", album.name] cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Delete"] onDismiss:^(int buttonIndex) {
                 [self deleteAlbum:album];
             } onCancel:nil];
+        }
+        else if (buttonIndex == [options indexOfObject:@"Sharing"]) {
+            [self performSegueWithIdentifier:@"AlbumsToShare" sender:self];
         }
     } onCancel:nil];
     return NO;
