@@ -12,7 +12,9 @@
 
 @interface UsersViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    NSMutableArray *allUsers;
+    NSArray *allUsers;
+//    NSMutableArray *albumUsers;
+    NSMutableSet *sharedIDs;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

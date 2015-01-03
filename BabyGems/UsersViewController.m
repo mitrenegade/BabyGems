@@ -8,7 +8,7 @@
 
 #import "UsersViewController.h"
 #import "UserCell.h"
-#import "Album+Info.h"
+#import "Album+Parse.h"
 
 @interface UsersViewController ()
 
@@ -20,7 +20,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
+    sharedIDs = [NSMutableSet set];
     [self loadUsers];
+    [self loadAlbumUsers];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -31,7 +33,6 @@
 -(void)loadUsers {
     // for now, load all users on babygems
     PFQuery *query = [PFUser query];
-    PFUser *user = _currentUser;
     [query whereKey:@"pfUserID" notEqualTo:_currentUser.objectId];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
@@ -41,6 +42,18 @@
             allUsers = objects;
             [self.tableView reloadData];
         }
+    }];
+}
+
+-(void)loadAlbumUsers {
+    PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
+    PFQuery *query = [relation query];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        [sharedIDs removeAllObjects];
+        for (PFUser *user in objects) {
+            [sharedIDs addObject:user.objectId];
+        }
+        [self.tableView reloadData];
     }];
 }
 
@@ -55,14 +68,25 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell"];
-    [cell setupWithUser:[allUsers objectAtIndex:indexPath.row]];
-    [cell toggleSelected:NO];
+    PFUser *user = [allUsers objectAtIndex:indexPath.row];
+    [cell setupWithUser:user];
+    [cell toggleSelected:[sharedIDs containsObject:user.objectId]];
 
     // todo: check current album for permissions for existing users
     
     return cell;
 }
 
+#pragma mark tableViewDelegate
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    PFUser *user = [allUsers objectAtIndex:indexPath.row];
+    PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
+    [relation addObject:user];
+    [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [sharedIDs addObject:user.objectId];
+        [self.tableView reloadData];
+    }];
+}
 /*
 #pragma mark - Navigation
 

@@ -11,6 +11,7 @@
 #import "Album+Parse.h"
 #import "GemBoxViewController.h"
 #import "Album+Info.h"
+#import "UsersViewController.h"
 
 #define ALERT_TAG_NEW_ALBUM 1
 #define ALERT_TAG_RENAME_ALBUM 2
@@ -66,6 +67,7 @@
 }
 
 -(void)showSettings {
+    // bobby todo: show album settings instead
     [_appDelegate showSettings];
 }
 
@@ -85,7 +87,8 @@
         controller.currentAlbum = self.currentAlbum;
     }
     else if ([segue.identifier isEqualToString:@"AlbumsToShare"]) {
-        
+        UsersViewController *controller = [segue destinationViewController];
+        controller.album = self.currentAlbum;
     }
 }
 
