@@ -324,6 +324,11 @@
     NSLog(@"%lu albums found", (unsigned long)[all count]);
 }
 
+-(void)printAllNotifications {
+    NSArray *all = [[Notification where:@{}] all];
+    NSLog(@"%lu albums found", (unsigned long)[all count]);
+}
+
 #pragma mark Reused calls
 #pragma mark Settings
 -(void)showSettings {
