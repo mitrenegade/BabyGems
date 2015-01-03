@@ -66,10 +66,10 @@
 		9E92A0BB1A451DA700D7C42B /* GemBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E92A0BA1A451DA700D7C42B /* GemBoxViewController.m */; };
 		9E9B4FD81A421CC400E89A60 /* Album+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9B4FD71A421CC400E89A60 /* Album+Validation.m */; };
 		9E9B4FDE1A421E8B00E89A60 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9B4FDD1A421E8B00E89A60 /* Album.m */; };
-		9EA629931A5769860064B339 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629921A5769860064B339 /* Notification.m */; };
 		9EA629961A576B020064B339 /* Notification+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629951A576B020064B339 /* Notification+Parse.m */; };
 		9EA6299A1A5772070064B339 /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629991A5772070064B339 /* UsersViewController.m */; };
 		9EA6299D1A57759C0064B339 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6299C1A57759C0064B339 /* UserCell.m */; };
+		9EB1A9E91A58B21B00922E37 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1A9E81A58B21B00922E37 /* Notification.m */; };
 		9EBA18C01A3F640000B0C48F /* AlbumFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */; };
 		9EBA18C31A41429D00B0C48F /* GemDetailCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C21A41429D00B0C48F /* GemDetailCollectionViewController.m */; };
 		9EBA18C61A41435700B0C48F /* GemDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C51A41435700B0C48F /* GemDetailCell.m */; };
@@ -199,14 +199,14 @@
 		9E9B4FD71A421CC400E89A60 /* Album+Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Album+Validation.m"; sourceTree = "<group>"; };
 		9E9B4FDC1A421E8B00E89A60 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
 		9E9B4FDD1A421E8B00E89A60 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
-		9EA629911A5769860064B339 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
-		9EA629921A5769860064B339 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		9EA629941A576B020064B339 /* Notification+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Notification+Parse.h"; sourceTree = "<group>"; };
 		9EA629951A576B020064B339 /* Notification+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Notification+Parse.m"; sourceTree = "<group>"; };
 		9EA629981A5772070064B339 /* UsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersViewController.h; sourceTree = "<group>"; };
 		9EA629991A5772070064B339 /* UsersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UsersViewController.m; sourceTree = "<group>"; };
 		9EA6299B1A57759C0064B339 /* UserCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserCell.h; sourceTree = "<group>"; };
 		9EA6299C1A57759C0064B339 /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
+		9EB1A9E71A58B21B00922E37 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
+		9EB1A9E81A58B21B00922E37 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
 		9EBA18BE1A3F640000B0C48F /* AlbumFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumFlowLayout.h; sourceTree = "<group>"; };
 		9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumFlowLayout.m; sourceTree = "<group>"; };
 		9EBA18C11A41429D00B0C48F /* GemDetailCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemDetailCollectionViewController.h; sourceTree = "<group>"; };
@@ -348,8 +348,8 @@
 			isa = PBXGroup;
 			children = (
 				9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */,
-				9EA629911A5769860064B339 /* Notification.h */,
-				9EA629921A5769860064B339 /* Notification.m */,
+				9EB1A9E71A58B21B00922E37 /* Notification.h */,
+				9EB1A9E81A58B21B00922E37 /* Notification.m */,
 				9E90F7AC1A4919D200FB52CA /* Gem.h */,
 				9E90F7AD1A4919D200FB52CA /* Gem.m */,
 				9E9B4FDC1A421E8B00E89A60 /* Album.h */,
@@ -697,7 +697,6 @@
 				9E11BBC21A1260CB0001090B /* UIImage+Alpha.m in Sources */,
 				9ECFA6201A2948920049BB5E /* GemFullPhotoCell.m in Sources */,
 				9E92A0AF1A45184600D7C42B /* LSCollectionViewHelper.m in Sources */,
-				9EA629931A5769860064B339 /* Notification.m in Sources */,
 				9E11BBBF1A1260CB0001090B /* NSManagedObject+Query.m in Sources */,
 				9E11BBC11A1260CB0001090B /* Query.m in Sources */,
 				9E9B4FD81A421CC400E89A60 /* Album+Validation.m in Sources */,
@@ -735,6 +734,7 @@
 				9E9B4FDE1A421E8B00E89A60 /* Album.m in Sources */,
 				9E11BBBC1A1260CB0001090B /* UIActionSheet+MKBlockAdditions.m in Sources */,
 				9E7E06011A39C7040052BCEA /* Album+Parse.m in Sources */,
+				9EB1A9E91A58B21B00922E37 /* Notification.m in Sources */,
 				9ECFA61B1A2947110049BB5E /* GemFullCell.m in Sources */,
 				9E11BBB41A1260CB0001090B /* main.m in Sources */,
 				9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */,

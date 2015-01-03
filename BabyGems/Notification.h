@@ -2,7 +2,7 @@
 //  Notification.h
 //  BabyGems
 //
-//  Created by Bobby Ren on 1/2/15.
+//  Created by Bobby Ren on 1/3/15.
 //  Copyright (c) 2015 BobbyRenTech. All rights reserved.
 //
 
@@ -15,5 +15,8 @@
 
 @property (nonatomic, retain) NSString * message;
 @property (nonatomic, retain) NSNumber * seen;
+@property (nonatomic, retain) NSNumber * type;
+@property (nonatomic, retain) NSString * toUserID;
+@property (nonatomic, retain) NSString * itemID;
 
 @end

@@ -9,6 +9,7 @@
 #import "UsersViewController.h"
 #import "UserCell.h"
 #import "Album+Parse.h"
+#import "Notification+Parse.h"
 
 @interface UsersViewController ()
 
@@ -81,10 +82,68 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     PFUser *user = [allUsers objectAtIndex:indexPath.row];
     PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
-    [relation addObject:user];
-    [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-        [sharedIDs addObject:user.objectId];
-        [self.tableView reloadData];
+
+    if ([sharedIDs containsObject:user.objectId]) {
+        // remove
+        [relation removeObject:user];
+        [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [sharedIDs removeObject:user.objectId];
+            [self.tableView reloadData];
+
+            [self removeShareNotificationForAlbum:self.album user:user];
+        }];
+    }
+    else {
+        [relation addObject:user];
+        [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+            [sharedIDs addObject:user.objectId];
+            [self.tableView reloadData];
+
+            [self createShareNotificationForAlbum:self.album user:user];
+        }];
+    }
+}
+
+-(void)createShareNotificationForAlbum:(Album *)album user:(PFUser *)user {
+    NSDictionary *info = @{@"toUserID":user.objectId, @"itemID":album.parseID};
+    [Notification queryForInfo:info completion:^(NSArray *results, NSError *error) {
+        if (![results count]) {
+            // create a notification
+            Notification *notification = [Notification createEntityInContext:_appDelegate.managedObjectContext];
+            notification.message = [NSString stringWithFormat:@"You have been added to %@'s album", user.username];
+            notification.seen = @NO;
+            notification.toUserID = user.objectId;
+            notification.itemID = album.parseID;
+
+            [notification saveOrUpdateToParseWithCompletion:^(BOOL success) {
+                NSLog(@"Created notification");
+            }];
+        }
+        else {
+            Notification *notification = [Notification fromPFObject:[results firstObject]];
+            notification.seen = @NO;
+            notification.updatedAt = [NSDate date];
+            [notification saveOrUpdateToParseWithCompletion:^(BOOL success) {
+                NSLog(@"Updated notification");
+            }];
+        }
+    }];
+}
+
+-(void)removeShareNotificationForAlbum:(Album *)album user:(PFUser *)user {
+    NSDictionary *info = @{@"toUserID":user.objectId, @"itemID":album.parseID};
+    [Notification queryForInfo:info completion:^(NSArray *results, NSError *error) {
+        if (![results count]) {
+            return;
+        }
+        else {
+            PFObject *notification = [results firstObject];
+            [notification deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSLog(@"Notification deleted");
+                }
+            }];
+        }
     }];
 }
 /*

@@ -11,4 +11,6 @@
 
 @interface Notification (Parse) <PFObjectFactory>
 
++(void)queryForInfo:(NSDictionary *)info completion:(void(^)(NSArray *results, NSError *error))competion;
+
 @end

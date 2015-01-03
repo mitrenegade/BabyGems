@@ -24,6 +24,8 @@
 -(void)updateAttributesFromPFObject {
     self.message = [self.pfObject objectForKey:@"message"];
     self.seen = [self.pfObject objectForKey:@"seen"];
+    self.toUserID = [self.pfObject objectForKey:@"toUserID"];
+    self.itemID = [self.pfObject objectForKey:@"itemID"];
 }
 
 -(void)saveOrUpdateToParseWithCompletion:(void (^)(BOOL))completion {
@@ -33,6 +35,10 @@
             self.pfObject[@"message"] = self.message;
         if (self.seen)
             self.pfObject[@"seen"] = self.seen;
+        if (self.toUserID)
+            self.pfObject[@"toUserID"] = self.toUserID;
+        if (self.itemID)
+            self.pfObject[@"itemID"] = self.itemID;
 
         if (_currentUser) {
             self.pfObject[@"user"] = _currentUser;
@@ -55,6 +61,15 @@
             }
         }];
     }];
+}
+
+#pragma mark Query
++(void)queryForInfo:(NSDictionary *)info completion:(void(^)(NSArray *results, NSError *error))competion{
+    PFQuery *query = [PFQuery queryWithClassName:@"Notification"];
+    for (id key in info.allKeys) {
+        [query whereKey:key equalTo:info[key]];
+    }
+    [query findObjectsInBackgroundWithBlock:competion];
 }
 
 @end
