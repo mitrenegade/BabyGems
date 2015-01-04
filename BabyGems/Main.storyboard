@@ -52,16 +52,16 @@
                         <viewControllerLayoutGuide type="bottom" id="o40-dx-Qo6"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="95c-yv-taG">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r96-Kg-EXo" userLabel="View - bg">
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="r96-Kg-EXo" userLabel="View - bg">
                                 <rect key="frame" x="0.0" y="20" width="600" height="580"/>
                                 <subviews>
-                                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kau-YF-f2E" userLabel="View - photoCanvas">
+                                    <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kau-YF-f2E" userLabel="View - photoCanvas">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
                                         <subviews>
-                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="67u-V8-3ra">
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67u-V8-3ra">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="580"/>
                                             </imageView>
                                         </subviews>
@@ -73,7 +73,7 @@
                                             <constraint firstItem="67u-V8-3ra" firstAttribute="top" secondItem="Kau-YF-f2E" secondAttribute="top" id="r1b-y3-WCd"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Au0-qk-BUN" userLabel="View - textCanvas">
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Au0-qk-BUN" userLabel="View - textCanvas">
                                         <rect key="frame" x="0.0" y="399" width="600" height="141"/>
                                         <subviews>
                                             <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QB2-bw-PYk" userLabel="View - bg">
@@ -189,7 +189,7 @@
             <objects>
                 <collectionViewController id="KcC-Ol-dH0" customClass="GemDetailCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" pagingEnabled="YES" dataMode="prototypes" id="r2W-i7-cdb">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="cp0-GB-bth">
                             <size key="itemSize" width="579" height="528"/>
@@ -402,19 +402,28 @@
             </objects>
             <point key="canvasLocation" x="2505" y="1480"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Shell View Controller-->
         <scene sceneID="AaW-eM-oj8">
             <objects>
-                <navigationController id="Lua-zo-KDp" sceneMemberID="viewController">
+                <navigationController id="Lua-zo-KDp" customClass="ShellViewController" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="B40-WP-vfO">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
+                        <outlet property="notificationAlertView" destination="8AJ-uB-Wus" id="XlP-W6-Det"/>
                         <segue destination="1zg-CB-AfD" kind="relationship" relationship="rootViewController" id="wZx-mM-DEC"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iIo-1v-fsm" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" id="8AJ-uB-Wus" userLabel="Label - alert count">
+                    <rect key="frame" x="0.0" y="0.0" width="36" height="36"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="Chalkduster" family="Chalkduster" pointSize="13"/>
+                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </objects>
             <point key="canvasLocation" x="1046" y="630"/>
         </scene>
@@ -423,7 +432,7 @@
             <objects>
                 <collectionViewController id="1zg-CB-AfD" customClass="AlbumsViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="mn5-ky-WNm">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewLayout key="collectionViewLayout" id="suS-mK-GXY" customClass="AlbumFlowLayout"/>
@@ -525,11 +534,11 @@
                         <viewControllerLayoutGuide type="bottom" id="RTE-oR-rAy"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="u1x-LA-GTH">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lv0-uN-suk">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="60" id="3o1-C9-GTE" customClass="UserCell">
@@ -600,11 +609,11 @@
                         <viewControllerLayoutGuide type="bottom" id="7f9-IC-Orh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="arN-3P-Upz">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="PCY-Wh-GnE">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="pGo-ze-3fG" customClass="DraggableCollectionViewFlowLayout">
                                     <size key="itemSize" width="50" height="50"/>
@@ -1140,24 +1149,6 @@
             </objects>
             <point key="canvasLocation" x="1730" y="1462"/>
         </scene>
-        <!--View Controller-->
-        <scene sceneID="Qls-VI-3UO">
-            <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="nhz-v8-a5v" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vEp-Ld-NyY"/>
-                        <viewControllerLayoutGuide type="bottom" id="k0M-Rv-eI7"/>
-                    </layoutGuides>
-                    <view key="view" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="U5s-FI-lFF">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <toolbarItems/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="u3R-t5-A88" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-        </scene>
     </scenes>
     <resources>
         <image name="albumIcon" width="100" height="100"/>
@@ -1168,7 +1159,7 @@
         <image name="trashcan" width="256" height="256"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="xfA-eg-hP1"/>
+        <segue reference="wZx-mM-DEC"/>
         <segue reference="bDH-ee-ORD"/>
     </inferredMetricsTieBreakers>
 </document>

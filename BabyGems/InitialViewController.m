@@ -11,6 +11,7 @@
 #import "ParseBase+Parse.h"
 #import "Gem+Parse.h"
 #import "Album+Info.h"
+#import "Notification+Parse.h"
 
 @interface InitialViewController ()
 
@@ -128,8 +129,11 @@
     [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSLog(@"Notifications: %@", objects);
-        [_appDelegate printAllNotifications];
+        [ParseBase synchronizeClass:@"Notification" fromObjects:objects replaceExisting:YES completion:^{
+            [_appDelegate printAllNotifications];
+            NSArray *all = [[Notification where:@{@"seen":@NO}] all];
+            [self notify:@"notifications:show" object:nil userInfo:@{@"count":@([all count])}];
+        }];
     }];
 }
 

@@ -70,6 +70,7 @@
 		9EA6299A1A5772070064B339 /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629991A5772070064B339 /* UsersViewController.m */; };
 		9EA6299D1A57759C0064B339 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6299C1A57759C0064B339 /* UserCell.m */; };
 		9EB1A9E91A58B21B00922E37 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1A9E81A58B21B00922E37 /* Notification.m */; };
+		9EB1A9EC1A592EDB00922E37 /* ShellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1A9EB1A592EDB00922E37 /* ShellViewController.m */; };
 		9EBA18C01A3F640000B0C48F /* AlbumFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */; };
 		9EBA18C31A41429D00B0C48F /* GemDetailCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C21A41429D00B0C48F /* GemDetailCollectionViewController.m */; };
 		9EBA18C61A41435700B0C48F /* GemDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C51A41435700B0C48F /* GemDetailCell.m */; };
@@ -207,6 +208,8 @@
 		9EA6299C1A57759C0064B339 /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		9EB1A9E71A58B21B00922E37 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		9EB1A9E81A58B21B00922E37 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
+		9EB1A9EA1A592EDB00922E37 /* ShellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShellViewController.h; sourceTree = "<group>"; };
+		9EB1A9EB1A592EDB00922E37 /* ShellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellViewController.m; sourceTree = "<group>"; };
 		9EBA18BE1A3F640000B0C48F /* AlbumFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumFlowLayout.h; sourceTree = "<group>"; };
 		9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumFlowLayout.m; sourceTree = "<group>"; };
 		9EBA18C11A41429D00B0C48F /* GemDetailCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemDetailCollectionViewController.h; sourceTree = "<group>"; };
@@ -292,6 +295,8 @@
 				9EDF42541A12673600ABC447 /* Main.storyboard */,
 				9EDA284D1A1863C100A5AD06 /* InitialViewController.h */,
 				9EDA284E1A1863C100A5AD06 /* InitialViewController.m */,
+				9EB1A9EA1A592EDB00922E37 /* ShellViewController.h */,
+				9EB1A9EB1A592EDB00922E37 /* ShellViewController.m */,
 				9EDF42511A1264F900ABC447 /* Login and Signup */,
 				9E7E06051A39D4C30052BCEA /* Albums */,
 				9E59DB8E1A182F6800ABCAEA /* GemBox */,
@@ -702,6 +707,7 @@
 				9E9B4FD81A421CC400E89A60 /* Album+Validation.m in Sources */,
 				9E7A89671A237B22009FD39F /* Gem+Info.m in Sources */,
 				9E7E060B1A39DAB10052BCEA /* AlbumCell.m in Sources */,
+				9EB1A9EC1A592EDB00922E37 /* ShellViewController.m in Sources */,
 				9E11BBBE1A1260CB0001090B /* NSManagedObject+Entity.m in Sources */,
 				9E59DB841A18266500ABCAEA /* Gem+Parse.m in Sources */,
 				9EBEB86E1A38B06C0092D463 /* BackgroundHelper.m in Sources */,
