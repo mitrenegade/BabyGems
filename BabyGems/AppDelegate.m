@@ -16,6 +16,7 @@
 #import "Util.h"
 #import "NewGemViewController.h"
 #import "UIActionSheet+MKBlockAdditions.h"
+#import "Notification+Parse.h"
 
 @implementation AppDelegate
 
@@ -321,6 +322,11 @@
 
 -(void)printAllAlbums {
     NSArray *all = [[Album where:@{}] all];
+    NSLog(@"%lu albums found", (unsigned long)[all count]);
+}
+
+-(void)printAllNotifications {
+    NSArray *all = [[Notification where:@{}] all];
     NSLog(@"%lu albums found", (unsigned long)[all count]);
 }
 

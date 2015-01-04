@@ -87,6 +87,8 @@
             }];
         }];
     }];
+
+    [self loadNotifications];
 }
 
 -(void)synchronizeClass:(NSString *)className completion:(void(^)(BOOL success))completion {
@@ -116,6 +118,18 @@
                 }
             }];
         }
+    }];
+}
+
+-(void)loadNotifications {
+    PFQuery *query = [PFQuery queryWithClassName:@"Notification"];
+    PFUser *user = _currentUser;
+    [user fetchIfNeeded];
+    [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
+
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        NSLog(@"Notifications: %@", objects);
+        [_appDelegate printAllNotifications];
     }];
 }
 
