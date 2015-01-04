@@ -29,6 +29,8 @@
 		9E11BBC51A1260CB0001090B /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E11BBAA1A1260CB0001090B /* Util.m */; };
 		9E1833841A139FAD00732A3D /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9E1833831A139FAD00732A3D /* LaunchScreen.xib */; };
 		9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1833861A13A3A600732A3D /* FacebookHelper.m */; };
+		9E3A7BD51A59C2510024D640 /* NotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E3A7BD41A59C2510024D640 /* NotificationsViewController.m */; };
+		9E3A7BD71A59CA2A0024D640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E3A7BD61A59CA2A0024D640 /* Main.storyboard */; };
 		9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */; };
 		9E59DB7B1A1825F200ABCAEA /* ParseBase+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB791A1825F200ABCAEA /* ParseBase+Parse.m */; };
 		9E59DB811A1825FF00ABCAEA /* ParseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB801A1825FF00ABCAEA /* ParseBase.m */; };
@@ -70,6 +72,7 @@
 		9EA6299A1A5772070064B339 /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629991A5772070064B339 /* UsersViewController.m */; };
 		9EA6299D1A57759C0064B339 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6299C1A57759C0064B339 /* UserCell.m */; };
 		9EB1A9E91A58B21B00922E37 /* Notification.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1A9E81A58B21B00922E37 /* Notification.m */; };
+		9EB1A9EC1A592EDB00922E37 /* ShellViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EB1A9EB1A592EDB00922E37 /* ShellViewController.m */; };
 		9EBA18C01A3F640000B0C48F /* AlbumFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */; };
 		9EBA18C31A41429D00B0C48F /* GemDetailCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C21A41429D00B0C48F /* GemDetailCollectionViewController.m */; };
 		9EBA18C61A41435700B0C48F /* GemDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EBA18C51A41435700B0C48F /* GemDetailCell.m */; };
@@ -80,7 +83,6 @@
 		9ED638FA1A12613500D1F62C /* BabyGems-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9ED638F81A12613500D1F62C /* BabyGems-Info.plist */; };
 		9ED638FB1A1261CF00D1F62C /* LoginSignup.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E11BB7C1A1260CB0001090B /* LoginSignup.storyboard */; };
 		9EDA284F1A1863C100A5AD06 /* InitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDA284E1A1863C100A5AD06 /* InitialViewController.m */; };
-		9EDF42551A12673600ABC447 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9EDF42541A12673600ABC447 /* Main.storyboard */; };
 		9EDF42581A12686300ABC447 /* NewGemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EDF42571A12686300ABC447 /* NewGemViewController.m */; };
 		9EE0200E1A2617210028FFBC /* CameraViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EE0200D1A2617210028FFBC /* CameraViewController.m */; };
 		F37DA4307F13E94AF0851425 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997E5C0758E8BFD3DADD6D97 /* libPods.a */; };
@@ -139,6 +141,9 @@
 		9E1833831A139FAD00732A3D /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		9E1833851A13A3A600732A3D /* FacebookHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookHelper.h; sourceTree = "<group>"; };
 		9E1833861A13A3A600732A3D /* FacebookHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookHelper.m; sourceTree = "<group>"; };
+		9E3A7BD31A59C2510024D640 /* NotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsViewController.h; sourceTree = "<group>"; };
+		9E3A7BD41A59C2510024D640 /* NotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsViewController.m; sourceTree = "<group>"; };
+		9E3A7BD61A59CA2A0024D640 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9E56B70C1A41481900A7227B /* GemDetailProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemDetailProtocol.h; sourceTree = "<group>"; };
 		9E59DB761A18253C00ABCAEA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9E59DB781A1825F200ABCAEA /* ParseBase+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ParseBase+Parse.h"; sourceTree = "<group>"; };
@@ -207,6 +212,8 @@
 		9EA6299C1A57759C0064B339 /* UserCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserCell.m; sourceTree = "<group>"; };
 		9EB1A9E71A58B21B00922E37 /* Notification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Notification.h; sourceTree = "<group>"; };
 		9EB1A9E81A58B21B00922E37 /* Notification.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Notification.m; sourceTree = "<group>"; };
+		9EB1A9EA1A592EDB00922E37 /* ShellViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShellViewController.h; sourceTree = "<group>"; };
+		9EB1A9EB1A592EDB00922E37 /* ShellViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShellViewController.m; sourceTree = "<group>"; };
 		9EBA18BE1A3F640000B0C48F /* AlbumFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumFlowLayout.h; sourceTree = "<group>"; };
 		9EBA18BF1A3F640000B0C48F /* AlbumFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumFlowLayout.m; sourceTree = "<group>"; };
 		9EBA18C11A41429D00B0C48F /* GemDetailCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemDetailCollectionViewController.h; sourceTree = "<group>"; };
@@ -224,7 +231,6 @@
 		9ED638F91A12613500D1F62C /* BabyGems-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "BabyGems-Prefix.pch"; sourceTree = "<group>"; };
 		9EDA284D1A1863C100A5AD06 /* InitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitialViewController.h; sourceTree = "<group>"; };
 		9EDA284E1A1863C100A5AD06 /* InitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitialViewController.m; sourceTree = "<group>"; };
-		9EDF42541A12673600ABC447 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		9EDF42561A12686300ABC447 /* NewGemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGemViewController.h; sourceTree = "<group>"; };
 		9EDF42571A12686300ABC447 /* NewGemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGemViewController.m; sourceTree = "<group>"; };
 		9EE0200C1A2617210028FFBC /* CameraViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraViewController.h; sourceTree = "<group>"; };
@@ -289,15 +295,18 @@
 				9E59DB951A18397D00ABCAEA /* Constants.h */,
 				9E11BB7A1A1260CB0001090B /* AppDelegate.h */,
 				9E11BB7B1A1260CB0001090B /* AppDelegate.m */,
-				9EDF42541A12673600ABC447 /* Main.storyboard */,
 				9EDA284D1A1863C100A5AD06 /* InitialViewController.h */,
 				9EDA284E1A1863C100A5AD06 /* InitialViewController.m */,
+				9EB1A9EA1A592EDB00922E37 /* ShellViewController.h */,
+				9EB1A9EB1A592EDB00922E37 /* ShellViewController.m */,
+				9E3A7BD61A59CA2A0024D640 /* Main.storyboard */,
 				9EDF42511A1264F900ABC447 /* Login and Signup */,
 				9E7E06051A39D4C30052BCEA /* Albums */,
 				9E59DB8E1A182F6800ABCAEA /* GemBox */,
 				9EDF42591A126D1200ABC447 /* Gem Creation */,
 				9ED3EF561A27E899003A4578 /* Gem Detail */,
 				9EA629971A5771AD0064B339 /* Share */,
+				9E3A7BD21A59C2300024D640 /* Notifications */,
 				9E11BB901A1260CB0001090B /* Utils */,
 				9EDF42521A12651300ABC447 /* Resources */,
 			);
@@ -342,6 +351,15 @@
 				9E11BB9A1A1260CB0001090B /* UIAlertView+MKBlockAdditions.m */,
 			);
 			path = MKAdditions;
+			sourceTree = "<group>";
+		};
+		9E3A7BD21A59C2300024D640 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				9E3A7BD31A59C2510024D640 /* NotificationsViewController.h */,
+				9E3A7BD41A59C2510024D640 /* NotificationsViewController.m */,
+			);
+			name = Notifications;
 			sourceTree = "<group>";
 		};
 		9E59DB741A18252F00ABCAEA /* Core Data */ = {
@@ -623,9 +641,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ED638FB1A1261CF00D1F62C /* LoginSignup.storyboard in Resources */,
-				9EDF42551A12673600ABC447 /* Main.storyboard in Resources */,
 				9E11BBB11A1260CB0001090B /* InfoPlist.strings in Resources */,
 				9E11BBB21A1260CB0001090B /* Images.xcassets in Resources */,
+				9E3A7BD71A59CA2A0024D640 /* Main.storyboard in Resources */,
 				9E1833841A139FAD00732A3D /* LaunchScreen.xib in Resources */,
 				9ED638FA1A12613500D1F62C /* BabyGems-Info.plist in Resources */,
 			);
@@ -702,6 +720,7 @@
 				9E9B4FD81A421CC400E89A60 /* Album+Validation.m in Sources */,
 				9E7A89671A237B22009FD39F /* Gem+Info.m in Sources */,
 				9E7E060B1A39DAB10052BCEA /* AlbumCell.m in Sources */,
+				9EB1A9EC1A592EDB00922E37 /* ShellViewController.m in Sources */,
 				9E11BBBE1A1260CB0001090B /* NSManagedObject+Entity.m in Sources */,
 				9E59DB841A18266500ABCAEA /* Gem+Parse.m in Sources */,
 				9EBEB86E1A38B06C0092D463 /* BackgroundHelper.m in Sources */,
@@ -737,6 +756,7 @@
 				9EB1A9E91A58B21B00922E37 /* Notification.m in Sources */,
 				9ECFA61B1A2947110049BB5E /* GemFullCell.m in Sources */,
 				9E11BBB41A1260CB0001090B /* main.m in Sources */,
+				9E3A7BD51A59C2510024D640 /* NotificationsViewController.m in Sources */,
 				9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */,
 				9EE0200E1A2617210028FFBC /* CameraViewController.m in Sources */,
 				9E11BBC31A1260CB0001090B /* UIImage+Resize.m in Sources */,
