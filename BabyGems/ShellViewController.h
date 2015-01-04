@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ShellViewController : UINavigationController
+@interface ShellViewController : UINavigationController <UIGestureRecognizerDelegate>
 {
     IBOutlet UILabel *notificationAlertView;
 }

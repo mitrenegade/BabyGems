@@ -126,13 +126,13 @@
     PFQuery *query = [PFQuery queryWithClassName:@"Notification"];
     PFUser *user = _currentUser;
     [user fetchIfNeeded];
-    [query whereKey:@"pfUserID" equalTo:_currentUser.objectId];
+    [query whereKey:@"toUserID" equalTo:_currentUser.objectId];
 
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         [ParseBase synchronizeClass:@"Notification" fromObjects:objects replaceExisting:YES completion:^{
             [_appDelegate printAllNotifications];
             NSArray *all = [[Notification where:@{@"seen":@NO}] all];
-            [self notify:@"notifications:show" object:nil userInfo:@{@"count":@([all count])}];
+            [self notify:@"notifications:set" object:nil userInfo:@{@"count":@([all count])}];
         }];
     }];
 }

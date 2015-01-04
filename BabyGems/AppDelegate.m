@@ -326,8 +326,9 @@
 }
 
 -(void)printAllNotifications {
-    NSArray *all = [[Notification where:@{}] all];
-    NSLog(@"%lu notifications found", (unsigned long)[all count]);
+    NSArray *seen = [[Notification where:@{@"seen":@YES}] all];
+    NSArray *unseen = [[Notification where:@{@"seen":@NO}] all];
+    NSLog(@"%lu notifications seen, %lu unseen", (unsigned long)[seen count], (unsigned long)[unseen count]);
 }
 
 #pragma mark Reused calls
