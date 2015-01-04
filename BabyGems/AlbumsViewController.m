@@ -107,7 +107,7 @@
     }
     else {
         NSInteger shared = [self.sharedAlbumFetcher.fetchedObjects count];
-        return shared;
+        return shared; // todo: add a header
     }
 }
 
@@ -178,6 +178,7 @@
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    // spacing between sections
     return CGSizeMake(1, 5);
 }
 
@@ -192,9 +193,17 @@
         } onCancel:nil];
         return NO;
     }
-    else {
-        album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+    else if (indexPath.section == 2) {
+        album = [self.sharedAlbumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+        PFUser *user = album.pfObject[@"user"];
+        [user fetchIfNeeded];
+        NSString *title = [NSString stringWithFormat:@"This album was shared by %@", user.username];
+        [UIAlertView alertViewWithTitle:title message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
+        } onCancel:nil];
+        return NO;
     }
+
+    album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
 
     NSArray *options = @[@"Sharing", @"Rename album", @"Delete album"];
     [UIAlertView alertViewWithTitle:@"Album options" message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:options onDismiss:^(int buttonIndex) {

@@ -493,7 +493,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <collectionViewLayout key="collectionViewLayout" id="suS-mK-GXY" customClass="AlbumFlowLayout"/>
+                        <collectionViewLayout key="collectionViewLayout" id="liX-gu-lIf" customClass="AlbumFlowLayout"/>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumCell" id="lDz-fp-AS8" customClass="AlbumCell">
                                 <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
@@ -580,8 +580,12 @@
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I56-GR-4xR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <collectionReusableView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="AlbumHeader" id="C2y-fM-F1J">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </collectionReusableView>
             </objects>
-            <point key="canvasLocation" x="1772" y="543"/>
+            <point key="canvasLocation" x="1772" y="537"/>
         </scene>
         <!--Users View Controller-->
         <scene sceneID="n9W-va-Wip">
