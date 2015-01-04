@@ -52,8 +52,13 @@
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
         self.navigationItem.rightBarButtonItem = right;
     }
-    
-    [self selectAlbum:self.currentAlbum];
+
+    if (self.currentAlbum.isOwned) {
+        [self selectAlbum:self.currentAlbum];
+    }
+    else {
+        [self loadSharedAlbum];
+    }
 
     [self listenFor:@"style:changed" action:@selector(reloadData)];
     [self listenFor:@"album:changed" action:@selector(updateAlbum:)];
@@ -118,7 +123,10 @@
         self.title = self.currentAlbum.name;
     }
     else {
-        self.title = @"My GemBox";
+        if (self.currentAlbum.isOwned)
+            self.title = @"My GemBox";
+        else
+            self.title = @"Shared album";
     }
 }
 
@@ -484,5 +492,26 @@
 -(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
     return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
 }
+
+#pragma mark Shared albums
+-(void)loadSharedAlbum {
+    // inefficient for now - load gems for album each time
+    PFQuery *query = [PFQuery queryWithClassName:@"Gem"];
+    PFUser *user = _currentUser;
+    [user fetchIfNeeded];
+    [query whereKey:@"album" equalTo:self.currentAlbum.pfObject];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        else {
+            [ParseBase synchronizeClass:@"Gem" fromObjects:objects replaceExisting:NO completion:^{
+                NSLog(@"Objects: %@", objects);
+                NSLog(@"Album's gems: %lu", (unsigned long)[self.currentAlbum.gems count]);
+
+                [self selectAlbum:self.currentAlbum];
+            }];
+        }
+    }];}
 
 @end
