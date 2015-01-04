@@ -1019,6 +1019,7 @@
                         <outlet property="collectionView" destination="PCY-Wh-GnE" id="jiH-SD-sbh"/>
                         <segue destination="YLL-mI-Kxj" kind="show" identifier="GoToAddGem" id="thc-uN-wa8"/>
                         <segue destination="KcC-Ol-dH0" kind="show" identifier="GoToGemDetail" id="N6E-sb-JXg"/>
+                        <segue destination="Vyv-br-e00" kind="show" identifier="GemBoxToShare" id="bDH-ee-ORD"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="o7n-6g-LcL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1168,5 +1169,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="xfA-eg-hP1"/>
+        <segue reference="bDH-ee-ORD"/>
     </inferredMetricsTieBreakers>
 </document>

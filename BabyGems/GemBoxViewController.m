@@ -15,6 +15,10 @@
 #import "UICollectionView+Draggable.h"
 #import "BackgroundHelper.h"
 #import "NewGemViewController.h"
+#import "UsersViewController.h"
+
+#define ALERT_TAG_NEW_GEM 1
+#define ALERT_TAG_RENAME_ALBUM 2
 
 @interface GemBoxViewController ()
 @end
@@ -42,11 +46,13 @@
     [tap setNumberOfTapsRequired:2];
     [self.view addGestureRecognizer:tap];
 
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
-    [button addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
-    self.navigationItem.rightBarButtonItem = right;
-
+    if (self.currentAlbum != [Album defaultAlbum]) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
+        [button addTarget:self action:@selector(showSettings) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
+        self.navigationItem.rightBarButtonItem = right;
+    }
+    
     [self selectAlbum:self.currentAlbum];
 
     [self listenFor:@"style:changed" action:@selector(reloadData)];
@@ -147,8 +153,10 @@
         tutorialView.frame = self.collectionView.frame;
         [self.view insertSubview:tutorialView aboveSubview:self.collectionView];
     }
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    else if ([segue.identifier isEqualToString:@"GemBoxToShare"]) {
+        UsersViewController *controller = [segue destinationViewController];
+        controller.album = self.currentAlbum;
+    }
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -301,6 +309,7 @@
 -(void)goToQuote {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Enter a Gem" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles: @"Add photo", @"Save gem", nil];
     alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+    alert.tag = ALERT_TAG_NEW_GEM;
     [alert show];
 }
 
@@ -378,19 +387,26 @@
     if (buttonIndex == 0) {
         return;
     }
-    UITextField *textField = [alertView textFieldAtIndex:0];
-    savedQuote = textField.text;
 
-    if (buttonIndex == 1) {
-        savedImage = nil;
-        [self goToCamera];
+    if (alertView.tag == ALERT_TAG_RENAME_ALBUM) {
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        [self renameAlbum:textField.text];
     }
-    else if (buttonIndex == 2) {
-        // save quote only
-        if ([savedQuote length]) {
-            NewGemViewController *controller = [[NewGemViewController alloc] init];
-            controller.delegate = self;
-            [controller saveGemWithQuote:savedQuote image:nil album:self.currentAlbum];
+    else if (alertView.tag == ALERT_TAG_NEW_GEM) {
+        UITextField *textField = [alertView textFieldAtIndex:0];
+        savedQuote = textField.text;
+
+        if (buttonIndex == 1) {
+            savedImage = nil;
+            [self goToCamera];
+        }
+        else if (buttonIndex == 2) {
+            // save quote only
+            if ([savedQuote length]) {
+                NewGemViewController *controller = [[NewGemViewController alloc] init];
+                controller.delegate = self;
+                [controller saveGemWithQuote:savedQuote image:nil album:self.currentAlbum];
+            }
         }
     }
 }
@@ -413,7 +429,44 @@
 }
 
 -(void)showSettings {
-    [_appDelegate showSettings];
+    NSArray *options = @[@"Sharing", @"Rename album", @"Delete album"];
+    [UIAlertView alertViewWithTitle:@"Album options" message:nil cancelButtonTitle:@"Cancel" otherButtonTitles:options onDismiss:^(int buttonIndex) {
+        if (buttonIndex == [options indexOfObject:@"Rename album"]) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please enter a new album name" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Rename", nil];
+            alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+            alert.tag = ALERT_TAG_RENAME_ALBUM;
+            [alert show];
+        }
+        else if (buttonIndex == [options indexOfObject:@"Delete album"]) {
+            [UIAlertView alertViewWithTitle:@"Delete album?" message:[NSString stringWithFormat:@"Are you sure you want to delete the album %@?", self.currentAlbum.name] cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"Delete"] onDismiss:^(int buttonIndex) {
+                [self deleteAlbum:self.currentAlbum];
+            } onCancel:nil];
+        }
+        else if (buttonIndex == [options indexOfObject:@"Sharing"]) {
+            [self performSegueWithIdentifier:@"GemBoxToShare" sender:self];
+        }
+    } onCancel:nil];
+}
+
+-(void)renameAlbum:(NSString *)title {
+    self.currentAlbum.name = title;
+    [self.currentAlbum saveOrUpdateToParseWithCompletion:^(BOOL success) {
+        NSLog(@"Success %d id %@", success, self.currentAlbum.parseID);
+        self.title = title;
+        [_appDelegate saveContext];
+        NSDictionary *userInfo = @{@"album":self.currentAlbum};
+        [self notify:@"album:changed" object:nil userInfo:userInfo];
+    }];
+}
+
+-(void)deleteAlbum:(Album *)album {
+    // todo: what happens to all the photos?
+    [album.pfObject deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        [_appDelegate.managedObjectContext deleteObject:album];
+        [self notify:@"album:deleted"];
+        [self.navigationController popViewControllerAnimated:YES];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"album:last:opened"];
+    }];
 }
 
 -(void)updateAlbum:(NSNotification *)n {
