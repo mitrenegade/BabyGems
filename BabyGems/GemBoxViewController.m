@@ -246,7 +246,9 @@
 
 - (BOOL)collectionView:(LSCollectionViewHelper *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if (self.currentAlbum.isOwned)
+        return YES;
+    return NO;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -497,8 +499,9 @@
 -(void)loadSharedAlbum {
     // inefficient for now - load gems for album each time
     PFQuery *query = [PFQuery queryWithClassName:@"Gem"];
-    PFUser *user = _currentUser;
-    [user fetchIfNeeded];
+    if (!self.currentAlbum || !self.currentAlbum.pfObject)
+        return;
+    
     [query whereKey:@"album" equalTo:self.currentAlbum.pfObject];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {

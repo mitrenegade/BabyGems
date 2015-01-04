@@ -95,6 +95,8 @@
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    if (self.mode == AlbumsViewModeSelect)
+        return 2; // don't return shared albums for moving
     return 3;
 }
 
