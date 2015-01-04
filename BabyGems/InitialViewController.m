@@ -73,7 +73,7 @@
     // make sure all parse objects are in core data
 //    NSArray *classes = @[@"Gem", @"Album"];
 
-    [self synchronizeClass:@"Album" completion:^(BOOL success) {
+    [self synchronizeAlbumsWithCompletion:^(BOOL success) {
         // first get all albums
         NSLog(@"Albums after sync:");
         [_appDelegate printAllAlbums];
@@ -92,6 +92,35 @@
     [self loadNotifications];
 }
 
+// synchronize album
+-(void)synchronizeAlbumsWithCompletion:(void(^)(BOOL success))completion {
+    PFUser *user = _currentUser;
+    [user fetchIfNeeded];
+
+    PFQuery *ownedQuery = [PFQuery queryWithClassName:@"Album"];
+    [ownedQuery whereKey:@"pfUserID" equalTo:_currentUser.objectId];
+
+    PFQuery *userQuery = [PFUser query];
+    [userQuery whereKey:@"objectId" equalTo:_currentUser.objectId];
+    PFQuery *sharedQuery = [PFQuery queryWithClassName:@"Album"];
+    [sharedQuery whereKey:@"sharedWith" matchesQuery:userQuery];
+
+    PFQuery *query = [PFQuery orQueryWithSubqueries:@[ownedQuery, sharedQuery]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        else {
+            [ParseBase synchronizeClass:@"Album" fromObjects:objects replaceExisting:YES completion:^{
+                if (completion) {
+                    completion(YES);
+                }
+            }];
+        }
+    }];
+}
+
+// generic classes
 -(void)synchronizeClass:(NSString *)className completion:(void(^)(BOOL success))completion {
     PFQuery *query = [PFQuery queryWithClassName:className];
     PFUser *user = _currentUser;
