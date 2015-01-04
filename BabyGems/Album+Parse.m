@@ -7,7 +7,7 @@
 //
 
 #import "Album+Parse.h"
-
+#import "Album+Info.h"
 @implementation Album (Parse)
 
 -(void)updateFromParseWithCompletion:(void (^)(BOOL))completion {
@@ -28,6 +28,13 @@
     self.endDate = [self.pfObject objectForKey:@"endDate"];
     self.isDefault = [self.pfObject objectForKey:@"isDefault"];
     self.customOrder = [self.pfObject objectForKey:@"customOrder"];
+
+    if ([self.pfUserID isEqualToString:_currentUser.objectId]) {
+        self.ownership = @(ALBUM_OWNED);
+    }
+    else {
+        self.ownership = @(ALBUM_SHARED); // bobby todo: create User object so we can have sharedWith relationship to user in core data
+    }
 }
 
 -(void)saveOrUpdateToParseWithCompletion:(void (^)(BOOL))completion {

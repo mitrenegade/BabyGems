@@ -31,6 +31,7 @@
 		9E1833871A13A3A600732A3D /* FacebookHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E1833861A13A3A600732A3D /* FacebookHelper.m */; };
 		9E3A7BD51A59C2510024D640 /* NotificationsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E3A7BD41A59C2510024D640 /* NotificationsViewController.m */; };
 		9E3A7BD71A59CA2A0024D640 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9E3A7BD61A59CA2A0024D640 /* Main.storyboard */; };
+		9E3A7BDA1A59DD820024D640 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E3A7BD91A59DD820024D640 /* Album.m */; };
 		9E59DB771A18253C00ABCAEA /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */; };
 		9E59DB7B1A1825F200ABCAEA /* ParseBase+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB791A1825F200ABCAEA /* ParseBase+Parse.m */; };
 		9E59DB811A1825FF00ABCAEA /* ParseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E59DB801A1825FF00ABCAEA /* ParseBase.m */; };
@@ -67,7 +68,6 @@
 		9E92A0B81A45193300D7C42B /* UICollectionView+Draggable.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E92A0B51A45193300D7C42B /* UICollectionView+Draggable.m */; };
 		9E92A0BB1A451DA700D7C42B /* GemBoxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E92A0BA1A451DA700D7C42B /* GemBoxViewController.m */; };
 		9E9B4FD81A421CC400E89A60 /* Album+Validation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9B4FD71A421CC400E89A60 /* Album+Validation.m */; };
-		9E9B4FDE1A421E8B00E89A60 /* Album.m in Sources */ = {isa = PBXBuildFile; fileRef = 9E9B4FDD1A421E8B00E89A60 /* Album.m */; };
 		9EA629961A576B020064B339 /* Notification+Parse.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629951A576B020064B339 /* Notification+Parse.m */; };
 		9EA6299A1A5772070064B339 /* UsersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA629991A5772070064B339 /* UsersViewController.m */; };
 		9EA6299D1A57759C0064B339 /* UserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 9EA6299C1A57759C0064B339 /* UserCell.m */; };
@@ -144,6 +144,8 @@
 		9E3A7BD31A59C2510024D640 /* NotificationsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotificationsViewController.h; sourceTree = "<group>"; };
 		9E3A7BD41A59C2510024D640 /* NotificationsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotificationsViewController.m; sourceTree = "<group>"; };
 		9E3A7BD61A59CA2A0024D640 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		9E3A7BD81A59DD820024D640 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
+		9E3A7BD91A59DD820024D640 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		9E56B70C1A41481900A7227B /* GemDetailProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GemDetailProtocol.h; sourceTree = "<group>"; };
 		9E59DB761A18253C00ABCAEA /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		9E59DB781A1825F200ABCAEA /* ParseBase+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ParseBase+Parse.h"; sourceTree = "<group>"; };
@@ -202,8 +204,6 @@
 		9E92A0BA1A451DA700D7C42B /* GemBoxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GemBoxViewController.m; sourceTree = "<group>"; };
 		9E9B4FD61A421CC400E89A60 /* Album+Validation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Album+Validation.h"; sourceTree = "<group>"; };
 		9E9B4FD71A421CC400E89A60 /* Album+Validation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Album+Validation.m"; sourceTree = "<group>"; };
-		9E9B4FDC1A421E8B00E89A60 /* Album.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Album.h; sourceTree = "<group>"; };
-		9E9B4FDD1A421E8B00E89A60 /* Album.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Album.m; sourceTree = "<group>"; };
 		9EA629941A576B020064B339 /* Notification+Parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Notification+Parse.h"; sourceTree = "<group>"; };
 		9EA629951A576B020064B339 /* Notification+Parse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Notification+Parse.m"; sourceTree = "<group>"; };
 		9EA629981A5772070064B339 /* UsersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UsersViewController.h; sourceTree = "<group>"; };
@@ -366,12 +366,12 @@
 			isa = PBXGroup;
 			children = (
 				9E59DB751A18253C00ABCAEA /* Model.xcdatamodeld */,
+				9E3A7BD81A59DD820024D640 /* Album.h */,
+				9E3A7BD91A59DD820024D640 /* Album.m */,
 				9EB1A9E71A58B21B00922E37 /* Notification.h */,
 				9EB1A9E81A58B21B00922E37 /* Notification.m */,
 				9E90F7AC1A4919D200FB52CA /* Gem.h */,
 				9E90F7AD1A4919D200FB52CA /* Gem.m */,
-				9E9B4FDC1A421E8B00E89A60 /* Album.h */,
-				9E9B4FDD1A421E8B00E89A60 /* Album.m */,
 				9E59DB7F1A1825FF00ABCAEA /* ParseBase.h */,
 				9E59DB801A1825FF00ABCAEA /* ParseBase.m */,
 				9E59DB781A1825F200ABCAEA /* ParseBase+Parse.h */,
@@ -739,6 +739,7 @@
 				9E59DB7B1A1825F200ABCAEA /* ParseBase+Parse.m in Sources */,
 				9E92A0B31A45184D00D7C42B /* DraggableCollectionViewFlowLayout.m in Sources */,
 				9EBA18C01A3F640000B0C48F /* AlbumFlowLayout.m in Sources */,
+				9E3A7BDA1A59DD820024D640 /* Album.m in Sources */,
 				9EA629961A576B020064B339 /* Notification+Parse.m in Sources */,
 				9E11BBC51A1260CB0001090B /* Util.m in Sources */,
 				9E92A0B81A45193300D7C42B /* UICollectionView+Draggable.m in Sources */,
@@ -750,7 +751,6 @@
 				9E11BBB91A1260CB0001090B /* SignupViewController.m in Sources */,
 				9E11BBC41A1260CB0001090B /* UIImage+RoundedCorner.m in Sources */,
 				9EA6299D1A57759C0064B339 /* UserCell.m in Sources */,
-				9E9B4FDE1A421E8B00E89A60 /* Album.m in Sources */,
 				9E11BBBC1A1260CB0001090B /* UIActionSheet+MKBlockAdditions.m in Sources */,
 				9E7E06011A39C7040052BCEA /* Album+Parse.m in Sources */,
 				9EB1A9E91A58B21B00922E37 /* Notification.m in Sources */,

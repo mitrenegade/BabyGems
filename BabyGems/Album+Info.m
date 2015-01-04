@@ -9,6 +9,7 @@
 #import "Album+Info.h"
 #import "Util.h"
 #import "Gem+Info.h"
+#import "Album+Parse.h"
 
 @implementation Album (Info)
 
@@ -41,4 +42,27 @@
     return defaultAlbum;
 }
 
+-(BOOL)isOwned {
+    return [self.ownership intValue] == ALBUM_OWNED;
+}
+
+-(BOOL)isShared {
+    return [self.ownership intValue] == ALBUM_SHARED;
+}
+/*
+#pragma mark Transient property for ownership
+//http://stackoverflow.com/questions/1112521/nsfetchedresultscontroller-with-sections-created-by-first-letter-of-a-string
+- (NSNumber *)ownership {
+    [self willAccessValueForKey:@"ownership"];
+    int state;
+    if ([self.pfUserID isEqualToString:_currentUser.objectId]) {
+        state = ALBUM_OWNED;
+    }
+    else {
+        state = ALBUM_SHARED; // bobby todo: create User object so we can have sharedWith relationship to user in core data
+    }
+    [self didAccessValueForKey:@"ownership"];
+    return @(state);
+}
+ */
 @end

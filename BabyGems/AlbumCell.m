@@ -18,6 +18,12 @@
     [self setupBorder];
     [self setupName:album.name];
     self.labelCount.text = [NSString stringWithFormat:@"%lu", (unsigned long)[album.gems count]];
+    if ([album isOwned]) {
+        self.viewCountBG.backgroundColor = [UIColor colorWithRed:90.0/255.0 green:188.0/255.0 blue:224.0/255.0 alpha:1];
+    }
+    else {
+        self.viewCountBG.backgroundColor = [UIColor colorWithRed:90.0/255.0 green:188.0/255.0 blue:56.0/255.0 alpha:1];
+    }
 
     Gem *gem = [album coverGem];
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;

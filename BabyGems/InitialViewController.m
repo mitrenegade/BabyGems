@@ -112,6 +112,7 @@
         }
         else {
             [ParseBase synchronizeClass:@"Album" fromObjects:objects replaceExisting:YES completion:^{
+                [_appDelegate printAllAlbums];
                 if (completion) {
                     completion(YES);
                 }

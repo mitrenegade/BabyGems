@@ -95,14 +95,19 @@
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 2;
+    return 3;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     if (section == 0)
         return 2;
+    else if (section == 1) {
+        NSInteger owned = [self.albumFetcher.fetchedObjects count];
+        return owned;
+    }
     else {
-        return [[self.albumFetcher fetchedObjects] count];
+        NSInteger shared = [self.sharedAlbumFetcher.fetchedObjects count];
+        return shared;
     }
 }
 
@@ -122,7 +127,8 @@
             [cell setupForNewAlbum];
     }
     else {
-        Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+        NSFetchedResultsController *fetcher = (indexPath.section == 1?self.albumFetcher:self.sharedAlbumFetcher);
+        Album *album = [fetcher.fetchedObjects objectAtIndex:indexPath.row];
         [cell setupWithAlbum:album];
         if (album == self.currentAlbum || (album.parseID && [album.parseID isEqualToString:self.currentAlbum.parseID])) {
             [cell isCurrentAlbum];
@@ -151,15 +157,15 @@
             if (self.mode == AlbumsViewModeSelect && self.delegate)
                 [self.delegate didSelectAlbum:self.currentAlbum];
             else {
-//                [self performSegueWithIdentifier:@"AlbumsToGemBoxCollection" sender:nil];
                 [self performSegueWithIdentifier:@"AlbumsToGemBox" sender:nil];
             }
             [self.collectionView reloadData];
         }
     }
     else {
-        if (indexPath.row < [[self.albumFetcher fetchedObjects] count]) {
-            Album *album = [self.albumFetcher.fetchedObjects objectAtIndex:indexPath.row];
+        NSFetchedResultsController *fetcher = indexPath.section == 1?self.albumFetcher:self.sharedAlbumFetcher;
+        if (indexPath.row < [[fetcher fetchedObjects] count]) {
+            Album *album = [fetcher.fetchedObjects objectAtIndex:indexPath.row];
             self.currentAlbum = album;
 
             if (self.mode == AlbumsViewModeSelect && self.delegate)
@@ -247,12 +253,28 @@
 
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Album"];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = nil OR %K = 0", @"isDefault", @"isDefault"];
-    request.predicate = predicate;
+    NSPredicate *ownedPredicate = [NSPredicate predicateWithFormat:@"%K = %d", @"ownership", ALBUM_OWNED];
+    request.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, ownedPredicate]];
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
     request.sortDescriptors = @[sortDescriptor];
     albumFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
     [albumFetcher performFetch:nil];
     return albumFetcher;
+}
+
+-(NSFetchedResultsController *) sharedAlbumFetcher {
+    if (sharedAlbumFetcher)
+        return sharedAlbumFetcher;
+
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Album"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K = nil OR %K = 0", @"isDefault", @"isDefault"];
+    NSPredicate *ownedPredicate = [NSPredicate predicateWithFormat:@"%K = %d", @"ownership", ALBUM_SHARED];
+    request.predicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[predicate, ownedPredicate]];
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"startDate" ascending:NO];
+    request.sortDescriptors = @[sortDescriptor];
+    sharedAlbumFetcher = [[NSFetchedResultsController alloc] initWithFetchRequest:request managedObjectContext:_appDelegate.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    [sharedAlbumFetcher performFetch:nil];
+    return sharedAlbumFetcher;
 }
 
 #pragma mark UIAlertViewDelegate

@@ -7,12 +7,22 @@
 //
 
 #import "Album.h"
+
+typedef enum AlbumOwnershipType {
+    ALBUM_OWNED,
+    ALBUM_SHARED,
+    ALBUM_INACCESSIBLE
+} AlbumOwnership;
+
 @class Gem;
 @interface Album (Info)
 
 -(NSString *)dateString;
 -(Gem *)coverGem;
 -(NSArray *)sortedGems;
+
+-(BOOL)isOwned;
+-(BOOL)isShared;
 
 +(Album *)defaultAlbum;
 @end

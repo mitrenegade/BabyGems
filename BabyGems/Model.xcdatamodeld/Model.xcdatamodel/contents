@@ -6,6 +6,7 @@
         <attribute name="isDefault" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="longDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="ownership" optional="YES" attributeType="Integer 16" syncable="YES"/>
         <attribute name="startDate" optional="YES" attributeType="Date" syncable="YES"/>
         <relationship name="gems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Gem" inverseName="album" inverseEntity="Gem" syncable="YES"/>
     </entity>
@@ -31,7 +32,7 @@
         <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Album" positionX="-54" positionY="27" width="128" height="150"/>
+        <element name="Album" positionX="-54" positionY="27" width="128" height="165"/>
         <element name="Gem" positionX="-63" positionY="-18" width="128" height="135"/>
         <element name="Notification" positionX="-63" positionY="63" width="128" height="120"/>
         <element name="ParseBase" positionX="-54" positionY="9" width="128" height="103"/>
