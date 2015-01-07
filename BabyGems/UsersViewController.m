@@ -54,7 +54,7 @@
             NSLog(@"Results: %lu users", [objects count]);
             [allUsers removeAllObjects];
             [allUsers addObjectsFromArray:objects];
-            [allUsers unionSet:sharedUsers];
+            [self combineUsers];
             [self.tableView reloadData];
         }
     }];
@@ -68,7 +68,7 @@
         for (PFUser *user in objects) {
             [sharedUsers addObject:user];
         }
-        [allUsers unionSet:sharedUsers];
+        [self combineUsers];
         [self.tableView reloadData];
     }];
 }
@@ -77,6 +77,13 @@
     [self loadUsersWithKeywords:searchBar.text];
 }
 
+-(void)combineUsers {
+    for (PFUser *user in sharedUsers) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K != %@", @"objectId", user.objectId];
+        [allUsers filterUsingPredicate:predicate];
+    }
+    [allUsers unionSet:sharedUsers];
+}
 -(NSArray *)sortedUsers {
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"canonicalFullName" ascending:YES];
     NSArray *sorted = [allUsers sortedArrayUsingDescriptors:@[sort]];

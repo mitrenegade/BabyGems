@@ -360,6 +360,8 @@
 -(void)reloadAlbums {
     albumFetcher = nil;
     [self.albumFetcher performFetch:nil];
+    sharedAlbumFetcher = nil;
+    [self.sharedAlbumFetcher performFetch:nil];
     [self.collectionView reloadData];
 }
 
