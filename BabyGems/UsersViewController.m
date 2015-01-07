@@ -74,7 +74,7 @@
 }
 
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    [self loadUsersWithKeywords:searchBar.text];
+    [self loadUsersWithKeywords:[searchBar.text lowercaseString]];
 }
 
 -(void)combineUsers {

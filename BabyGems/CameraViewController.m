@@ -162,14 +162,21 @@
         if (url) {
             ALAssetsLibrary *assetsLib = [[ALAssetsLibrary alloc] init];
             [assetsLib assetForURL:url resultBlock:^(ALAsset *asset) {
-                completion([[asset defaultRepresentation] metadata]);
+                if (completion)
+                    completion([[asset defaultRepresentation] metadata]);
             } failureBlock:^(NSError *error) {
-                completion(nil);
+                if (completion)
+                    completion(nil);
             }];
         }
         else {
-            completion([info objectForKey:UIImagePickerControllerMediaMetadata]);
+            if (completion)
+                completion([info objectForKey:UIImagePickerControllerMediaMetadata]);
         }
+    }
+    else {
+        if (completion)
+            completion(nil);
     }
 }
 
@@ -224,16 +231,25 @@
 
     NSMutableArray *imageArray = [NSMutableArray array];
     NSMutableArray *metaArray = [NSMutableArray array];
+    __block BOOL failed = NO;
     for (NSDictionary *assetInfo in info) {
         UIImage *image = [assetInfo objectForKey:UIImagePickerControllerOriginalImage];
         [CameraViewController getMetaForInfo:assetInfo withCompletion:^(NSDictionary *meta) {
             NSLog(@"Meta: %@", meta);
-            // for now, no active stripping of metadata is done. When we save the image to parse, the metadata is not saved anyways.
-            [imageArray addObject:image];
-            [metaArray addObject:meta];
+            if (meta) {
+                // for now, no active stripping of metadata is done. When we save the image to parse, the metadata is not saved anyways.
+                [imageArray addObject:image];
+                [metaArray addObject:meta];
 
-            if (imageArray.count == info.count) {
-                [self.delegate didTakeMultiplePictures:imageArray meta:metaArray];
+                if (imageArray.count == info.count) {
+                    [self.delegate didTakeMultiplePictures:imageArray meta:metaArray];
+                }
+            }
+            else {
+                if (!failed) {
+                    [UIAlertView alertViewWithTitle:@"Invalid image" message:@"One or more selected files cannot be uploaded. Please only select photos."];
+                    failed = YES;
+                }
             }
         }];
     }
