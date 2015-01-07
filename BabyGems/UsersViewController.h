@@ -12,8 +12,8 @@
 
 @interface UsersViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {
-    NSArray *allUsers;
-    NSMutableSet *sharedIDs;
+    NSMutableSet *allUsers;
+    NSMutableSet *sharedUsers;
 }
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

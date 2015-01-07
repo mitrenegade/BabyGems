@@ -21,7 +21,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    sharedIDs = [NSMutableSet set];
+    sharedUsers = [NSMutableSet set];
+    allUsers = [NSMutableSet set];
     [self loadAlbumUsers];
 }
 
@@ -50,8 +51,10 @@
             NSLog(@"Error: %@", error);
         }
         else {
-            NSLog(@"Results: %d users", [objects count]);
-            allUsers = objects;
+            NSLog(@"Results: %lu users", [objects count]);
+            [allUsers removeAllObjects];
+            [allUsers addObjectsFromArray:objects];
+            [allUsers unionSet:sharedUsers];
             [self.tableView reloadData];
         }
     }];
@@ -61,10 +64,11 @@
     PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        [sharedIDs removeAllObjects];
+        [sharedUsers removeAllObjects];
         for (PFUser *user in objects) {
-            [sharedIDs addObject:user.objectId];
+            [sharedUsers addObject:user];
         }
+        [allUsers unionSet:sharedUsers];
         [self.tableView reloadData];
     }];
 }
@@ -73,20 +77,26 @@
     [self loadUsersWithKeywords:searchBar.text];
 }
 
+-(NSArray *)sortedUsers {
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"canonicalFullName" ascending:YES];
+    NSArray *sorted = [allUsers sortedArrayUsingDescriptors:@[sort]];
+    return sorted;
+}
+
 #pragma mark TableViewDataSource
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [allUsers count];
+    return [self.sortedUsers count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell"];
-    PFUser *user = [allUsers objectAtIndex:indexPath.row];
+    PFUser *user = [self.sortedUsers objectAtIndex:indexPath.row];
     [cell setupWithUser:user];
-    [cell toggleSelected:[sharedIDs containsObject:user.objectId]];
+    [cell toggleSelected:[sharedUsers containsObject:user]];
 
     // todo: check current album for permissions for existing users
     
@@ -95,14 +105,14 @@
 
 #pragma mark tableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PFUser *user = [allUsers objectAtIndex:indexPath.row];
+    PFUser *user = [self.sortedUsers objectAtIndex:indexPath.row];
     PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
 
-    if ([sharedIDs containsObject:user.objectId]) {
+    if ([sharedUsers containsObject:user]) {
         // remove
         [relation removeObject:user];
         [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [sharedIDs removeObject:user.objectId];
+            [sharedUsers removeObject:user];
             [self.tableView reloadData];
 
             [self removeShareNotificationForAlbum:self.album user:user];
@@ -111,7 +121,7 @@
     else {
         [relation addObject:user];
         [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [sharedIDs addObject:user.objectId];
+            [sharedUsers addObject:user];
             [self.tableView reloadData];
 
             [self createShareNotificationForAlbum:self.album user:user];
