@@ -10,10 +10,9 @@
 
 @class Album;
 
-@interface UsersViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface UsersViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {
     NSArray *allUsers;
-//    NSMutableArray *albumUsers;
     NSMutableSet *sharedIDs;
 }
 

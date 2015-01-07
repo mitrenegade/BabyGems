@@ -604,6 +604,14 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="lv0-uN-suk">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="h3N-w4-MMa">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                    <connections>
+                                        <outlet property="delegate" destination="Vyv-br-e00" id="ZdR-tK-lsA"/>
+                                    </connections>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="UserCell" rowHeight="60" id="3o1-C9-GTE" customClass="UserCell">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
@@ -657,10 +665,19 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="searchDisplayController" destination="fQF-uP-tWJ" id="xcr-WV-AUf"/>
                         <outlet property="tableView" destination="lv0-uN-suk" id="Tnz-Uf-tdn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="TWF-y9-eA3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="fQF-uP-tWJ">
+                    <connections>
+                        <outlet property="delegate" destination="Vyv-br-e00" id="foA-wH-c6H"/>
+                        <outlet property="searchContentsController" destination="Vyv-br-e00" id="H0X-uY-xc0"/>
+                        <outlet property="searchResultsDataSource" destination="Vyv-br-e00" id="7bl-Jf-g4i"/>
+                        <outlet property="searchResultsDelegate" destination="Vyv-br-e00" id="oak-ve-80m"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="2499" y="-51"/>
         </scene>

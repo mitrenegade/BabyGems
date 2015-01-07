@@ -87,6 +87,7 @@
     [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         if (succeeded) {
             [_appDelegate goToMainView];
+            [FacebookHelper updateCanonicalInfoForUser:user fullName:self.inputUsername.text firstName:nil lastName:nil email:self.inputUsername.text];
         }
         else {
             NSString *message = nil;

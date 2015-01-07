@@ -47,29 +47,64 @@
     [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
-            completion(nil, error);
+            if (completion)
+                completion(nil, error);
         }
         else {
             NSLog(@"Results: %@", result);
-            if (result[@"first_name"]) {
-                user[@"firstName"] = result[@"first_name"];
+            NSString *fullName = result[@"name"];
+            if (fullName) {
+                user[@"name"] = fullName;
             }
-            if (result[@"last_name"]) {
-                user[@"lastName"] = result[@"last_name"];
+
+            NSString *firstName = result[@"first_name"];
+            if (firstName) {
+                user[@"firstName"] = firstName;
             }
-            if (result[@"name"]) {
-                user[@"name"] = result[@"name"];
+
+            NSString *lastName = result[@"last_name"];
+            if (lastName) {
+                user[@"lastName"] = lastName;
             }
-            if (result[@"email"]) {
-                user[@"email"] = result[@"email"];
+
+            NSString *email = result[@"email"];
+            if (email) {
+                user.email = email;
             }
-            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                if (succeeded) {
-                    NSLog(@"User info updated from Facebook");
-                }
+
+            [self updateCanonicalInfoForUser:user fullName:fullName firstName:firstName lastName:lastName email:email];
+
+            if (completion)
                 completion(result, error);
-            }];
         }
     }];
+}
+
++(void)updateCanonicalInfoForUser:(PFUser *)user fullName:(NSString *)fullName firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email {
+    NSString *canonicalFullName = @"";
+    if (fullName)
+        canonicalFullName = [NSString stringWithFormat:@"%@%@ ", canonicalFullName, [fullName lowercaseString]];
+    if (firstName && ![canonicalFullName containsString:[firstName lowercaseString]])
+        canonicalFullName = [NSString stringWithFormat:@"%@%@ ", canonicalFullName, [firstName lowercaseString]];
+    if (lastName && ![canonicalFullName containsString:[lastName lowercaseString]])
+        canonicalFullName = [NSString stringWithFormat:@"%@%@ ", canonicalFullName, [lastName lowercaseString]];
+    if (email) {
+        NSInteger index = [email rangeOfString:@"@"].location;
+        if (index != NSNotFound) {
+            NSString *substring = [email substringToIndex:index];
+            canonicalFullName = [NSString stringWithFormat:@"%@%@ ", canonicalFullName, [substring lowercaseString]];
+        }
+    }
+
+    // stored for search purposes
+    user[@"canonicalFullName"] = canonicalFullName;
+    user[@"canonicalEmail"] = [email lowercaseString];
+
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        if (succeeded) {
+            NSLog(@"User info updated from Facebook");
+        }
+    }];
+
 }
 @end

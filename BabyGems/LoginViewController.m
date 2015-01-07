@@ -86,6 +86,8 @@
     [PFUser logInWithUsernameInBackground:self.inputUsername.text password:self.inputPassword.text block:^(PFUser *user, NSError *error) {
         if (user) {
             [_appDelegate goToMainView];
+
+            [FacebookHelper updateCanonicalInfoForUser:user fullName:self.inputUsername.text firstName:nil lastName:nil email:self.inputUsername.text];
         }
         else {
             NSString *message = nil;

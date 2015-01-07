@@ -8,6 +8,7 @@
 
 #import "UserCell.h"
 #import <Parse/Parse.h>
+#import "PFUser+Info.h"
 
 @implementation UserCell
 
@@ -22,7 +23,13 @@
 }
 
 -(void)setupWithUser:(PFUser *)user {
-    labelName.text = user.username;
+    NSString *name = [user fullName];
+    if (name)
+        labelName.text = name;
+    else
+        labelName.text = user.username;
+
+    NSLog(@"User: %@ %@ %@ %@ %@", user.username, user[@"name"], user[@"firstName"], user[@"lastName"], user.email);
 }
 
 -(void)toggleSelected:(BOOL)selected {

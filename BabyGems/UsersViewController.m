@@ -22,7 +22,6 @@
     // Do any additional setup after loading the view.
 
     sharedIDs = [NSMutableSet set];
-    [self loadUsers];
     [self loadAlbumUsers];
 }
 
@@ -31,15 +30,25 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)loadUsers {
-    // for now, load all users on babygems
+-(void)loadUsersWithKeywords:(NSString *)keywordString {
+    // keywordString may be a name, a full name, or an email
+    NSArray *keywords = [keywordString componentsSeparatedByString:@" "];
+
     PFQuery *query = [PFUser query];
-    [query whereKey:@"pfUserID" notEqualTo:_currentUser.objectId];
+    [query whereKey:@"canonicalEmail" containsString:keywordString];
+
+    for (NSString *keyword in keywords) {
+        PFQuery *subquery = [PFUser query];
+        [subquery whereKey:@"canonicalFullName" containsString:keyword];
+        query = [PFQuery orQueryWithSubqueries:@[query, subquery]];
+    }
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
         }
         else {
+            NSLog(@"Results: %d users", [objects count]);
             allUsers = objects;
             [self.tableView reloadData];
         }
@@ -56,6 +65,10 @@
         }
         [self.tableView reloadData];
     }];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self loadUsersWithKeywords:searchBar.text];
 }
 
 #pragma mark TableViewDataSource
