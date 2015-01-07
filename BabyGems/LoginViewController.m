@@ -67,16 +67,14 @@
         [FacebookHelper loginWithFacebookWithCompletion:^(PFUser *user) {
             if (user.isNew) {
                 NSLog(@"User with facebook signed up and logged in!");
-                [UIAlertView alertViewWithTitle:@"User not found" message:@"Click ok to sign up with your Facebook account" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {
-                    [_appDelegate goToMainView];
-                } onCancel:^{
-                    [user deleteInBackground];
-                    [[PFFacebookUtils session] close];
-                    [_appDelegate goToLoginSignup];
-                }];
+                [UIAlertView alertViewWithTitle:@"User not found" message:@"Please go to Sign Up to create a user with this Facebook account."];
+                [user deleteInBackground];
+                [[PFFacebookUtils session] close];
+                [_appDelegate goToLoginSignup];
             } else {
                 NSLog(@"User with facebook logged in!");
                 [_appDelegate goToMainView];
+                [FacebookHelper getInfoForUser:user completion:nil];
             }
         }];
     }
@@ -88,6 +86,8 @@
     [PFUser logInWithUsernameInBackground:self.inputUsername.text password:self.inputPassword.text block:^(PFUser *user, NSError *error) {
         if (user) {
             [_appDelegate goToMainView];
+
+            [FacebookHelper updateCanonicalInfoForUser:user fullName:self.inputUsername.text firstName:nil lastName:nil email:self.inputUsername.text];
         }
         else {
             NSString *message = nil;

@@ -12,6 +12,7 @@
 #import "Gem+Parse.h"
 #import "Util.h"
 #import "AlbumsViewController.h"
+#import "Album+Info.h"
 
 @implementation GemDetailCell
 
@@ -57,6 +58,15 @@
         self.labelDate.text = [Util timeAgo:self.gem.createdAt];
         rect = [self.labelDate.text boundingRectWithSize:self.labelDate.superview.frame.size options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.labelDate.font} context:nil];
         self.constraintDateWidth.constant = rect.size.width + 20;
+
+        if ([self.gem.album isOwned]) {
+            self.constraintButtonMoveWidth.constant = 25;
+            self.constraintButtonTrashWidth.constant = 25;
+        }
+        else {
+            self.constraintButtonMoveWidth.constant = 0;
+            self.constraintButtonTrashWidth.constant = 0;
+        }
     }
 
     self.imageView.crossfadeDuration = 0;

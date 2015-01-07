@@ -10,5 +10,7 @@
 
 @interface FacebookHelper : NSObject
 +(void)loginWithFacebookWithCompletion:(void(^)(PFUser *user)) completion;
++(void)getInfoForUser:(PFUser *)user completion:(void(^)(NSDictionary *results, NSError *error)) completion;
++(void)updateCanonicalInfoForUser:(PFUser *)user fullName:(NSString *)fullName firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email;
 
 @end

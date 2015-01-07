@@ -24,6 +24,14 @@
     self.imageView.image = gem.offlineImage?[UIImage imageWithData:gem.offlineImage]:nil;
     self.imageView.imageURL = [NSURL URLWithString:gem.imageURL];
     self.viewCountBG.hidden = NO;
+
+    if ([album isOwned]) {
+        self.viewCountBG.backgroundColor = [UIColor colorWithRed:90.0/255.0 green:188.0/255.0 blue:224.0/255.0 alpha:1];
+    }
+    else {
+        [self.viewCountBG setHidden:YES];
+        self.viewCountBG.backgroundColor = [UIColor colorWithRed:90.0/255.0 green:188.0/255.0 blue:56.0/255.0 alpha:1];
+    }
 }
 
 -(void)setupForNewAlbum {

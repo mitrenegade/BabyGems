@@ -31,8 +31,6 @@
     // self.clearsSelectionOnViewWillAppear = NO;
 
     // Do any additional setup after loading the view.
-    [self listenFor:@"gems:updated" action:@selector(reloadData)];
-
     [self setupCamera];
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
@@ -52,8 +50,14 @@
         UIBarButtonItem *right = [[UIBarButtonItem alloc] initWithCustomView:button];
         self.navigationItem.rightBarButtonItem = right;
     }
-    
-    [self selectAlbum:self.currentAlbum];
+
+    if (self.currentAlbum.isOwned) {
+        [self selectAlbum:self.currentAlbum];
+        [self listenFor:@"gems:updated" action:@selector(reloadData)];
+    }
+    else {
+        [self loadSharedAlbum];
+    }
 
     [self listenFor:@"style:changed" action:@selector(reloadData)];
     [self listenFor:@"album:changed" action:@selector(updateAlbum:)];
@@ -118,7 +122,10 @@
         self.title = self.currentAlbum.name;
     }
     else {
-        self.title = @"My GemBox";
+        if (self.currentAlbum.isOwned)
+            self.title = @"My GemBox";
+        else
+            self.title = @"Shared album";
     }
 }
 
@@ -238,7 +245,9 @@
 
 - (BOOL)collectionView:(LSCollectionViewHelper *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    if (self.currentAlbum.isOwned)
+        return YES;
+    return NO;
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath toIndexPath:(NSIndexPath *)toIndexPath
@@ -296,12 +305,14 @@
     //    [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
 
-    if ([self.currentAlbum.gems count] == 0) {
-        [self performSegueWithIdentifier:@"EmbedTutorial" sender:self];
-        [tutorialView setHidden:NO];
-    }
-    else {
-        [tutorialView setHidden:YES];
+    if ([self.currentAlbum isOwned]) {
+        if ([self.currentAlbum.gems count] == 0) {
+            [self performSegueWithIdentifier:@"EmbedTutorial" sender:self];
+            [tutorialView setHidden:NO];
+        }
+        else {
+            [tutorialView setHidden:YES];
+        }
     }
 }
 
@@ -484,5 +495,27 @@
 -(Gem *)gemAtIndexPath:(NSIndexPath *)indexPath {
     return [[self.currentAlbum sortedGems] objectAtIndex:indexPath.row];
 }
+
+#pragma mark Shared albums
+-(void)loadSharedAlbum {
+    // inefficient for now - load gems for album each time
+    PFQuery *query = [PFQuery queryWithClassName:@"Gem"];
+    if (!self.currentAlbum || !self.currentAlbum.pfObject)
+        return;
+    
+    [query whereKey:@"album" equalTo:self.currentAlbum.pfObject];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+        }
+        else {
+            [ParseBase synchronizeClass:@"Gem" fromObjects:objects replaceExisting:NO completion:^{
+                NSLog(@"Objects: %@", objects);
+                NSLog(@"Album's gems: %lu", (unsigned long)[self.currentAlbum.gems count]);
+
+                [self selectAlbum:self.currentAlbum];
+            }];
+        }
+    }];}
 
 @end

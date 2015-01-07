@@ -321,8 +321,12 @@
 }
 
 -(void)printAllAlbums {
-    NSArray *all = [[Album where:@{}] all];
-    NSLog(@"%lu albums found", (unsigned long)[all count]);
+    NSArray *owned = [[Album where:@{@"pfUserID":_currentUser.objectId}] all];
+    NSArray *shared = [[[Album where:@{}] not:@{@"pfUserID":_currentUser.objectId}] all];
+    NSLog(@"%lu owned albums, %lu shared albums", (unsigned long)[owned count], (unsigned long)[shared count]);
+    for (Album *album in shared) {
+        NSLog(@"shared: %@ %@ %@", album.pfObject.objectId, album.pfUserID, album.ownership);
+    }
 }
 
 -(void)printAllNotifications {

@@ -21,8 +21,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 
-    sharedIDs = [NSMutableSet set];
-    [self loadUsers];
+    sharedUsers = [NSMutableSet set];
+    allUsers = [NSMutableSet set];
     [self loadAlbumUsers];
 }
 
@@ -31,16 +31,30 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)loadUsers {
-    // for now, load all users on babygems
+-(void)loadUsersWithKeywords:(NSString *)keywordString {
+    // keywordString may be a name, a full name, or an email
+    NSArray *keywords = [keywordString componentsSeparatedByString:@" "];
+
     PFQuery *query = [PFUser query];
-    [query whereKey:@"pfUserID" notEqualTo:_currentUser.objectId];
+    [query whereKey:@"canonicalEmail" containsString:keywordString];
+
+    for (NSString *keyword in keywords) {
+        PFQuery *subquery = [PFUser query];
+        [subquery whereKey:@"canonicalFullName" containsString:keyword];
+        query = [PFQuery orQueryWithSubqueries:@[query, subquery]];
+    }
+
+    [query whereKey:@"objectId" notEqualTo:_currentUser.objectId];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
         }
         else {
-            allUsers = objects;
+            NSLog(@"Results: %lu users", [objects count]);
+            [allUsers removeAllObjects];
+            [allUsers addObjectsFromArray:objects];
+            [self combineUsers];
             [self.tableView reloadData];
         }
     }];
@@ -50,12 +64,30 @@
     PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
     PFQuery *query = [relation query];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        [sharedIDs removeAllObjects];
+        [sharedUsers removeAllObjects];
         for (PFUser *user in objects) {
-            [sharedIDs addObject:user.objectId];
+            [sharedUsers addObject:user];
         }
+        [self combineUsers];
         [self.tableView reloadData];
     }];
+}
+
+-(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    [self loadUsersWithKeywords:searchBar.text];
+}
+
+-(void)combineUsers {
+    for (PFUser *user in sharedUsers) {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K != %@", @"objectId", user.objectId];
+        [allUsers filterUsingPredicate:predicate];
+    }
+    [allUsers unionSet:sharedUsers];
+}
+-(NSArray *)sortedUsers {
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"canonicalFullName" ascending:YES];
+    NSArray *sorted = [allUsers sortedArrayUsingDescriptors:@[sort]];
+    return sorted;
 }
 
 #pragma mark TableViewDataSource
@@ -64,14 +96,14 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [allUsers count];
+    return [self.sortedUsers count];
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UserCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UserCell"];
-    PFUser *user = [allUsers objectAtIndex:indexPath.row];
+    PFUser *user = [self.sortedUsers objectAtIndex:indexPath.row];
     [cell setupWithUser:user];
-    [cell toggleSelected:[sharedIDs containsObject:user.objectId]];
+    [cell toggleSelected:[sharedUsers containsObject:user]];
 
     // todo: check current album for permissions for existing users
     
@@ -80,14 +112,14 @@
 
 #pragma mark tableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    PFUser *user = [allUsers objectAtIndex:indexPath.row];
+    PFUser *user = [self.sortedUsers objectAtIndex:indexPath.row];
     PFRelation *relation = [self.album.pfObject relationForKey:@"sharedWith"];
 
-    if ([sharedIDs containsObject:user.objectId]) {
+    if ([sharedUsers containsObject:user]) {
         // remove
         [relation removeObject:user];
         [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [sharedIDs removeObject:user.objectId];
+            [sharedUsers removeObject:user];
             [self.tableView reloadData];
 
             [self removeShareNotificationForAlbum:self.album user:user];
@@ -96,7 +128,7 @@
     else {
         [relation addObject:user];
         [self.album.pfObject saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-            [sharedIDs addObject:user.objectId];
+            [sharedUsers addObject:user];
             [self.tableView reloadData];
 
             [self createShareNotificationForAlbum:self.album user:user];

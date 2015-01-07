@@ -18,6 +18,7 @@
 @interface AlbumsViewController : UICollectionViewController <UIAlertViewDelegate, UICollectionViewDataSource_Draggable>
 {
     NSFetchedResultsController *albumFetcher;
+    NSFetchedResultsController *sharedAlbumFetcher;
 
     Album *renameAlbum;
 }
@@ -25,4 +26,7 @@
 @property (nonatomic, assign) int mode;
 @property (weak, nonatomic) id<AlbumsViewDelegate> delegate;
 @property (weak, nonatomic) Album *currentAlbum;
+
+-(NSFetchedResultsController *)albumFetcher;
+-(NSFetchedResultsController *)sharedAlbumFetcher;
 @end

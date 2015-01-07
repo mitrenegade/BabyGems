@@ -33,6 +33,8 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromTop;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteDistanceFromBottom;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintQuoteHeight;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintButtonMoveWidth;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintButtonTrashWidth;
 @property (weak, nonatomic) IBOutlet UILabel *labelDate;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintDateWidth;
 
