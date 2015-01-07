@@ -31,8 +31,6 @@
     // self.clearsSelectionOnViewWillAppear = NO;
 
     // Do any additional setup after loading the view.
-    [self listenFor:@"gems:updated" action:@selector(reloadData)];
-
     [self setupCamera];
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
@@ -55,6 +53,7 @@
 
     if (self.currentAlbum.isOwned) {
         [self selectAlbum:self.currentAlbum];
+        [self listenFor:@"gems:updated" action:@selector(reloadData)];
     }
     else {
         [self loadSharedAlbum];
@@ -306,12 +305,14 @@
     //    [[self gemFetcher] performFetch:nil];
     [self.collectionView reloadData];
 
-    if ([self.currentAlbum.gems count] == 0) {
-        [self performSegueWithIdentifier:@"EmbedTutorial" sender:self];
-        [tutorialView setHidden:NO];
-    }
-    else {
-        [tutorialView setHidden:YES];
+    if ([self.currentAlbum isOwned]) {
+        if ([self.currentAlbum.gems count] == 0) {
+            [self performSegueWithIdentifier:@"EmbedTutorial" sender:self];
+            [tutorialView setHidden:NO];
+        }
+        else {
+            [tutorialView setHidden:YES];
+        }
     }
 }
 
