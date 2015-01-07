@@ -8,6 +8,7 @@
 
 #import "FacebookHelper.h"
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation FacebookHelper
 
@@ -38,6 +39,36 @@
             if (completion) {
                 completion(user);
             }
+        }
+    }];
+}
+
++(void)getInfoForUser:(PFUser *)user completion:(void(^)(NSDictionary *results, NSError *error)) completion {
+    [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        if (error) {
+            NSLog(@"Error: %@", error);
+            completion(nil, error);
+        }
+        else {
+            NSLog(@"Results: %@", result);
+            if (result[@"first_name"]) {
+                user[@"firstName"] = result[@"first_name"];
+            }
+            if (result[@"last_name"]) {
+                user[@"lastName"] = result[@"last_name"];
+            }
+            if (result[@"name"]) {
+                user[@"name"] = result[@"name"];
+            }
+            if (result[@"email"]) {
+                user[@"email"] = result[@"email"];
+            }
+            [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                if (succeeded) {
+                    NSLog(@"User info updated from Facebook");
+                }
+                completion(result, error);
+            }];
         }
     }];
 }

@@ -64,6 +64,7 @@
             if (user.isNew) {
                 NSLog(@"User with facebook signed up and logged in!");
                 [_appDelegate goToMainView];
+                [FacebookHelper getInfoForUser:user completion:nil];
             } else {
                 NSLog(@"User with facebook logged in!");
                 [UIAlertView alertViewWithTitle:@"User already exists" message:@"Click ok to log in with your Facebook account" cancelButtonTitle:@"Cancel" otherButtonTitles:@[@"OK"] onDismiss:^(int buttonIndex) {

@@ -10,5 +10,6 @@
 
 @interface FacebookHelper : NSObject
 +(void)loginWithFacebookWithCompletion:(void(^)(PFUser *user)) completion;
++(void)getInfoForUser:(PFUser *)user completion:(void(^)(NSDictionary *results, NSError *error)) completion;
 
 @end
