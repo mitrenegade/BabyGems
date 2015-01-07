@@ -43,6 +43,8 @@
         query = [PFQuery orQueryWithSubqueries:@[query, subquery]];
     }
 
+    [query whereKey:@"objectId" notEqualTo:_currentUser.objectId];
+
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSLog(@"Error: %@", error);
